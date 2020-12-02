@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Adicionar", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Project.NmProject)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TypeIntegration.NmTypeIntegration)
+            @Html.DisplayNameFor(model => model.TypeSolution.NmTypeSolution)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NmTypeIntegration)
@@ -32,7 +32,7 @@
             @Html.DisplayFor(modelItem => item.Project.NmProject)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TypeIntegration.NmTypeIntegration)
+            @Html.DisplayFor(modelItem => item.TypeSolution.NmTypeSolution)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NmTypeIntegration)
@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.DeIntegration)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.IdProjectTypeIntegration }) |
-            @Html.ActionLink("Detalhes", "Details", new { id=item.IdProjectTypeIntegration }) |
-            @Html.ActionLink("Deletar", "Delete", new { id=item.IdProjectTypeIntegration })
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdProjectTypeIntegration }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdProjectTypeIntegration }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdProjectTypeIntegration })
         </td>
     </tr>
 }

@@ -7,8 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Packer_v2.Context;
+using Packer_v2.Models;
 
-namespace Packer_v2.Models
+namespace Packer_v2.Controllers
 {
     public class ProjectsController : Controller
     {

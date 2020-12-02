@@ -18,7 +18,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Packer", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -30,9 +30,14 @@
             </div>
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Eps", "Index", "Eps")</li>
-                <li>@Html.ActionLink("Project", "Index", "Projects")</li>
-                <li>@Html.ActionLink("Project Type Integration", "Index", "ProjectTypeIntegrations")</li>
-                <li>@Html.ActionLink("Type Integration", "Index", "TypeIntegrations")</li>
+                <li>@Html.ActionLink("Projetos", "Index", "Projects")</li>
+                <li>@Html.ActionLink("Soluções", "Index", "TypeSolutions")</li>
+                <li>@Html.ActionLink("Soluções x Projetos", "Index", "ProjectTypeSolutions")</li>
+                <li>@Html.ActionLink("Caminhos", "Index", "WayTypes")</li>
+                <li>@Html.ActionLink("Pastas", "Index", "folders")</li>
+                <li>@Html.ActionLink("Caminhos x Integrações", "Index", "DefaultWayTypes")</li>
+                
+
             </ul>
         </div>
     </div>

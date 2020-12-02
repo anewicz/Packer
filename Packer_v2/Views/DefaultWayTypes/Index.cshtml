@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Packer_v2.Models.DefaultWayType>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeSolution.NmTypeSolution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WayType.NmProject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmDefaultWayPatch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DefaultWayPath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemoteIp)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeSolution.NmTypeSolution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WayType.NmProject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmDefaultWayPatch)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DefaultWayPath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RemoteIp)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdDefaultWayType }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdDefaultWayType }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdDefaultWayType })
+        </td>
+    </tr>
+}
+
+</table>

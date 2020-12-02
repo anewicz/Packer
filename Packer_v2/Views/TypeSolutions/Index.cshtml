@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Packer_v2.Models.TypeSolution>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NmTypeSolution)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmTypeSolution)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdTypeSolution }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdTypeSolution }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdTypeSolution })
+        </td>
+    </tr>
+}
+
+</table>

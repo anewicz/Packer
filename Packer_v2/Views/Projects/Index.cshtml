@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Adicionar", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.WayPatch)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.IdProject }) |
-            @Html.ActionLink("Detalhes", "Details", new { id=item.IdProject }) |
-            @Html.ActionLink("Deletar", "Delete", new { id=item.IdProject })
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdProject }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdProject }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdProject })
         </td>
     </tr>
 }
