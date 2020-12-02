@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packer_v2", "Packer_v2.csproj", "{CA0D2B87-27A6-4119-8136-D94178AA3C10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packer_v2.Tests", "..\Packer_v2.Tests\Packer_v2.Tests.csproj", "{03448B4D-E8CF-4925-8F73-311F10E92DCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA0D2B87-27A6-4119-8136-D94178AA3C10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0D2B87-27A6-4119-8136-D94178AA3C10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0D2B87-27A6-4119-8136-D94178AA3C10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0D2B87-27A6-4119-8136-D94178AA3C10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03448B4D-E8CF-4925-8F73-311F10E92DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03448B4D-E8CF-4925-8F73-311F10E92DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03448B4D-E8CF-4925-8F73-311F10E92DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03448B4D-E8CF-4925-8F73-311F10E92DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02B23AD8-C40F-46F9-805F-17E75D41FA8F}
+	EndGlobalSection
+EndGlobal
