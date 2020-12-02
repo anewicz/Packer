@@ -1,0 +1,50 @@
+﻿@model Packer_v2.Models.ProjectTypeIntegration
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectTypeIntegration</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.NmProject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.NmProject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeIntegration.NmTypeIntegration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeIntegration.NmTypeIntegration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmTypeIntegration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmTypeIntegration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeIntegration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeIntegration)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdProjectTypeIntegration }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

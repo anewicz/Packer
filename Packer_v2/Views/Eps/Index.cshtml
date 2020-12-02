@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Packer_v2.Models.Eps>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Adicionar", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NmEps)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WayStartup)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmEps)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WayStartup)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.IdEps }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.IdEps }) |
+            @Html.ActionLink("Deletar", "Delete", new { id=item.IdEps })
+        </td>
+    </tr>
+}
+
+</table>

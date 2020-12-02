@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Packer_v2.Models.ProjectTypeIntegration>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Adicionar", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.NmProject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeIntegration.NmTypeIntegration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmTypeIntegration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeIntegration)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.NmProject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeIntegration.NmTypeIntegration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmTypeIntegration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeIntegration)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.IdProjectTypeIntegration }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.IdProjectTypeIntegration }) |
+            @Html.ActionLink("Deletar", "Delete", new { id=item.IdProjectTypeIntegration })
+        </td>
+    </tr>
+}
+
+</table>

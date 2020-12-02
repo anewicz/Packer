@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
+    <title>@ViewBag.Title - Packer</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -28,13 +28,19 @@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Eps", "Index", "Eps")</li>
+                <li>@Html.ActionLink("Project", "Index", "Projects")</li>
+                <li>@Html.ActionLink("Project Type Integration", "Index", "ProjectTypeIntegrations")</li>
+                <li>@Html.ActionLink("Type Integration", "Index", "TypeIntegrations")</li>
+            </ul>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - Packer v2.0212.1 </p>
         </footer>
     </div>
 
