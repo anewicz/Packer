@@ -12,17 +12,17 @@ namespace Packer_v2.Context
     {
         public virtual DbSet<Eps> Eps { get; set; }
         public virtual DbSet<Project> Project { get; set; }
-        public virtual DbSet<ProjectTypeSolution> ProjectTypeIntegrations { get; set; }
+        public virtual DbSet<Solution> ProjectTypeIntegration { get; set; }
         public virtual DbSet<TypeSolution> TypeSolution { get; set; }
-        public virtual DbSet<Folder> Folders { get; set; }
-        public virtual DbSet<WayType> WayTypes { get; set; }
+        public virtual DbSet<Folder> Folder { get; set; }
+        public virtual DbSet<WayType> WayType { get; set; }
         public virtual DbSet<DefaultWayType> DefaultWayType { get; set; }
+        public virtual DbSet<TypeSolutionWay> TypeSolutionDefaultWay { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
 
     }
 }

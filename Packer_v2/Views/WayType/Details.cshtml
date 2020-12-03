@@ -1,0 +1,42 @@
+﻿@model Packer_v2.Models.WayType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>WayType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Folder.NmFolder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Folder.NmFolder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsWayDev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsWayDev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmProject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmProject)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdWayType }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Packer_v2.Models.Project>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Eps.NmEps)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdProjectAyty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmProject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WayPatch)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Eps.NmEps)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdProjectAyty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmProject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WayPatch)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdProject }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdProject }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdProject })
+        </td>
+    </tr>
+}
+
+</table>

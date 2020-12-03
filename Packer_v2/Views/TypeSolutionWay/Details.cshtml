@@ -1,0 +1,34 @@
+﻿@model Packer_v2.Models.TypeSolutionWay
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TypeSolutionWay</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeSolution.NmTypeSolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeSolution.NmTypeSolution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WayType.NmProject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WayType.NmProject)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdTypeSolutionDefaultWay }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

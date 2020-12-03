@@ -1,0 +1,40 @@
+﻿@model Packer_v2.Models.TypeSolutionWay
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TypeSolutionWay</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeSolution.NmTypeSolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeSolution.NmTypeSolution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WayType.NmProject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WayType.NmProject)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -15,7 +15,7 @@ namespace Packer_v2.Models
         public Int64 IdProject { get; set; }
 
         [Column("ID_PROJECT_AYTY")]
-        [Display(Name = "Id Project")]
+        [Display(Name = "PROJETO")]
         public Int64 IdProjectAyty { get; set; }
 
         [Column("NM_PROJECT")]

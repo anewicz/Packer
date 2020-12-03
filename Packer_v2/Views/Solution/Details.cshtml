@@ -1,0 +1,50 @@
+﻿@model Packer_v2.Models.Solution
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Solution</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.NmProject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.NmProject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeSolution.NmTypeSolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeSolution.NmTypeSolution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmTSolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmTSolution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeSolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeSolution)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdSolution }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

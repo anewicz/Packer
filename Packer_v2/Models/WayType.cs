@@ -11,6 +11,10 @@ namespace Packer_v2.Models
         [Column("ID_WAY_TYPE")]
         public Int64 IdWayType { get; set; }
 
+        [Column("IS_WAY_DEV")]
+        [Display(Name = "Caminho DEV?")]
+        public bool IsWayDev{ get; set; }
+
         [Column("NM_WAY_TYPE")]
         [Display(Name = "Tipo do Caminho")]
         public string NmProject { get; set; }

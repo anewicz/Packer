@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Packer_v2.Models.TypeSolutionWay>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeSolution.NmTypeSolution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WayType.NmProject)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeSolution.NmTypeSolution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WayType.NmProject)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdTypeSolutionDefaultWay }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdTypeSolutionDefaultWay }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdTypeSolutionDefaultWay })
+        </td>
+    </tr>
+}
+
+</table>
