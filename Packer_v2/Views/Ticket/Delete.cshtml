@@ -1,0 +1,136 @@
+﻿@model Packer_v2.Models.Ticket
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Solution.NmTSolution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solution.NmTSolution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtRegister)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtRegister)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtLastModification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtLastModification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmTicket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmTicket)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeTicket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeTicket)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeNote)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeNote)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeImpact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeImpact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeRiskOfNotDoing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeRiskOfNotDoing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeRiskOfDoing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeRiskOfDoing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeContingency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeContingency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DePrerequisites)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DePrerequisites)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeUnavailability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeUnavailability)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeRuntime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeRuntime)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -12,12 +12,13 @@ namespace Packer_v2.Context
     {
         public virtual DbSet<Eps> Eps { get; set; }
         public virtual DbSet<Project> Project { get; set; }
-        public virtual DbSet<Solution> ProjectTypeIntegration { get; set; }
+        public virtual DbSet<Solution> Solution { get; set; }
         public virtual DbSet<TypeSolution> TypeSolution { get; set; }
-        public virtual DbSet<Folder> Folder { get; set; }
+        public virtual DbSet<TypeSolutionWay> TypeSolutiontWay { get; set; }
         public virtual DbSet<WayType> WayType { get; set; }
+        public virtual DbSet<Folder> Folder { get; set; }
         public virtual DbSet<DefaultWayType> DefaultWayType { get; set; }
-        public virtual DbSet<TypeSolutionWay> TypeSolutionDefaultWay { get; set; }
+        public virtual DbSet<Ticket> Ticket { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

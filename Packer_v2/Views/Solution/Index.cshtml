@@ -23,6 +23,12 @@
         <th>
             @Html.DisplayNameFor(model => model.DeSolution)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtRegister)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtLastModification)
+        </th>
         <th></th>
     </tr>
 
@@ -39,6 +45,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DeSolution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtRegister)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtLastModification)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdSolution }) |

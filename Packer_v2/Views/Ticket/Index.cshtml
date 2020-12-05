@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Packer_v2.Models.Ticket>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Solution.NmTSolution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtRegister)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtLastModification)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketLink)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmTicket)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeTicket)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeNote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeImpact)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeRiskOfNotDoing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeRiskOfDoing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeContingency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DePrerequisites)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeUnavailability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeRuntime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Solution.NmTSolution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtRegister)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtLastModification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketLink)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmTicket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeTicket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeNote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeImpact)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeRiskOfNotDoing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeRiskOfDoing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeContingency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DePrerequisites)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeUnavailability)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeRuntime)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdTicket }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdTicket }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdTicket })
+        </td>
+    </tr>
+}
+
+</table>

@@ -18,8 +18,8 @@ namespace Packer_v2.Controllers
         // GET: Solution
         public ActionResult Index()
         {
-            var projectTypeIntegration = db.ProjectTypeIntegration.Include(s => s.Project).Include(s => s.TypeSolution);
-            return View(projectTypeIntegration.ToList());
+            var solution = db.Solution.Include(s => s.Project).Include(s => s.TypeSolution);
+            return View(solution.ToList());
         }
 
         // GET: Solution/Details/5
@@ -29,7 +29,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Solution solution = db.ProjectTypeIntegration.Find(id);
+            Solution solution = db.Solution.Find(id);
             if (solution == null)
             {
                 return HttpNotFound();
@@ -50,11 +50,11 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdSolution,NmTSolution,DeSolution,IdTypeSolution,IdProject")] Solution solution)
+        public ActionResult Create([Bind(Include = "IdSolution,NmTSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
         {
             if (ModelState.IsValid)
             {
-                db.ProjectTypeIntegration.Add(solution);
+                db.Solution.Add(solution);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -71,7 +71,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Solution solution = db.ProjectTypeIntegration.Find(id);
+            Solution solution = db.Solution.Find(id);
             if (solution == null)
             {
                 return HttpNotFound();
@@ -86,7 +86,7 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdSolution,NmTSolution,DeSolution,IdTypeSolution,IdProject")] Solution solution)
+        public ActionResult Edit([Bind(Include = "IdSolution,NmTSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Solution solution = db.ProjectTypeIntegration.Find(id);
+            Solution solution = db.Solution.Find(id);
             if (solution == null)
             {
                 return HttpNotFound();
@@ -119,8 +119,8 @@ namespace Packer_v2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Solution solution = db.ProjectTypeIntegration.Find(id);
-            db.ProjectTypeIntegration.Remove(solution);
+            Solution solution = db.Solution.Find(id);
+            db.Solution.Remove(solution);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

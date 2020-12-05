@@ -18,8 +18,8 @@ namespace Packer_v2.Controllers
         // GET: TypeSolutionWay
         public ActionResult Index()
         {
-            var typeSolutionDefaultWay = db.TypeSolutionDefaultWay.Include(t => t.TypeSolution).Include(t => t.WayType);
-            return View(typeSolutionDefaultWay.ToList());
+            var typeSolutiontWay = db.TypeSolutiontWay.Include(t => t.TypeSolution).Include(t => t.WayType);
+            return View(typeSolutiontWay.ToList());
         }
 
         // GET: TypeSolutionWay/Details/5
@@ -29,7 +29,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TypeSolutionWay typeSolutionWay = db.TypeSolutionDefaultWay.Find(id);
+            TypeSolutionWay typeSolutionWay = db.TypeSolutiontWay.Find(id);
             if (typeSolutionWay == null)
             {
                 return HttpNotFound();
@@ -54,7 +54,7 @@ namespace Packer_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TypeSolutionDefaultWay.Add(typeSolutionWay);
+                db.TypeSolutiontWay.Add(typeSolutionWay);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -71,7 +71,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TypeSolutionWay typeSolutionWay = db.TypeSolutionDefaultWay.Find(id);
+            TypeSolutionWay typeSolutionWay = db.TypeSolutiontWay.Find(id);
             if (typeSolutionWay == null)
             {
                 return HttpNotFound();
@@ -106,7 +106,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TypeSolutionWay typeSolutionWay = db.TypeSolutionDefaultWay.Find(id);
+            TypeSolutionWay typeSolutionWay = db.TypeSolutiontWay.Find(id);
             if (typeSolutionWay == null)
             {
                 return HttpNotFound();
@@ -119,8 +119,8 @@ namespace Packer_v2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            TypeSolutionWay typeSolutionWay = db.TypeSolutionDefaultWay.Find(id);
-            db.TypeSolutionDefaultWay.Remove(typeSolutionWay);
+            TypeSolutionWay typeSolutionWay = db.TypeSolutiontWay.Find(id);
+            db.TypeSolutiontWay.Remove(typeSolutionWay);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
