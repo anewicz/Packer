@@ -265,3 +265,4 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.csproj.CoreCompile
 D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.csproj.CopyComplete
 D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.pdb
+D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.csprojAssemblyReference.cache

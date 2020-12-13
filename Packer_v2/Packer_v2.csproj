@@ -196,17 +196,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Eps.cs" />
-    <Compile Include="Models\Folder.cs" />
+    <Compile Include="Models\DAO\Eps.cs" />
+    <Compile Include="Models\DAO\Folder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Project.cs" />
-    <Compile Include="Models\Solution.cs" />
+    <Compile Include="Models\DAO\Project.cs" />
+    <Compile Include="Models\DAO\Solution.cs" />
     <Compile Include="Models\DefaultWayType.cs" />
-    <Compile Include="Models\Ticket.cs" />
-    <Compile Include="Models\TypeSolutionWay.cs" />
-    <Compile Include="Models\TypeSolution.cs" />
-    <Compile Include="Models\WayType.cs" />
+    <Compile Include="Models\DAO\Ticket.cs" />
+    <Compile Include="Models\DAO\TypeSolutionWay.cs" />
+    <Compile Include="Models\DAO\TypeSolution.cs" />
+    <Compile Include="Models\DAO\WayType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -307,6 +307,11 @@
     <Content Include="Views\Solution\Details.cshtml" />
     <Content Include="Views\Solution\Edit.cshtml" />
     <Content Include="Views\Solution\Index.cshtml" />
+    <Content Include="Views\Package\Create.cshtml" />
+    <Content Include="Views\Package\Delete.cshtml" />
+    <Content Include="Views\Package\Details.cshtml" />
+    <Content Include="Views\Package\Edit.cshtml" />
+    <Content Include="Views\Package\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
