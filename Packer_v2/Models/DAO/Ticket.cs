@@ -9,18 +9,19 @@ namespace Packer_v2.Models
 {
     [Table("TICKET")]
     public class Ticket
-    { 
+    {
         [Key]
         [Column("ID_TICKET")]
         public Int64 IdTicket { get; set; }
 
         [Column("DT_REGISTER")]
         [Display(Name = "Dt Cadastro")]
-        public DateTime DtRegister { get; set; }
+        public DateTime? DtRegister { get; set; }
+
 
         [Column("DT_LAST_MODIFICATION")]
         [Display(Name = "Dt Ultima Modificação")]
-        public DateTime DtLastModification { get; set; }
+        public DateTime? DtLastModification { get; set; }
 
         [Column("TICKET_LINK")]
         [Display(Name = "Link do TICKET")]
@@ -80,6 +81,7 @@ namespace Packer_v2.Models
 
         //propriedades de navegação
         public virtual Solution Solution { get; set; }
+
 
     }
 }

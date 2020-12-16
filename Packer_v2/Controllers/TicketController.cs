@@ -14,6 +14,7 @@ namespace Packer_v2.Controllers
     public class TicketController : Controller
     {
         private PackerContext db = new PackerContext();
+        private Ticket selectedTicket = new Ticket();
 
         // GET: Ticket
         public ActionResult Index()
@@ -53,6 +54,11 @@ namespace Packer_v2.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (ticket.DtRegister == null || ticket.DtRegister == DateTime.MinValue)
+                    ticket.DtRegister = DateTime.Now;
+
+                ticket.DtLastModification = DateTime.Now;
+
                 db.Ticket.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,6 +76,7 @@ namespace Packer_v2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = db.Ticket.Find(id);
+            selectedTicket = ticket;
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -87,6 +94,9 @@ namespace Packer_v2.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticket.DtLastModification = DateTime.Now;
+       //         ticket.DtRegister =  ;
+
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
