@@ -1,0 +1,9 @@
+﻿@model Packer_v2.Models.PackageViewModel
+
+@Html.DropDownListFor(model => model.IdProject, Model.Projects.OrderBy(o => o.NmProject).Select(x => new SelectListItem
+{
+    Value = x.IdProject.ToString(),
+    Text = "[" + x.IdProjectAyty.ToString("00000") + "] " + x.NmProject
+}), "Selecione", new { @class = "form-control", @required = "required" })
+
+

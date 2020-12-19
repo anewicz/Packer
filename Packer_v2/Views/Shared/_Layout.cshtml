@@ -20,27 +20,34 @@
                 </button>
                 @Html.ActionLink("Packer", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Sobre", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Add Pacote", "Index", "Package")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @*<li>@Html.ActionLink("Sobre", "About", "Home")</li>
+                <li>@Html.ActionLink("Contato", "Contact", "Home")</li>*@
+                            <li>@Html.ActionLink("Eps", "Index", "Eps")</li>
+                            <li>@Html.ActionLink("Projetos", "Index", "Project")</li>
+                            <li>@Html.ActionLink("Tipo de Soluções", "Index", "TypeSolution")</li>
+                            <li>@Html.ActionLink("Tipos de Caminhos", "Index", "WayType")</li>
+                            <li>@Html.ActionLink("Pastas", "Index", "folder")</li>
+                            <li>@Html.ActionLink("Soluções", "Index", "Solution")</li>
+                            <li>@Html.ActionLink("Tipo Solução x Caminhos", "Index", "TypeSolutionWay")</li>
+                            <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Eps", "Index", "Eps")</li>
-                <li>@Html.ActionLink("Projetos", "Index", "Project")</li>
-                <li>@Html.ActionLink("Tipo de Soluções", "Index", "TypeSolution")</li>
-                <li>@Html.ActionLink("Tipos de Caminhos", "Index", "WayType")</li>
-                <li>@Html.ActionLink("Pastas", "Index", "folder")</li>
-                <li>@Html.ActionLink("Soluções", "Index", "Solution")</li>
-                <li>@Html.ActionLink("Tipo Solução x Caminhos", "Index", "TypeSolutionWay")</li>
-                <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
-                @*<li>@Html.ActionLink("Caminhos x Integrações", "Index", "DefaultWayType")</li>*@
-            </ul>
         </div>
+
     </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -49,8 +56,11 @@
         </footer>
     </div>
 
+    <script src="../Scripts/RegisterForm.js"></script>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

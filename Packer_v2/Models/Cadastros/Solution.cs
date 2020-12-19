@@ -16,7 +16,7 @@ namespace Packer_v2.Models
 
         [Column("NM_SOLUTION")]
         [Display(Name = "Nome da Solução")]
-        public string NmTSolution { get; set; }
+        public string NmSolution { get; set; }
 
         [Column("DE_SOLUTION")]
         [Display(Name = "Descrição da Solução")]

@@ -9,21 +9,6 @@
 <p>
     @Html.ActionLink("Adicionar", "Create")
 </p>
-
-<div>
-    @*<label>TESTE</label>*@
-    @*@RenderPage("~/Views/Eps/_Create.cshtml")*@
-
-    @*@RenderBody()*@
-    <hr />
-    @Html.Partial("_Create")
-
-
-
-</div>
-
-
-
 <table class="table">
     <tr>
         <th>
@@ -35,21 +20,20 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NmEps)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WayStartup)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.IdEps }) |
-                @Html.ActionLink("Details", "Details", new { id = item.IdEps }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.IdEps })
-            </td>
-        </tr>
-    }
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmEps)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WayStartup)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdEps }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdEps }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdEps })
+        </td>
+    </tr>
+}
 
 </table>

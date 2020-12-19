@@ -1,126 +1,132 @@
-﻿@model IEnumerable<Packer_v2.Models.Pages.Package>
+﻿@model Packer_v2.Models.PackageViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Insert Package";
 }
 
 <h2>Iniciando o PACOTE</h2>
 
-@*<p>
-    @Html.ActionLink("Adicionar", "Create")
-</p>*@
-<table class="table">
 
-    <thead>
-        <tr>
-            <th class="text-center">Selecione a Eps</th>
-            <th class="text-center">Selecione o Projeto</th>
-        </tr>
-    </thead>
-    <tbody>
-        @*@{foreach (var item in Model.Eps)
-            { } 
-          }@*@
+<div>
+    <label>* EPS</label>
+    @Html.DropDownListFor(model => model.IdEps, Model.EpsList.OrderBy(o => o.NmEps).Select(x => new SelectListItem
+    {
+    Value = x.IdEps.ToString(),
+    Text = x.NmEps
+    }), "Selecione", new { @class = "form-control", @required = "required" })
+</div>
 
-            </tbody>
+<label>* Project</label>
+<div id="divGetProjectsByEps">
+    @Html.Partial("_GetProjectsByEpsDropDownList")
+</div>
 
-        @*<tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Solution.NmTSolution)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DtRegister)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DtLastModification)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketLink)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NmTicket)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeTicket)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeNote)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeImpact)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeRiskOfNotDoing)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeRiskOfDoing)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeContingency)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DePrerequisites)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeUnavailability)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeRuntime)
-                </th>
-                <th></th>
-            </tr>*@
+<label>* Solution</label>
+<div id="divGetSolutionsByProject">
+    @Html.Partial("_GetSolutionsByProjectDropDownList")
+</div>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Solution.NmTSolution)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DtRegister)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DtLastModification)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketLink)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NmTicket)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeTicket)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeNote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeImpact)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeRiskOfNotDoing)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeRiskOfDoing)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeContingency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DePrerequisites)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeUnavailability)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeRuntime)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdTicket }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdTicket }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdTicket })
-                </td>
-            </tr>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var form = $("#form");
+        var registerForm = new RegisterForm(form);
+        registerForm.urlSave = "/Package/SavePackage";
+        registerForm.urlDelete = "/Package/DeletePackage"
+
+        /*Changes*/
+        $(document).on('change', '#IdEps', function () {
+            let idEps = $("#IdEps").val();
+            getProjectsByEps(idEps);
+        });
+
+        $(document).on('change', '#IdProject', function () {
+            let idProject = $("#IdProject").val();
+            getSolutionsByProject(idProject);
+        });
+
+        $(document).on('change', '#IdSolution', function () {
+            let idSolution = $("#IdSolution").val();
+            getSolutionsByProject(idSolution);
+        });
+
+
+
+
+        /*Changes Açtions*/
+        function getProjectsByEps(pIdEps) {
+            var pIdProject;
+            $.ajax({
+                async: true,
+                "url": "/Package/GetProjectsByEps",
+                "type": "GET",
+                data: { pIdEps: pIdEps },
+            })
+                .done(function (msg) {
+                    if (msg.status.includes("nok")) {
+                        let results = "Ocorreram erros ao buscar os registros!";
+
+                        if (msg.mesage != undefined && msg.mesage != '') {
+                            results = msg.mesage;
+                        }
+
+                        toast("Atenção", results, "error");
+                        console.log(msg.error);
+                    } else {
+                        if (msg.partialView != undefined && msg.partialView != '') {
+                            $("#divGetProjectsByEps").html(msg.partialView);
+
+                            if (pIdProject != "" && pIdProject != undefined) {
+                                $("#pIdProject").val(pIdProject);
+                            }
+                        }
+                    }
+                })
+                .fail(function (jqXHR, textStatus, msg) {
+                    console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                });
+
         }
 
-</table>
+        function getSolutionsByProject(pIdProject) {
+            var pIdSolution;
+            $.ajax({
+                async: true,
+                "url": "/Package/GetSolutionsByProject",
+                "type": "GET",
+                data: { pIdProject: pIdProject },
+            })
+                .done(function (msg) {
+                    if (msg.status.includes("nok")) {
+                        let results = "Ocorreram erros ao buscar os registros!";
+
+                        if (msg.mesage != undefined && msg.mesage != '') {
+                            results = msg.mesage;
+                        }
+
+                        toast("Atenção", results, "error");
+                        console.log(msg.error);
+                    } else {
+                        if (msg.partialView != undefined && msg.partialView != '') {
+                            $("#divGetSolutionsByProject").html(msg.partialView);
+
+                            if (pIdSolution != "" && pIdSolution != undefined) {
+                                $("#pIdSolution").val(pIdSolution);
+                            }
+                        }
+                    }
+                })
+                .fail(function (jqXHR, textStatus, msg) {
+                    console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                });
+        }
+
+        
+
+    </script>
+
+}
+
+
