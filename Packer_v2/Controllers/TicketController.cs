@@ -14,12 +14,11 @@ namespace Packer_v2.Controllers
     public class TicketController : Controller
     {
         private PackerContext db = new PackerContext();
-        private Ticket selectedTicket = new Ticket();
 
         // GET: Ticket
         public ActionResult Index()
         {
-            var ticket = db.Ticket.Include(t => t.Solution);
+            var ticket = db.Ticket.Include(t => t.Solution).Include(t => t.Status);
             return View(ticket.ToList());
         }
 
@@ -41,7 +40,8 @@ namespace Packer_v2.Controllers
         // GET: Ticket/Create
         public ActionResult Create()
         {
-            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmTSolution");
+            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmSolution");
+            ViewBag.IdStatus = new SelectList(db.Status, "IdStatus", "NmStatus");
             return View();
         }
 
@@ -50,21 +50,17 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdTicket,DtRegister,DtLastModification,TicketLink,NmTicket,IdSolution,DeTicket,DeNote,DeImpact,DeRiskOfNotDoing,DeRiskOfDoing,DeContingency,DePrerequisites,DeUnavailability,DeRuntime")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "IdTicket,DtRegister,DtLastModification,TicketLink,NmTicket,IdSolution,IdStatus,DeTicket,DeNote,DeImpact,DeRiskOfNotDoing,DeRiskOfDoing,DeContingency,DePrerequisites,DeUnavailability,DeRuntime")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
-                if (ticket.DtRegister == null || ticket.DtRegister == DateTime.MinValue)
-                    ticket.DtRegister = DateTime.Now;
-
-                ticket.DtLastModification = DateTime.Now;
-
                 db.Ticket.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmTSolution", ticket.IdSolution);
+            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmSolution", ticket.IdSolution);
+            ViewBag.IdStatus = new SelectList(db.Status, "IdStatus", "NmStatus", ticket.IdStatus);
             return View(ticket);
         }
 
@@ -76,12 +72,12 @@ namespace Packer_v2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = db.Ticket.Find(id);
-            selectedTicket = ticket;
             if (ticket == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmTSolution", ticket.IdSolution);
+            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmSolution", ticket.IdSolution);
+            ViewBag.IdStatus = new SelectList(db.Status, "IdStatus", "NmStatus", ticket.IdStatus);
             return View(ticket);
         }
 
@@ -90,18 +86,16 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdTicket,DtRegister,DtLastModification,TicketLink,NmTicket,IdSolution,DeTicket,DeNote,DeImpact,DeRiskOfNotDoing,DeRiskOfDoing,DeContingency,DePrerequisites,DeUnavailability,DeRuntime")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "IdTicket,DtRegister,DtLastModification,TicketLink,NmTicket,IdSolution,IdStatus,DeTicket,DeNote,DeImpact,DeRiskOfNotDoing,DeRiskOfDoing,DeContingency,DePrerequisites,DeUnavailability,DeRuntime")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
-                ticket.DtLastModification = DateTime.Now;
-       //         ticket.DtRegister =  ;
-
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmTSolution", ticket.IdSolution);
+            ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmSolution", ticket.IdSolution);
+            ViewBag.IdStatus = new SelectList(db.Status, "IdStatus", "NmStatus", ticket.IdStatus);
             return View(ticket);
         }
 

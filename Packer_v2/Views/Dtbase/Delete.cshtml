@@ -1,0 +1,64 @@
+﻿@model Packer_v2.Models.Dtbase
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Dtbase</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DbIp.NmIp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DbIp.NmIp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmDatabase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmDatabase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDev)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

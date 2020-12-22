@@ -50,7 +50,7 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdSolution,NmTSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
+        public ActionResult Create([Bind(Include = "IdSolution,NmSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdSolution,NmTSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
+        public ActionResult Edit([Bind(Include = "IdSolution,NmSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
         {
             if (ModelState.IsValid)
             {

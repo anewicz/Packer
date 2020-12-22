@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Packer_v2.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -45,5 +46,26 @@ namespace Packer_v2.Models
         //propriedades de navegação
         public virtual Project Project { get; set; }
         public virtual TypeSolution TypeSolution { get; set; }
+
+        //propriedades para vizualização
+        [Display(Name = "Solução")]
+        public virtual string FullNmSolution
+        {
+            get { return getFullNmSolution(); }
+        }
+
+        public string getFullNmSolution()
+        {
+            PackerContext db = new PackerContext();
+            TypeSolution typeSolution = db.TypeSolution.Find(IdTypeSolution);
+            string nmTypeSolution = typeSolution.NmTypeSolution;
+
+            Project project = db.Project.Find(IdProject);
+            string nmProject = project.NmProject;
+
+            return "[" + nmProject + " " +  nmTypeSolution + "] " + NmSolution;
+        }
+
+
     }
 }

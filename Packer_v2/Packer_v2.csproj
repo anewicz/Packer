@@ -182,6 +182,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Context\PackerContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DbIpController.cs" />
+    <Compile Include="Controllers\DbSolutionController.cs" />
+    <Compile Include="Controllers\DefaultWayTypeController.cs" />
+    <Compile Include="Controllers\DtbaseController.cs" />
     <Compile Include="Controllers\EpsController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -189,6 +193,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\SolutionController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TypeSolutionController.cs" />
     <Compile Include="Controllers\TypeSolutionWayController.cs" />
@@ -198,6 +203,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Cadastros\DbIp.cs" />
+    <Compile Include="Models\Cadastros\DbSolution.cs" />
+    <Compile Include="Models\Cadastros\Status.cs" />
+    <Compile Include="Models\Cadastros\Dtbase.cs" />
     <Compile Include="Models\Cadastros\Eps.cs" />
     <Compile Include="Models\Cadastros\Folder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -205,7 +214,7 @@
     <Compile Include="ViewModel\InsertPackage\PackageViewModel.cs" />
     <Compile Include="Models\Cadastros\Project.cs" />
     <Compile Include="Models\Cadastros\Solution.cs" />
-    <Compile Include="Models\DefaultWayType.cs" />
+    <Compile Include="Models\Cadastros\DefaultWayType.cs" />
     <Compile Include="Models\Cadastros\Ticket.cs" />
     <Compile Include="Models\Cadastros\TypeSolutionWay.cs" />
     <Compile Include="Models\Cadastros\TypeSolution.cs" />
@@ -305,21 +314,45 @@
     <Content Include="Views\BKPPackage\Details.cshtml" />
     <Content Include="Views\BKPPackage\Edit.cshtml" />
     <Content Include="Views\BKPPackage\Index.cshtml" />
-    <Content Include="Views\Ticket\Create.cshtml" />
-    <Content Include="Views\Ticket\Delete.cshtml" />
-    <Content Include="Views\Ticket\Details.cshtml" />
-    <Content Include="Views\Ticket\Edit.cshtml" />
-    <Content Include="Views\Ticket\Index.cshtml" />
     <Content Include="Views\Eps\Create.cshtml" />
     <Content Include="Views\Eps\Delete.cshtml" />
     <Content Include="Views\Eps\Details.cshtml" />
     <Content Include="Views\Eps\Edit.cshtml" />
     <Content Include="Views\Eps\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Ticket\Index - Cópia .cshtml" />
     <Content Include="Views\Package\Index.cshtml" />
     <Content Include="Views\Package\_GetProjectsByEpsDropDownList.cshtml" />
     <Content Include="Views\Package\_GetSolutionsByProjectDropDownList.cshtml" />
+    <Content Include="Views\DefaultWayType\Create.cshtml" />
+    <Content Include="Views\DefaultWayType\Delete.cshtml" />
+    <Content Include="Views\DefaultWayType\Details.cshtml" />
+    <Content Include="Views\DefaultWayType\Edit.cshtml" />
+    <Content Include="Views\DefaultWayType\Index.cshtml" />
+    <Content Include="Views\Status\Create.cshtml" />
+    <Content Include="Views\Status\Delete.cshtml" />
+    <Content Include="Views\Status\Details.cshtml" />
+    <Content Include="Views\Status\Edit.cshtml" />
+    <Content Include="Views\Status\Index.cshtml" />
+    <Content Include="Views\Ticket\Create.cshtml" />
+    <Content Include="Views\Ticket\Delete.cshtml" />
+    <Content Include="Views\Ticket\Details.cshtml" />
+    <Content Include="Views\Ticket\Edit.cshtml" />
+    <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\DbIp\Create.cshtml" />
+    <Content Include="Views\DbIp\Delete.cshtml" />
+    <Content Include="Views\DbIp\Details.cshtml" />
+    <Content Include="Views\DbIp\Edit.cshtml" />
+    <Content Include="Views\DbIp\Index.cshtml" />
+    <Content Include="Views\Dtbase\Create.cshtml" />
+    <Content Include="Views\Dtbase\Delete.cshtml" />
+    <Content Include="Views\Dtbase\Details.cshtml" />
+    <Content Include="Views\Dtbase\Edit.cshtml" />
+    <Content Include="Views\Dtbase\Index.cshtml" />
+    <Content Include="Views\DbSolution\Create.cshtml" />
+    <Content Include="Views\DbSolution\Delete.cshtml" />
+    <Content Include="Views\DbSolution\Details.cshtml" />
+    <Content Include="Views\DbSolution\Edit.cshtml" />
+    <Content Include="Views\DbSolution\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

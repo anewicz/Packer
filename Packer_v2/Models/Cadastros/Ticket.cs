@@ -36,13 +36,14 @@ namespace Packer_v2.Models
         [Display(Name = "Solução")]
         public Int64 IdSolution { get; set; }
 
+        [ForeignKey("Status")]
+        [Column("ID_STATUS")]
+        [Display(Name = "Status")]
+        public Int64 IdStatus { get; set; }
+
         [Column("DE_TICKET")]
         [Display(Name = "Descrição Roteiro")]
         public string DeTicket { get; set; }
-
-        //[Column("DE_DESCRIPTION")]
-        //[Display(Name = "Descrição Roteiro")]
-        //public string DeDescription { get; set; }
 
         [Column("DE_NOTE")]
         [Display(Name = "Observação")]
@@ -68,11 +69,9 @@ namespace Packer_v2.Models
         [Display(Name = "Pré-Requisitos")]
         public string DePrerequisites { get; set; }
 
-
         [Column("DE_UNAVAILABILITY")]
         [Display(Name = "Indisponibilidades")]
         public string DeUnavailability { get; set; }
-
 
         [Column("DE_RUNTIME")]
         [Display(Name = "Tempo de Execução")]
@@ -81,6 +80,8 @@ namespace Packer_v2.Models
 
         //propriedades de navegação
         public virtual Solution Solution { get; set; }
+
+        public virtual Status Status { get; set; }
 
 
     }

@@ -19,11 +19,14 @@ namespace Packer_v2.Context
         public virtual DbSet<Folder> Folder { get; set; }
         public virtual DbSet<DefaultWayType> DefaultWayType { get; set; }
         public virtual DbSet<Ticket> Ticket { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Dtbase> Dtbase { get; set; }
+        public virtual DbSet<DbIp> DbIp { get; set; }
+        public virtual DbSet<DbSolution> DbSolution { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
     }
 }

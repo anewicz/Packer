@@ -1,0 +1,58 @@
+﻿@model Packer_v2.Models.Dtbase
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Dtbase</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DbIp.NmIp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DbIp.NmIp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmDatabase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmDatabase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDev)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdDtbase }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

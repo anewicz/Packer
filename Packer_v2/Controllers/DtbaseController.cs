@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Packer_v2.Context;
+using Packer_v2.Models;
+
+namespace Packer_v2.Controllers
+{
+    public class DtbaseController : Controller
+    {
+        private PackerContext db = new PackerContext();
+
+        // GET: Dtbase
+        public ActionResult Index()
+        {
+            var Dtbase = db.Dtbase.Include(d => d.DbIp);
+            return View(Dtbase.ToList());
+        }
+
+        // GET: Dtbase/Details/5
+        public ActionResult Details(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Dtbase dtbase = db.Dtbase.Find(id);
+            if (dtbase == null)
+            {
+                return HttpNotFound();
+            }
+            return View(dtbase);
+        }
+
+        // GET: Dtbase/Create
+        public ActionResult Create()
+        {
+            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp");
+            return View();
+        }
+
+        // POST: Dtbase/Create
+        // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
+        // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "IdDtbase,IdDbIp,NmDatabase,IsActive,IsCore,IsDev")] Dtbase dtbase)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Dtbase.Add(dtbase);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDbIp);
+            return View(dtbase);
+        }
+
+        // GET: Dtbase/Edit/5
+        public ActionResult Edit(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Dtbase dtbase = db.Dtbase.Find(id);
+            if (dtbase == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDbIp);
+            return View(dtbase);
+        }
+
+        // POST: Dtbase/Edit/5
+        // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
+        // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "IdDtbase,IdDbIp,NmDatabase,IsActive,IsCore,IsDev")] Dtbase dtbase)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(dtbase).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDbIp);
+            return View(dtbase);
+        }
+
+        // GET: Dtbase/Delete/5
+        public ActionResult Delete(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Dtbase dtbase = db.Dtbase.Find(id);
+            if (dtbase == null)
+            {
+                return HttpNotFound();
+            }
+            return View(dtbase);
+        }
+
+        // POST: Dtbase/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(long id)
+        {
+            Dtbase dtbase = db.Dtbase.Find(id);
+            db.Dtbase.Remove(dtbase);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}
