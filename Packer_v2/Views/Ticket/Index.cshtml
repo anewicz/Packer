@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Solution.NmSolution)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Status.NmStatus)
         </th>
         <th>
@@ -24,8 +21,14 @@
             @Html.DisplayNameFor(model => model.DtLastModification)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TicketLink)
+            @Html.DisplayNameFor(model => model.Solution.NmSolution)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeRuntime)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.TicketLink)
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.NmTicket)
         </th>
@@ -35,7 +38,7 @@
         <th>
             @Html.DisplayNameFor(model => model.DeNote)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.DeImpact)
         </th>
         <th>
@@ -52,66 +55,64 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DeUnavailability)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeRuntime)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Solution.NmSolution)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status.NmStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtRegister)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtLastModification)
-        </td>
-        <td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status.NmStatus)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DtRegister)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DtLastModification)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Solution.NmSolution)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeRuntime)
+    </td>
+    @*<td>
             @Html.DisplayFor(modelItem => item.TicketLink)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NmTicket)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeTicket)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeNote)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeImpact)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeRiskOfNotDoing)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeRiskOfDoing)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeContingency)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DePrerequisites)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeUnavailability)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeRuntime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdTicket }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdTicket }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdTicket })
-        </td>
-    </tr>
+        </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.NmTicket)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeTicket)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeNote)
+    </td>
+    @*<td>
+        @Html.DisplayFor(modelItem => item.DeImpact)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeRiskOfNotDoing)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeRiskOfDoing)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeContingency)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DePrerequisites)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeUnavailability)
+    </td>*@
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.IdTicket }) |
+        @Html.ActionLink("Details", "Details", new { id = item.IdTicket }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.IdTicket })
+    </td>
+</tr>
 }
 
 </table>

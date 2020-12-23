@@ -6,127 +6,261 @@
 
 <h2>Iniciando o PACOTE</h2>
 
+<div class="panel-body">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <label>* EPS</label>
+                @Html.DropDownListFor(model => model.IdEps, Model.EpsList.OrderBy(o => o.NmEps).Select(x => new SelectListItem
+           {
+               Value = x.IdEps.ToString(),
+               Text = x.NmEps
+           }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+            </div>
 
-<div>
-    <label>* EPS</label>
-    @Html.DropDownListFor(model => model.IdEps, Model.EpsList.OrderBy(o => o.NmEps).Select(x => new SelectListItem
-    {
-    Value = x.IdEps.ToString(),
-    Text = x.NmEps
-    }), "Selecione", new { @class = "form-control", @required = "required" })
+            <div class="col-md-6">
+                <label>* Project</label>
+                <div id="divGetProjectsByEps">
+                    @Html.Partial("_GetProjectsByEpsDropDownList")
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <label>* Solution</label>
+                <div id="divGetSolutionsByProject">
+                    @Html.Partial("_GetSolutionsByProjectDropDownList")
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <label>Selecione os itens do seu Pacote:</label>
+                <div>
+                    @Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })
+                    <label> Querys</label>
+                </div>
+
+                <!--<div>-->
+                    @*@Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })*@
+                    <!--<label> Itens de App</label>
+                </div>-->
+            </div>
+        </div>
+
+        @*<label>* Solution</label>
+            <div id="divItensPacker">
+                @Html.Partial("_TicketCreate")
+            </div>*@
+
+        <div class="row">
+            <div id="divHasSQL" style="display: none;">
+                <div class="col-md-3">
+                    <label>Scripts SQL</label>
+                    <div id="divGetDatabasesBySolution">
+                        @Html.Partial("_GetDatabasesBySolutionDropDownList")
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label>* Comando</label>
+                    @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
+               {
+                   Value = x.IdSqlComandType.ToString(),
+                   Text = x.NmSqlComandType
+               }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+                </div>
+
+                <div class="col-md-3">
+                    <label>* Item Sql</label>
+                    @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
+               {
+                   Value = x.IdSqlItenType.ToString(),
+                   Text = x.NmSqlItenType
+               }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
-<label>* Project</label>
-<div id="divGetProjectsByEps">
-    @Html.Partial("_GetProjectsByEpsDropDownList")
-</div>
+    @section Scripts {
+        <script type="text/javascript">
 
-<label>* Solution</label>
-<div id="divGetSolutionsByProject">
-    @Html.Partial("_GetSolutionsByProjectDropDownList")
-</div>
+            var form = $("#form");
+            var registerForm = new RegisterForm(form);
+            registerForm.urlSave = "/Package/SavePackage";
+            registerForm.urlDelete = "/Package/DeletePackage"
+
+            blockAllFields();
+
+            /*Changes*/
+            $(document).on('change', '#IdEps', function () {
+                let idEps = $("#IdEps").val();
+                getProjectsByEps(idEps);
+                var select = false;
+                if (idEps == "")
+                    select = true;
+                controlerFields(select, 'IdProject');
+            });
+
+            $(document).on('change', '#IdProject', function () {
+                let idProject = $("#IdProject").val();
+                getSolutionsByProject(idProject);
+                var select = false;
+                if (idProject == "")
+                    select = true;
+                controlerFields(select, 'IdSolution');
+            });
+
+            $(document).on('change', '#IdSolution', function () {
+                let idSolution = $("#IdSolution").val();
+                getDatabasesBySolution(idSolution);
+                var select = false;
+                if (idSolution == "")
+                    select = true;
+                controlerFields(select, 'HasSqlScripts');
+            });
+
+            $("#HasSqlScripts").change(function () {
+                let hasSqlScriptsCheck = $('#HasSqlScripts').is(':checked');
+                showDivHasChecked(hasSqlScriptsCheck, 'divHasSQL');
+                var select = false;
+                if (hasSqlScriptsCheck == "")
+                    select = true;
+                controlerFields(select, 'IdDtbase');
+            });
+
+            /*Outras Funções */
+
+            function controlerFields(pSelect, pFldName) {
+                document.getElementById(pFldName).disabled = pSelect;
+            }
+
+            function blockAllFields() {
+                controlerFields(true, 'IdProject');
+                controlerFields(true, 'IdSolution');
+                controlerFields(true, 'HasSqlScripts');
+                controlerFields(true, 'IdDtbase');
+
+            }
 
 
+            function showDivHasChecked(phasChecked, pdivName) {
+                var stats = 'none';
+                if (phasChecked == true) {
+                    stats = 'block';
+                }
+                document.getElementById(pdivName).style.display = stats;
+            }
 
-@section Scripts {
-    <script type="text/javascript">
+            /*Changes Açtions*/
+            function getProjectsByEps(pIdEps) {
+                var pIdProject;
+                $.ajax({
+                    async: true,
+                    "url": "/Package/GetProjectsByEps",
+                    "type": "GET",
+                    data: { pIdEps: pIdEps },
+                })
+                    .done(function (msg) {
+                        if (msg.status.includes("nok")) {
+                            let results = "Ocorreram erros ao buscar os registros!";
 
-        var form = $("#form");
-        var registerForm = new RegisterForm(form);
-        registerForm.urlSave = "/Package/SavePackage";
-        registerForm.urlDelete = "/Package/DeletePackage"
+                            if (msg.mesage != undefined && msg.mesage != '') {
+                                results = msg.mesage;
+                            }
 
-        /*Changes*/
-        $(document).on('change', '#IdEps', function () {
-            let idEps = $("#IdEps").val();
-            getProjectsByEps(idEps);
-        });
+                            toast("Atenção", results, "error");
+                            console.log(msg.error);
+                        } else {
+                            if (msg.partialView != undefined && msg.partialView != '') {
+                                $("#divGetProjectsByEps").html(msg.partialView);
 
-        $(document).on('change', '#IdProject', function () {
-            let idProject = $("#IdProject").val();
-            getSolutionsByProject(idProject);
-        });
-
-        $(document).on('change', '#IdSolution', function () {
-            let idSolution = $("#IdSolution").val();
-            getSolutionsByProject(idSolution);
-        });
-
-
-
-
-        /*Changes Açtions*/
-        function getProjectsByEps(pIdEps) {
-            var pIdProject;
-            $.ajax({
-                async: true,
-                "url": "/Package/GetProjectsByEps",
-                "type": "GET",
-                data: { pIdEps: pIdEps },
-            })
-                .done(function (msg) {
-                    if (msg.status.includes("nok")) {
-                        let results = "Ocorreram erros ao buscar os registros!";
-
-                        if (msg.mesage != undefined && msg.mesage != '') {
-                            results = msg.mesage;
-                        }
-
-                        toast("Atenção", results, "error");
-                        console.log(msg.error);
-                    } else {
-                        if (msg.partialView != undefined && msg.partialView != '') {
-                            $("#divGetProjectsByEps").html(msg.partialView);
-
-                            if (pIdProject != "" && pIdProject != undefined) {
-                                $("#pIdProject").val(pIdProject);
+                                if (pIdProject != "" && pIdProject != undefined) {
+                                    $("#pIdProject").val(pIdProject);
+                                }
                             }
                         }
-                    }
+                    })
+                    .fail(function (jqXHR, textStatus, msg) {
+                        console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                    });
+
+            }
+
+            function getSolutionsByProject(pIdProject) {
+                var pIdSolution;
+                $.ajax({
+                    async: true,
+                    "url": "/Package/GetSolutionsByProject",
+                    "type": "GET",
+                    data: { pIdProject: pIdProject },
                 })
-                .fail(function (jqXHR, textStatus, msg) {
-                    console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                });
+                    .done(function (msg) {
+                        if (msg.status.includes("nok")) {
+                            let results = "Ocorreram erros ao buscar os registros!";
 
-        }
+                            if (msg.mesage != undefined && msg.mesage != '') {
+                                results = msg.mesage;
+                            }
 
-        function getSolutionsByProject(pIdProject) {
-            var pIdSolution;
-            $.ajax({
-                async: true,
-                "url": "/Package/GetSolutionsByProject",
-                "type": "GET",
-                data: { pIdProject: pIdProject },
-            })
-                .done(function (msg) {
-                    if (msg.status.includes("nok")) {
-                        let results = "Ocorreram erros ao buscar os registros!";
+                            toast("Atenção", results, "error");
+                            console.log(msg.error);
+                        } else {
+                            if (msg.partialView != undefined && msg.partialView != '') {
+                                $("#divGetSolutionsByProject").html(msg.partialView);
 
-                        if (msg.mesage != undefined && msg.mesage != '') {
-                            results = msg.mesage;
-                        }
-
-                        toast("Atenção", results, "error");
-                        console.log(msg.error);
-                    } else {
-                        if (msg.partialView != undefined && msg.partialView != '') {
-                            $("#divGetSolutionsByProject").html(msg.partialView);
-
-                            if (pIdSolution != "" && pIdSolution != undefined) {
-                                $("#pIdSolution").val(pIdSolution);
+                                if (pIdSolution != "" && pIdSolution != undefined) {
+                                    $("#pIdSolution").val(pIdSolution);
+                                }
                             }
                         }
-                    }
+                    })
+                    .fail(function (jqXHR, textStatus, msg) {
+                        console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                    });
+            }
+
+            function getDatabasesBySolution(pIdSolution) {
+                var pIdDtbase;
+                $.ajax({
+                    async: true,
+                    "url": "/Package/GetDatabasesBySolution",
+                    "type": "GET",
+                    data: { pIdSolution: pIdSolution },
                 })
-                .fail(function (jqXHR, textStatus, msg) {
-                    console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                });
-        }
+                    .done(function (msg) {
+                        if (msg.status.includes("nok")) {
+                            let results = "Ocorreram erros ao buscar os registros!";
 
-        
+                            if (msg.mesage != undefined && msg.mesage != '') {
+                                results = msg.mesage;
+                            }
 
-    </script>
+                            toast("Atenção", results, "error");
+                            console.log(msg.error);
+                        } else {
+                            if (msg.partialView != undefined && msg.partialView != '') {
+                                $("#divGetDatabasesBySolution").html(msg.partialView);
 
-}
+                                if (pIdDtbase != "" && pIdDtbase != undefined) {
+                                    $("#pIdDtbase").val(pIdDtbase);
+                                }
+                            }
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus, msg) {
+                        console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                    });
+            }
+
+
+
+        </script>
+
+    }
 
 

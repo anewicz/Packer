@@ -343,16 +343,18 @@
     <Content Include="Views\DbIp\Details.cshtml" />
     <Content Include="Views\DbIp\Edit.cshtml" />
     <Content Include="Views\DbIp\Index.cshtml" />
-    <Content Include="Views\Dtbase\Create.cshtml" />
-    <Content Include="Views\Dtbase\Delete.cshtml" />
-    <Content Include="Views\Dtbase\Details.cshtml" />
-    <Content Include="Views\Dtbase\Edit.cshtml" />
-    <Content Include="Views\Dtbase\Index.cshtml" />
     <Content Include="Views\DbSolution\Create.cshtml" />
     <Content Include="Views\DbSolution\Delete.cshtml" />
     <Content Include="Views\DbSolution\Details.cshtml" />
     <Content Include="Views\DbSolution\Edit.cshtml" />
     <Content Include="Views\DbSolution\Index.cshtml" />
+    <Content Include="Views\Package\_GetDatabasesBySolutionDropDownList.cshtml" />
+    <Content Include="Views\Dtbase\Create.cshtml" />
+    <Content Include="Views\Dtbase\Delete.cshtml" />
+    <Content Include="Views\Dtbase\Details.cshtml" />
+    <Content Include="Views\Dtbase\Edit.cshtml" />
+    <Content Include="Views\Dtbase\Index.cshtml" />
+    <Content Include="Views\Package\_TicketCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

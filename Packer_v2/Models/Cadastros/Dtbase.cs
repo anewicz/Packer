@@ -15,49 +15,55 @@ namespace Packer_v2.Models
         [Column("ID_DTBASE")]
         public Int64 IdDtbase { get; set; }
 
-        //[Required(ErrorMessage = "O Nome EPS é Obrigatório")]
-        [ForeignKey("DbIp")]
-        [Column("ID_DB_IP")]
-        [Display(Name = "Database IP")]
-        public Int64 IdDbIp { get; set; }
-
-        [Column("NM_DATABASE")]
-        [Display(Name = "Database Nome")]
-        public string NmDatabase { get; set; }
-
         [Column("IS_ACTIVE")]
         [Display(Name = "Ativo?")]
         public bool IsActive { get; set; }
 
         [Column("IS_CORE")]
-        [Display(Name = "É Base Core?")]
+        [Display(Name = "Base Core?")]
         public bool IsCore { get; set; }
 
-        [Column("IS_DEV")]
-        [Display(Name = "É Base Dev?")]
-        public bool IsDev { get; set; }
+        //[Required(ErrorMessage = "O Nome EPS é Obrigatório")]
+        [ForeignKey("DevDbIp")]
+        [Column("ID_DEV_DB_IP")]
+        [Display(Name = "Db Ip [DEV]")]
+        public Int64 IdDevDbIp { get; set; }
+
+        [Column("NM_DEV_DATABASE")]
+        [Display(Name = "Database [DEV]")]
+        public string NmDevDatabase { get; set; }
+
+
+        //[Required(ErrorMessage = "O Nome EPS é Obrigatório")]
+        [ForeignKey("PrdDbIp")]
+        [Column("ID_PRD_DB_IP")]
+        [Display(Name = "Db Ip [PRD]")]
+        public Int64 IdPrdDbIp { get; set; }
+
+        [Column("NM_PRD_DATABASE")]
+        [Display(Name = "Database [PRD]")]
+        public string NmPrdDatabase { get; set; }
 
 
         //propriedades de navegação
 
-        public virtual DbIp DbIp { get; set; }
+        public virtual DbIp DevDbIp { get; set; }
+        public virtual DbIp PrdDbIp { get; set; }
 
         //propriedades para vizualização
         [Display(Name = "Database")]
         public virtual string FullNmDatabase
         {
-            get { return getFullNmDatabase(IdDbIp); }
+            get { return getFullNmDatabase(); }
         }
 
-        public string getFullNmDatabase(long idIP)
+        public string getFullNmDatabase()
         {
             PackerContext db = new PackerContext();
-            DbIp dbIp = db.DbIp.Find(idIP);
+            DbIp dbIp = db.DbIp.Find(IdDevDbIp);
             string nmDbIp = dbIp.NmIp;
 
-            string _isDev = IsDev ? "DEV" : "PRD";
-
-            return _isDev + " [" + nmDbIp + "] "+ NmDatabase+ "";
+            return "DEV [" + nmDbIp + "] "+ NmDevDatabase + "";
             
         }
 

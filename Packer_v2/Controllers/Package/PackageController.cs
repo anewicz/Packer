@@ -24,10 +24,11 @@ namespace Packer_v2.Controllers
 
         private PackageViewModel GetPackage()
         {
-           var vm = new PackageViewModel();
+            var vm = new PackageViewModel();
             vm.EpsList = db.Eps.ToList();
             vm.Projects = new List<Project>();
             vm.Solutions = new List<Solution>();
+            vm.Dtbases = new List<Dtbase>();
             return vm;
         }
 
@@ -53,6 +54,24 @@ namespace Packer_v2.Controllers
             return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetDatabasesBySolution(int pIdSolution)
+        {
+            var IdsSolutions = db.DbSolution.Where(x => x.IdSolution == pIdSolution).ToList();
+
+            var solutions = new List<Dtbase>();
+            foreach (var s in IdsSolutions)
+            {
+                var inserir = db.Dtbase.Where(x => x.IdDtbase == s.IdDtbase).FirstOrDefault();
+                solutions.Add(inserir);
+            }
+
+            var vm = new PackageViewModel();
+            vm.Dtbases = solutions;
+
+            var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
+
+            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

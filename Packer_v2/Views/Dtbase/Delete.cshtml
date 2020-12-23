@@ -11,21 +11,6 @@
     <h4>Dtbase</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DbIp.NmIp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DbIp.NmIp)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NmDatabase)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NmDatabase)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.IsActive)
@@ -44,11 +29,36 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsDev)
+            @Html.DisplayNameFor(model => model.IdDevDbIp)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsDev)
+            @Html.DisplayFor(model => model.DevDbIp.NmIp)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmDevDatabase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmDevDatabase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPrdDbIp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrdDbIp.NmIp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NmPrdDatabase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmPrdDatabase)
         </dd>
 
     </dl>

@@ -18,8 +18,8 @@ namespace Packer_v2.Controllers
         // GET: Dtbase
         public ActionResult Index()
         {
-            var Dtbase = db.Dtbase.Include(d => d.DbIp);
-            return View(Dtbase.ToList());
+            var dtbase = db.Dtbase.Include(d => d.DevDbIp).Include(d => d.PrdDbIp);
+            return View(dtbase.ToList());
         }
 
         // GET: Dtbase/Details/5
@@ -40,7 +40,8 @@ namespace Packer_v2.Controllers
         // GET: Dtbase/Create
         public ActionResult Create()
         {
-            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp");
+            ViewBag.IdDevDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp");
+            ViewBag.IdPrdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdDtbase,IdDbIp,NmDatabase,IsActive,IsCore,IsDev")] Dtbase dtbase)
+        public ActionResult Create([Bind(Include = "IdDtbase,IsActive,IsCore,IdDevDbIp,NmDevDatabase,IdPrdDbIp,NmPrdDatabase")] Dtbase dtbase)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +59,8 @@ namespace Packer_v2.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDbIp);
+            ViewBag.IdDevDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDevDbIp);
+            ViewBag.IdPrdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdPrdDbIp);
             return View(dtbase);
         }
 
@@ -74,7 +76,8 @@ namespace Packer_v2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDbIp);
+            ViewBag.IdDevDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDevDbIp);
+            ViewBag.IdPrdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdPrdDbIp);
             return View(dtbase);
         }
 
@@ -83,7 +86,7 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdDtbase,IdDbIp,NmDatabase,IsActive,IsCore,IsDev")] Dtbase dtbase)
+        public ActionResult Edit([Bind(Include = "IdDtbase,IsActive,IsCore,IdDevDbIp,NmDevDatabase,IdPrdDbIp,NmPrdDatabase")] Dtbase dtbase)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +94,8 @@ namespace Packer_v2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDbIp);
+            ViewBag.IdDevDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdDevDbIp);
+            ViewBag.IdPrdDbIp = new SelectList(db.DbIp, "IdDbIp", "NmIp", dtbase.IdPrdDbIp);
             return View(dtbase);
         }
 

@@ -15,7 +15,7 @@ namespace Packer_v2.Models
         public Int64 IdDbSolution { get; set; }
 
         [ForeignKey("Dtbase")]
-        [Column("ID_DB_IP")]
+        [Column("ID_DTBASE")]
         [Display(Name = "Database")]
         public Int64 IdDtbase { get; set; }
 

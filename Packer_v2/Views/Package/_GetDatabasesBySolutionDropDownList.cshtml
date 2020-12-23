@@ -1,0 +1,9 @@
+﻿@model Packer_v2.Models.PackageViewModel
+
+@Html.DropDownListFor(model => model.IdDtbase, Model.Dtbases.OrderBy(o => o.FullNmDatabase).Select(x => new SelectListItem
+{
+    Value = x.IdDtbase.ToString(),
+    Text = x.FullNmDatabase
+}), "Selecione", new { @class = "form-control", @required = "required" })
+
+

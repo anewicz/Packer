@@ -12,19 +12,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DbIp.NmIp)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NmDatabase)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.IsActive)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsCore)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsDev)
+            @Html.DisplayNameFor(model => model.IdDevDbIp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmDevDatabase)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdPrdDbIp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmPrdDatabase)
         </th>
         <th></th>
     </tr>
@@ -32,19 +35,22 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.DbIp.NmIp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NmDatabase)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.IsActive)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsCore)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsDev)
+            @Html.DisplayFor(modelItem => item.DevDbIp.NmIp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmDevDatabase)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrdDbIp.NmIp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmPrdDatabase)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdDtbase }) |
