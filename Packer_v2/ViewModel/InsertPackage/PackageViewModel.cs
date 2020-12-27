@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
 namespace Packer_v2.Models
 {
@@ -17,8 +18,8 @@ namespace Packer_v2.Models
 
         public int? IdSqlItenType { get; set; }
 
-        public Ticket Ticket { get; set; }
 
+        public UploadFileResult File { get; set; }
 
         //public List<ScriptType> ScriptType { get { return GetScriptTypes(); } }
         public List<Eps> EpsList { get; set; }
@@ -26,7 +27,9 @@ namespace Packer_v2.Models
         public List<Solution> Solutions { get; set; }
         public List<Dtbase> Dtbases { get; set; }
 
-        public List<SqlComandType> GetSqlComandTypes() {
+
+        public List<SqlComandType> GetSqlComandTypes()
+        {
             List<SqlComandType> _List = new List<SqlComandType>();
 
             _List.Add(new SqlComandType() { IdSqlComandType = 1, NmSqlComandType = "Update" });
@@ -37,7 +40,8 @@ namespace Packer_v2.Models
             return _List;
         }
 
-        public List<SqlItenType> GetSqlItenTypes() {
+        public List<SqlItenType> GetSqlItenTypes()
+        {
             List<SqlItenType> _List = new List<SqlItenType>();
 
             _List.Add(new SqlItenType() { IdSqlItenType = 1, NmSqlItenType = "Table" });
@@ -63,4 +67,15 @@ namespace Packer_v2.Models
         public string NmSqlItenType { get; set; }
 
     }
+
+    public class UploadFileResult
+    {
+        public IEnumerable<HttpPostedFileBase> File { get; set; }
+    }
+
+    //public int IdFile { get; set; }
+    //public string Name { get; set; }
+    //public int Size { get; set; }
+    //public string Type { get; set; }
+    //public string Way { get; set; }
 }

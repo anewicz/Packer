@@ -355,9 +355,11 @@
     <Content Include="Views\Dtbase\Edit.cshtml" />
     <Content Include="Views\Dtbase\Index.cshtml" />
     <Content Include="Views\Package\_TicketCreate.cshtml" />
+    <Content Include="Views\Package\_UploadQuerys.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Models\Querys\" />
+    <Folder Include="App_Data\Packages\Querys\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

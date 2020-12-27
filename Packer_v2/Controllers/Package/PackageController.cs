@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -14,6 +15,7 @@ namespace Packer_v2.Controllers
     public class PackageController : Controller
     {
         private PackerContext db = new PackerContext();
+
 
         // GET: Eps
         public ActionResult Index()
@@ -73,5 +75,41 @@ namespace Packer_v2.Controllers
             return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult _UploadQuerys(UploadFileResult _pFiles)
+        {
+            try
+            {
+                string fileName = "";
+                string sendingFiles = "";
+
+                foreach (var file in _pFiles.File)
+                {
+                    if (file.ContentLength > 0)
+                    {
+                        fileName = Path.GetFileName(file.FileName);
+                        var way = Path.Combine(Server.MapPath("~/App_Data/Packages/Querys"), fileName);
+                        file.SaveAs(way);
+                    }
+
+                    sendingFiles = sendingFiles + " , " + fileName;
+                }
+                ViewBag.Mensagem = "Arquivos enviados  : " + sendingFiles + " , com sucesso.";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensagem = "Erro : " + ex.Message;
+            }
+
+            var vm = new PackageViewModel();
+            vm.EpsList = db.Eps.ToList();
+            vm.Projects = new List<Project>();
+            vm.Solutions = new List<Solution>();
+            vm.Dtbases = new List<Dtbase>();
+
+            return View("Index", vm);
+        }
+
+    
     }
 }

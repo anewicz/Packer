@@ -1,0 +1,18 @@
+﻿@model Packer_v2.Models.PackageViewModel
+
+@using (Html.BeginForm("_UploadQuerys", "Package", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="well">
+        <table class="table table-striped">
+            <tr>
+                <td>Arquivo : </td>
+                <td><input type="file" id="File" name="File" multiple /></td>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="submit" value="Enviar Arquivo" /></td>
+            </tr>
+            <tr>
+                <td>@ViewBag.Mensagem</td>
+            </tr>
+        </table>
+    </div>
+}

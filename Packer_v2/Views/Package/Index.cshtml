@@ -15,7 +15,7 @@
            {
                Value = x.IdEps.ToString(),
                Text = x.NmEps
-           }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+           }), "Selecione", new { @class = "form-control", @required = "required" })
             </div>
 
             <div class="col-md-6">
@@ -42,10 +42,10 @@
                     <label> Querys</label>
                 </div>
 
-                <!--<div>-->
-                    @*@Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })*@
-                    <!--<label> Itens de App</label>
-                </div>-->
+                @*<div>
+                    @Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })
+                    <label> Itens de App</label>
+                    </div>*@
             </div>
         </div>
 
@@ -54,38 +54,85 @@
                 @Html.Partial("_TicketCreate")
             </div>*@
 
-        <div class="row">
-            <div id="divHasSQL" style="display: none;">
+
+        <div id="divHasSQL" style="display: none;">
+            <div class="row">
+
                 <div class="col-md-3">
+
                     <label>Scripts SQL</label>
                     <div id="divGetDatabasesBySolution">
                         @Html.Partial("_GetDatabasesBySolutionDropDownList")
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label>* Comando</label>
-                    @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
-               {
-                   Value = x.IdSqlComandType.ToString(),
-                   Text = x.NmSqlComandType
-               }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
-                </div>
+                @*<div class="col-md-3">
+                            <label>* Comando</label>
+                            @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
+                       {
+                           Value = x.IdSqlComandType.ToString(),
+                           Text = x.NmSqlComandType
+                       }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>* Item Sql</label>
+                            @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
+                       {
+                           Value = x.IdSqlItenType.ToString(),
+                           Text = x.NmSqlItenType
+                       }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+                        </div>
+                    </div>*@
+
+                @*<div class="row">
+                        <div class="col-md-9">
+                            @Html.Partial("_UploadQuerys")
+                        </div>
+                    </div>*@
 
                 <div class="col-md-3">
-                    <label>* Item Sql</label>
-                    @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
-               {
-                   Value = x.IdSqlItenType.ToString(),
-                   Text = x.NmSqlItenType
-               }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
-                </div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Inserir Querys</button>
 
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+
+
+
+                                @*<label>* Comando</label>
+                                         @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
+                                    {
+                                        Value = x.IdSqlComandType.ToString(),
+                                        Text = x.NmSqlComandType
+                                    }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+
+
+
+                                         <label>* Item Sql</label>
+                                         @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
+                                    {
+                                        Value = x.IdSqlItenType.ToString(),
+                                        Text = x.NmSqlItenType
+                                    }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })*@
+
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        @Html.Partial("_UploadQuerys")
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
     </div>
 </div>
-
     @section Scripts {
         <script type="text/javascript">
 
@@ -95,6 +142,10 @@
             registerForm.urlDelete = "/Package/DeletePackage"
 
             blockAllFields();
+
+            $(document).on('click', '#Files', function () {
+                getProjectsByEps();
+            });
 
             /*Changes*/
             $(document).on('change', '#IdEps', function () {
@@ -132,6 +183,7 @@
                     select = true;
                 controlerFields(select, 'IdDtbase');
             });
+
 
             /*Outras Funções */
 
