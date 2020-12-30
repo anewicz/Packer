@@ -190,7 +190,9 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.SqlServer.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNet.Identity.Core.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNetCore.Http.Features.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Extensions.Primitives.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Owin.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Owin.Host.SystemWeb.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Owin.Security.Cookies.dll
@@ -203,7 +205,12 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Owin.Security.Twitter.dl
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Web.Infrastructure.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Newtonsoft.Json.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Owin.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Buffers.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Memory.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Net.Http.Formatting.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Numerics.Vectors.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Text.Encodings.Web.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Helpers.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Http.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Http.WebHost.dll
@@ -214,6 +221,15 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.WebPages.Deployment.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.WebPages.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.WebPages.Razor.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\WebGrease.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.SqlServer.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNetCore.Http.Features.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.Extensions.Primitives.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Buffers.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Memory.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Numerics.Vectors.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Text.Encodings.Web.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Helpers.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Mvc.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Optimization.xml
@@ -226,8 +242,6 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Antlr3.Runtime.pdb
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Net.Http.Formatting.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Http.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.Http.WebHost.xml
-D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.xml
-D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.SqlServer.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNet.Identity.Owin.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNet.Identity.EntityFramework.xml

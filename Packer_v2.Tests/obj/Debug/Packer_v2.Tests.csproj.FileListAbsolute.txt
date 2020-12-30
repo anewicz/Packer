@@ -30,7 +30,10 @@ D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\EntityFramework.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\System.Web.Http.WebHost.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\WebGrease.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\System.Net.Http.Formatting.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Antlr3.Runtime.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Packer_v2.pdb
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Packer_v2.dll.config
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
@@ -53,7 +56,9 @@ D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\EntityFramework.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\System.Web.Http.WebHost.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\System.Net.Http.Formatting.xml
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Antlr3.Runtime.pdb
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\pt-br\System.Web.Helpers.resources.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\pt-br\System.Web.Mvc.resources.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\pt-br\System.Web.Razor.resources.dll
@@ -75,8 +80,3 @@ D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.csproj
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.csproj.CopyComplete
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.pdb
-D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\WebGrease.dll
-D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.dll
-D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Antlr3.Runtime.dll
-D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
-D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Antlr3.Runtime.pdb

@@ -30,5 +30,7 @@ namespace Packer_v2.Context
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<Packer_v2.Models.Query> Queries { get; set; }
     }
 }

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Packer_v2.Models.Query>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmSqlObject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdSqlItenType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdSqlComandType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NmFile)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmSqlObject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdSqlItenType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdSqlComandType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmFile)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdQuery }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdQuery }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdQuery })
+        </td>
+    </tr>
+}
+
+</table>

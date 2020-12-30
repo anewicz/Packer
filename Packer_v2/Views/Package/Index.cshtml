@@ -4,7 +4,7 @@
     ViewBag.Title = "Insert Package";
 }
 
-<h2>Iniciando o PACOTE</h2>
+<h2>Criar Pacote</h2>
 
 <div class="panel-body">
     <div class="col-md-12">
@@ -36,6 +36,16 @@
             </div>
 
             <div class="col-md-5">
+
+                <label>Scripts SQL</label>
+                <div id="divGetDatabasesBySolution">
+                    @Html.Partial("_GetDatabasesBySolutionDropDownList")
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-5">
                 <label>Selecione os itens do seu Pacote:</label>
                 <div>
                     @Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })
@@ -43,181 +53,257 @@
                 </div>
 
                 @*<div>
-                    @Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })
-                    <label> Itens de App</label>
-                    </div>*@
+            @Html.CheckBoxFor(x => x.HasSqlScripts, new { @checked = "checked", @class = "form-check-input", @id = "HasSqlScripts" })
+            <label> Itens de App</label>
+            </div>*@
             </div>
+
         </div>
 
-        @*<label>* Solution</label>
-            <div id="divItensPacker">
-                @Html.Partial("_TicketCreate")
-            </div>*@
-
-
-        <div id="divHasSQL" style="display: none;">
-            <div class="row">
-
-                <div class="col-md-3">
-
-                    <label>Scripts SQL</label>
-                    <div id="divGetDatabasesBySolution">
-                        @Html.Partial("_GetDatabasesBySolutionDropDownList")
-                    </div>
-                </div>
-
-                @*<div class="col-md-3">
-                            <label>* Comando</label>
-                            @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
-                       {
-                           Value = x.IdSqlComandType.ToString(),
-                           Text = x.NmSqlComandType
-                       }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>* Item Sql</label>
-                            @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
-                       {
-                           Value = x.IdSqlItenType.ToString(),
-                           Text = x.NmSqlItenType
-                       }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
-                        </div>
-                    </div>*@
-
-                @*<div class="row">
-                        <div class="col-md-9">
-                            @Html.Partial("_UploadQuerys")
-                        </div>
-                    </div>*@
-
-                <div class="col-md-3">
+            <div id="divHasSQL" style="display: none;">
+                <div class="row">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Inserir Querys</button>
 
-                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>* QuerysList</label>
+                            <div id="divGetQuerysList">
+                                @Html.Partial("_GetQuerysList")
+                            </div>
+                        </div>
 
 
-
-                                @*<label>* Comando</label>
-                                         @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
-                                    {
-                                        Value = x.IdSqlComandType.ToString(),
-                                        Text = x.NmSqlComandType
-                                    }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })
+                        <div class="col-md-3">
 
 
+                            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <label>Adicionar Scripts SQL</label>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <td>Arquivo : </td>
+                                                        <td><input type="file" id="File" name="File" multiple /></td>
+                                                        <td>&nbsp;</td>
+                                                        <td><input type="submit" name="submit" id="Files" value="Enviar Arquivo" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.Mensagem</td>
+                                                    </tr>
+                                                </table>
 
-                                         <label>* Item Sql</label>
-                                         @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
-                                    {
-                                        Value = x.IdSqlItenType.ToString(),
-                                        Text = x.NmSqlItenType
-                                    }), "Selecione", new { @class = "form-control", @required = "required", @value = "0" })*@
+                                                <label>Scripts SQL</label>
+                                                <div id="ErrorSqlMensage">
+                                                    <td><b style="color:goldenrod">@ViewBag.SaveSqlMensage</b></td>
+                                                </div>
+
+                                                <div id="divGetQuerys">
+
+                                                </div>
+                                                <input type="submit" name="submit" id="SaveFiles" value="Salvar" />
+                                            </div>
 
 
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        @Html.Partial("_UploadQuerys")
+                                        </div>
+
+
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
-    </div>
-</div>
-    @section Scripts {
-        <script type="text/javascript">
 
-            var form = $("#form");
-            var registerForm = new RegisterForm(form);
-            registerForm.urlSave = "/Package/SavePackage";
-            registerForm.urlDelete = "/Package/DeletePackage"
+        @section Scripts {
+            <script type="text/javascript">
 
-            blockAllFields();
+                var form = $("#form");
+                var registerForm = new RegisterForm(form);
+                registerForm.urlSave = "/Package/SavePackage";
+                registerForm.urlDelete = "/Package/DeletePackage"
+                var files = 0;
 
-            $(document).on('click', '#Files', function () {
-                getProjectsByEps();
-            });
-
-            /*Changes*/
-            $(document).on('change', '#IdEps', function () {
-                let idEps = $("#IdEps").val();
-                getProjectsByEps(idEps);
-                var select = false;
-                if (idEps == "")
-                    select = true;
-                controlerFields(select, 'IdProject');
-            });
-
-            $(document).on('change', '#IdProject', function () {
-                let idProject = $("#IdProject").val();
-                getSolutionsByProject(idProject);
-                var select = false;
-                if (idProject == "")
-                    select = true;
-                controlerFields(select, 'IdSolution');
-            });
-
-            $(document).on('change', '#IdSolution', function () {
-                let idSolution = $("#IdSolution").val();
-                getDatabasesBySolution(idSolution);
-                var select = false;
-                if (idSolution == "")
-                    select = true;
-                controlerFields(select, 'HasSqlScripts');
-            });
-
-            $("#HasSqlScripts").change(function () {
-                let hasSqlScriptsCheck = $('#HasSqlScripts').is(':checked');
-                showDivHasChecked(hasSqlScriptsCheck, 'divHasSQL');
-                var select = false;
-                if (hasSqlScriptsCheck == "")
-                    select = true;
-                controlerFields(select, 'IdDtbase');
-            });
+                blockAllFields();
 
 
-            /*Outras Funções */
+                $(document).on('click', '#Files', function () {
+                    //console.log("clicou Files");
+                    getQuerys();
+                });
 
-            function controlerFields(pSelect, pFldName) {
-                document.getElementById(pFldName).disabled = pSelect;
-            }
+                $(document).on('click', '#SaveFiles', function () {
+                    //console.log("clicou SaveFiles");
+                    saveQuerys();
+                });
 
-            function blockAllFields() {
-                controlerFields(true, 'IdProject');
-                controlerFields(true, 'IdSolution');
-                controlerFields(true, 'HasSqlScripts');
-                controlerFields(true, 'IdDtbase');
+                /*Changes*/
+                $(document).on('change', '#IdEps', function () {
+                    let idEps = $("#IdEps").val();
+                    getProjectsByEps(idEps);
+                    var select = false;
+                    if (idEps == "")
+                        select = true;
+                    controlerFields(select, 'IdProject');
+                });
 
-            }
+                $(document).on('change', '#IdProject', function () {
+                    let idProject = $("#IdProject").val();
+                    getSolutionsByProject(idProject);
+                    var select = false;
+                    if (idProject == "")
+                        select = true;
+                    controlerFields(select, 'IdSolution');
+                });
 
+                $(document).on('change', '#IdSolution', function () {
+                    let idSolution = $("#IdSolution").val();
+                    getDatabasesBySolution(idSolution);
+                    var select = false;
+                    if (idSolution == "")
+                        select = true;
+                    controlerFields(select, 'HasSqlScripts');
+                });
 
-            function showDivHasChecked(phasChecked, pdivName) {
-                var stats = 'none';
-                if (phasChecked == true) {
-                    stats = 'block';
+                $("#HasSqlScripts").change(function () {
+                    let hasSqlScriptsCheck = $('#HasSqlScripts').is(':checked');
+                    showDivHasChecked(hasSqlScriptsCheck, 'divHasSQL');
+                    var select = false;
+                    if (hasSqlScriptsCheck == "")
+                        select = true;
+                    controlerFields(select, 'IdDtbase');
+                });
+
+                /*Outras Funções */
+                function controlerFields(pSelect, pFldName) {
+                    document.getElementById(pFldName).disabled = pSelect;
                 }
-                document.getElementById(pdivName).style.display = stats;
-            }
 
-            /*Changes Açtions*/
-            function getProjectsByEps(pIdEps) {
-                var pIdProject;
-                $.ajax({
-                    async: true,
-                    "url": "/Package/GetProjectsByEps",
-                    "type": "GET",
-                    data: { pIdEps: pIdEps },
-                })
-                    .done(function (msg) {
+                function blockAllFields() {
+                    controlerFields(true, 'IdProject');
+                    controlerFields(true, 'IdSolution');
+                    controlerFields(true, 'HasSqlScripts');
+                    controlerFields(true, 'IdDtbase');
+
+                }
+
+                function showDivHasChecked(phasChecked, pdivName) {
+                    var stats = 'none';
+                    if (phasChecked == true) {
+                        stats = 'block';
+                    }
+                    document.getElementById(pdivName).style.display = stats;
+                }
+
+                /*Changes Açtions*/
+
+
+
+                function saveQuerys() {
+                    //console.log("entrou saveQuerys");
+
+                    $('#ErrorSqlMensage').html('');
+
+                    var Query = {};
+                    var mensage = "";
+                    var filesLen = (files.length + 1);
+
+                    var QuerysList = [];
+
+                    for (var i = 1; i < filesLen; i++) {
+
+                        console.log("loop" + i);
+                        //MsgScript
+
+                        //console.log("Saving Querys");
+                        var _NmSqlObject = $("#NmSqlObject" + i).val(); //.get(0);
+                        var _IdSqlComandType = $("#IdSqlComandType" + i).val();
+                        var _IdSqlItenType = $("#IdSqlItenType" + i).val();
+                        var _NmFile = $("#NmFile" + i).val();
+
+                        console.log("_NmSqlObject: " + _NmSqlObject + " / _IdSqlComandType: " + _IdSqlComandType + "/ _IdSqlItenType: " + _IdSqlItenType + "/ _NmFile" + _NmFile);
+
+                        if (_NmSqlObject == "") { mensage = "Nome Objeto, "; } //retirar .value se .val() se .get(0) usar.
+                        if (_IdSqlComandType == "") { mensage += "Item Sql, "; }
+                        if (_IdSqlItenType == "") { mensage += "Comando Sql, "; }
+                        if (_NmFile.value == "") { mensage += "Arquivo Sql, "; }
+
+                        if (mensage != "") {
+                            // console.log(mensage + i)
+                            return $('#ErrorSqlMensage').html('<b style="color:darkred">** ' + mensage + ' não pode(m) ser vazio(s)!!</b>');
+
+                        } else {
+                            Query = {
+                                IdQuery: 0,
+                                IsActive: true,
+                                NmSqlObject: _NmSqlObject,
+                                IdSqlItenType: parseInt(_IdSqlItenType),
+                                IdSqlComandType: parseInt(_IdSqlComandType),
+                                NmFile: _NmFile,
+                            }
+
+                            QuerysList.push(Query);
+                        }
+                    }
+
+                    var querys = JSON.stringify(QuerysList);
+                    //console.log(_restore);
+
+                    if (querys.length > 0) {
+                        $.ajax({
+                            url: "/Package/InsertAndReturnPartialQuerys",
+                            method: 'POST',
+                            data: querys,
+                            dataType: "json",
+                            cache: false,
+                            contentType: 'application/json; charset=utf-8',
+                            processData: false
+                        })
+                            .done(function (msg) {
+
+                                if (msg.status.includes("nok")) {
+                                    let results = "Ocorreram erros ao buscar os registros!";
+                                    if (msg.mesage != undefined && msg.mesage != '') { results = msg.mesage; }
+
+                                    toast("Atenção", results, "error");
+                                    console.log(msg.error);
+                                } else {
+                                    if (msg.partialView != undefined && msg.partialView != '') { $("#divGetQuerysList").html(msg.partialView); }
+                                }
+                            })
+
+                            .fail(function (jqXHR, textStatus, msg) {
+                                console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                            });
+
+                    }
+
+                }
+
+                function getQuerys() {
+                    // console.log("entrou");
+                    var fileUpload = $("#File").get(0);
+                    files = fileUpload.files;
+
+                    var data = new FormData();
+
+                    for (var i = 0; i < files.length; i++) {
+                        data.append("File", files[i]);
+                        data.append("Name", files[i].name);
+                    }
+                    //console.log("enviou");
+
+                    $.ajax({
+                        url: "/Package/UploadQuerys",
+                        method: 'post',
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    }).done(function (msg) {
                         if (msg.status.includes("nok")) {
                             let results = "Ocorreram erros ao buscar os registros!";
 
@@ -229,90 +315,119 @@
                             console.log(msg.error);
                         } else {
                             if (msg.partialView != undefined && msg.partialView != '') {
-                                $("#divGetProjectsByEps").html(msg.partialView);
-
-                                if (pIdProject != "" && pIdProject != undefined) {
-                                    $("#pIdProject").val(pIdProject);
-                                }
+                                $("#divGetQuerys").html(msg.partialView);
                             }
                         }
                     })
-                    .fail(function (jqXHR, textStatus, msg) {
-                        console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                    });
+                        .fail(function (jqXHR, textStatus, msg) {
+                            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                        });
 
-            }
+                }
 
-            function getSolutionsByProject(pIdProject) {
-                var pIdSolution;
-                $.ajax({
-                    async: true,
-                    "url": "/Package/GetSolutionsByProject",
-                    "type": "GET",
-                    data: { pIdProject: pIdProject },
-                })
-                    .done(function (msg) {
-                        if (msg.status.includes("nok")) {
-                            let results = "Ocorreram erros ao buscar os registros!";
 
-                            if (msg.mesage != undefined && msg.mesage != '') {
-                                results = msg.mesage;
-                            }
+                function getProjectsByEps(pIdEps) {
+                    var pIdProject;
+                    $.ajax({
+                        async: true,
+                        "url": "/Package/GetProjectsByEps",
+                        "type": "GET",
+                        data: { pIdEps: pIdEps },
+                    })
+                        .done(function (msg) {
+                            if (msg.status.includes("nok")) {
+                                let results = "Ocorreram erros ao buscar os registros!";
 
-                            toast("Atenção", results, "error");
-                            console.log(msg.error);
-                        } else {
-                            if (msg.partialView != undefined && msg.partialView != '') {
-                                $("#divGetSolutionsByProject").html(msg.partialView);
+                                if (msg.mesage != undefined && msg.mesage != '') {
+                                    results = msg.mesage;
+                                }
 
-                                if (pIdSolution != "" && pIdSolution != undefined) {
-                                    $("#pIdSolution").val(pIdSolution);
+                                toast("Atenção", results, "error");
+                                console.log(msg.error);
+                            } else {
+                                if (msg.partialView != undefined && msg.partialView != '') {
+                                    $("#divGetProjectsByEps").html(msg.partialView);
+
+                                    if (pIdProject != "" && pIdProject != undefined) {
+                                        $("#pIdProject").val(pIdProject);
+                                    }
                                 }
                             }
-                        }
+                        })
+                        .fail(function (jqXHR, textStatus, msg) {
+                            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                        });
+
+                }
+
+                function getSolutionsByProject(pIdProject) {
+                    var pIdSolution;
+                    $.ajax({
+                        async: true,
+                        "url": "/Package/GetSolutionsByProject",
+                        "type": "GET",
+                        data: { pIdProject: pIdProject },
                     })
-                    .fail(function (jqXHR, textStatus, msg) {
-                        console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                    });
-            }
+                        .done(function (msg) {
+                            if (msg.status.includes("nok")) {
+                                let results = "Ocorreram erros ao buscar os registros!";
 
-            function getDatabasesBySolution(pIdSolution) {
-                var pIdDtbase;
-                $.ajax({
-                    async: true,
-                    "url": "/Package/GetDatabasesBySolution",
-                    "type": "GET",
-                    data: { pIdSolution: pIdSolution },
-                })
-                    .done(function (msg) {
-                        if (msg.status.includes("nok")) {
-                            let results = "Ocorreram erros ao buscar os registros!";
+                                if (msg.mesage != undefined && msg.mesage != '') {
+                                    results = msg.mesage;
+                                }
 
-                            if (msg.mesage != undefined && msg.mesage != '') {
-                                results = msg.mesage;
-                            }
+                                toast("Atenção", results, "error");
+                                console.log(msg.error);
+                            } else {
+                                if (msg.partialView != undefined && msg.partialView != '') {
+                                    $("#divGetSolutionsByProject").html(msg.partialView);
 
-                            toast("Atenção", results, "error");
-                            console.log(msg.error);
-                        } else {
-                            if (msg.partialView != undefined && msg.partialView != '') {
-                                $("#divGetDatabasesBySolution").html(msg.partialView);
-
-                                if (pIdDtbase != "" && pIdDtbase != undefined) {
-                                    $("#pIdDtbase").val(pIdDtbase);
+                                    if (pIdSolution != "" && pIdSolution != undefined) {
+                                        $("#pIdSolution").val(pIdSolution);
+                                    }
                                 }
                             }
-                        }
+                        })
+                        .fail(function (jqXHR, textStatus, msg) {
+                            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                        });
+                }
+
+                function getDatabasesBySolution(pIdSolution) {
+                    var pIdDtbase;
+                    $.ajax({
+                        async: true,
+                        "url": "/Package/GetDatabasesBySolution",
+                        "type": "GET",
+                        data: { pIdSolution: pIdSolution },
                     })
-                    .fail(function (jqXHR, textStatus, msg) {
-                        console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                    });
-            }
+                        .done(function (msg) {
+                            if (msg.status.includes("nok")) {
+                                let results = "Ocorreram erros ao buscar os registros!";
 
+                                if (msg.mesage != undefined && msg.mesage != '') {
+                                    results = msg.mesage;
+                                }
 
+                                toast("Atenção", results, "error");
+                                console.log(msg.error);
+                            } else {
+                                if (msg.partialView != undefined && msg.partialView != '') {
+                                    $("#divGetDatabasesBySolution").html(msg.partialView);
 
-        </script>
+                                    if (pIdDtbase != "" && pIdDtbase != undefined) {
+                                        $("#pIdDtbase").val(pIdDtbase);
+                                    }
+                                }
+                            }
+                        })
+                        .fail(function (jqXHR, textStatus, msg) {
+                            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                        });
+                }
 
-    }
+            </script>
+
+        }
 
 

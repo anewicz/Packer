@@ -1,0 +1,50 @@
+﻿@model Packer_v2.Models.PackageViewModel
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Query.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Query.NmSqlObject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Query.IdSqlItenType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Query.IdSqlComandType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Query.NmFile)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Querys)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NmSqlObject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdSqlItenType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdSqlComandType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NmFile)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.IdQuery }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.IdQuery })
+            </td>
+        </tr>
+    }
+
+</table>

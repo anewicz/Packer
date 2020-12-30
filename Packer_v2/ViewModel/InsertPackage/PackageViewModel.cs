@@ -18,8 +18,15 @@ namespace Packer_v2.Models
 
         public int? IdSqlItenType { get; set; }
 
+        public int? IdQuery { get; set; }
+
+        public Query Query { get; set; }
+
+        public string NmSqlObject { get; set; }
 
         public UploadFileResult File { get; set; }
+
+        public List<Query> Querys { get; set; }
 
         //public List<ScriptType> ScriptType { get { return GetScriptTypes(); } }
         public List<Eps> EpsList { get; set; }
@@ -71,11 +78,13 @@ namespace Packer_v2.Models
     public class UploadFileResult
     {
         public IEnumerable<HttpPostedFileBase> File { get; set; }
+
     }
 
-    //public int IdFile { get; set; }
-    //public string Name { get; set; }
-    //public int Size { get; set; }
-    //public string Type { get; set; }
-    //public string Way { get; set; }
+    public class QueryResult
+    {
+        public IEnumerable<HttpPostedFileBase> QueryObject { get; set; }
+
+    }
+
 }
