@@ -1,6 +1,6 @@
 ﻿@model Packer_v2.Models.PackageViewModel
 
-@Html.DropDownListFor(model => model.IdSolution, Model.Solutions.OrderBy(o => o.TypeSolution.NmTypeSolution).ThenBy(o => o.NmSolution).Select(x => new SelectListItem
+@Html.DropDownListFor(model => model.Ticket.IdSolution, Model.Solutions.OrderBy(o => o.TypeSolution.NmTypeSolution).ThenBy(o => o.NmSolution).Select(x => new SelectListItem
 {
     Value = x.IdSolution.ToString(),
     Text = "[" + x.TypeSolution.NmTypeSolution + "] " + x.NmSolution

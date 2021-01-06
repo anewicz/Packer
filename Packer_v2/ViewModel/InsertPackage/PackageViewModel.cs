@@ -19,16 +19,18 @@ namespace Packer_v2.Models
         public int? IdSqlItenType { get; set; }
 
         public int? IdQuery { get; set; }
+        public Ticket Ticket { get; set; }
 
         public Query Query { get; set; }
 
         public string NmSqlObject { get; set; }
 
+        public List<Query> Querys { get; set; }
         public UploadFileResult File { get; set; }
 
-        public List<Query> Querys { get; set; }
-
         //public List<ScriptType> ScriptType { get { return GetScriptTypes(); } }
+
+        public List<Status> StatusList { get; set; }
         public List<Eps> EpsList { get; set; }
         public List<Project> Projects { get; set; }
         public List<Solution> Solutions { get; set; }

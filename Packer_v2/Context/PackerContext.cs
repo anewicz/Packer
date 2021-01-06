@@ -23,6 +23,7 @@ namespace Packer_v2.Context
         public virtual DbSet<Dtbase> Dtbase { get; set; }
         public virtual DbSet<DbIp> DbIp { get; set; }
         public virtual DbSet<DbSolution> DbSolution { get; set; }
+        public virtual DbSet<Query> Query { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,6 +32,5 @@ namespace Packer_v2.Context
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public System.Data.Entity.DbSet<Packer_v2.Models.Query> Queries { get; set; }
     }
 }

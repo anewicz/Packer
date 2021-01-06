@@ -32,13 +32,45 @@ namespace Packer_v2.Controllers
             vm.Solutions = new List<Solution>();
             vm.Dtbases = new List<Dtbase>();
             vm.Querys = new List<Query>();
+            vm.Ticket = new Ticket();
+            vm.Ticket.DtRegister = DateTime.Now;
+            vm.StatusList = db.Status.ToList();
 
-            var queryList = db.Queries.ToList();
+            var queryList = db.Query.ToList();
             vm.Querys = queryList;
 
             return vm;
         }
 
+        [HttpPost]
+        public JsonResult SaveTicket(Ticket ticket)
+        {
+            ticket.DtLastModification = DateTime.Now;
+            try
+            {
+                db.Ticket.Add(ticket);
+                db.SaveChanges();
+
+                //ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
+
+                //var queryList = db.Query.ToList();
+                //var vm = new PackageViewModel();
+                //vm.Querys = queryList;
+                //vm.Query = new Query();
+
+                //var partial = PartialView("_GetQuerysList", vm).RenderToString();
+                ViewBag.MsgSavePackage = $"<b style=\"color: green\">Salvou COnfere Lá!! ...</b>";
+
+                return Json(new { status = "ok"/*, partialView = partial*/ }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.MsgSavePackage = "Deu ruim!! Olhá só quirida ..." + ex.Message.ToString();
+                return Json(new { status = "Nok", erro = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #region AtualizarDropDownlists
         public JsonResult GetProjectsByEps(int pIdEps)
         {
             var projects = db.Project.Where(x => x.idEps == pIdEps).ToList();
@@ -48,30 +80,6 @@ namespace Packer_v2.Controllers
             var partial = PartialView("_GetProjectsByEpsDropDownList", vm).RenderToString();
 
             return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
-        }
-
-
-        [HttpPost]
-        public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
-        {
-
-            foreach (var query in querys)
-            {
-                db.Queries.Add(query);
-                db.SaveChanges();
-            }
-
-            ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
-
-            var queryList = db.Queries.ToList();
-            var vm = new PackageViewModel();
-            vm.Querys = queryList;
-            vm.Query = new Query();
-
-            var partial = PartialView("_GetQuerysList", vm).RenderToString();
-
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult GetSolutionsByProject(int pIdProject)
@@ -87,7 +95,7 @@ namespace Packer_v2.Controllers
 
         public JsonResult GetDatabasesBySolution(int pIdSolution)
         {
-            
+
             var IdsSolutions = db.DbSolution.Where(x => x.IdSolution == pIdSolution).ToList();
 
             var _Dtbases = new List<Dtbase>();
@@ -103,6 +111,31 @@ namespace Packer_v2.Controllers
             var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
 
             return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region ManipularBdQuerys
+        [HttpPost]
+        public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
+        {
+
+            foreach (var query in querys)
+            {
+                db.Query.Add(query);
+                db.SaveChanges();
+            }
+
+            ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
+
+            var queryList = db.Query.ToList();
+            var vm = new PackageViewModel();
+            vm.Querys = queryList;
+            vm.Query = new Query();
+
+            var partial = PartialView("_GetQuerysList", vm).RenderToString();
+
+            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]
@@ -147,11 +180,12 @@ namespace Packer_v2.Controllers
             var vm = new PackageViewModel();
             vm.Querys = TemporaryQuerys;
 
-            var partial = PartialView("_GetQuerys", vm).RenderToString();
+            var partial = PartialView("_ManageQuerys", vm).RenderToString();
 
             return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion ManipularBdQuerys
 
     }
 }

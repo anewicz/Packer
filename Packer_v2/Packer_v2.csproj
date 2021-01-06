@@ -458,12 +458,14 @@
     <Content Include="Views\Dtbase\Index.cshtml" />
     <Content Include="Views\Package\_UploadQuerys.cshtml" />
     <Content Include="Views\Package\_GetQuerysList.cshtml" />
-    <Content Include="Views\Package\_GetQuerys.cshtml" />
+    <Content Include="Views\Package\_ManageQuerys.cshtml" />
     <Content Include="Views\Query\Create.cshtml" />
     <Content Include="Views\Query\Delete.cshtml" />
     <Content Include="Views\Query\Details.cshtml" />
     <Content Include="Views\Query\Edit.cshtml" />
     <Content Include="Views\Query\Index.cshtml" />
+    <Content Include="Views\Account\Register - Cópia .cshtml" />
+    <Content Include="Views\Package\_Ticket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Models\Querys\" />

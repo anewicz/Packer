@@ -18,7 +18,7 @@ namespace Packer_v2.Controllers
         // GET: Query
         public ActionResult Index()
         {
-            return View(db.Queries.ToList());
+            return View(db.Query.ToList());
         }
 
 
@@ -31,7 +31,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Query query = db.Queries.Find(id);
+            Query query = db.Query.Find(id);
             if (query == null)
             {
                 return HttpNotFound();
@@ -54,7 +54,7 @@ namespace Packer_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Queries.Add(query);
+                db.Query.Add(query);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -69,7 +69,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Query query = db.Queries.Find(id);
+            Query query = db.Query.Find(id);
             if (query == null)
             {
                 return HttpNotFound();
@@ -100,7 +100,7 @@ namespace Packer_v2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Query query = db.Queries.Find(id);
+            Query query = db.Query.Find(id);
             if (query == null)
             {
                 return HttpNotFound();
@@ -113,8 +113,8 @@ namespace Packer_v2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Query query = db.Queries.Find(id);
-            db.Queries.Remove(query);
+            Query query = db.Query.Find(id);
+            db.Query.Remove(query);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -20,8 +20,12 @@ namespace Packer_v2.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        //public ApplicationDbContext()
+        //    : base("DefaultConnection", throwIfV1Schema: false)
+        //{
+        //}
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+   : base("PackerContext", throwIfV1Schema: false)
         {
         }
 

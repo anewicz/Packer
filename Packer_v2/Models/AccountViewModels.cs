@@ -79,6 +79,25 @@ namespace Packer_v2.Models
         [Display(Name = "Confirmar Senha")]
         [Compare("Password", ErrorMessage = "A senha e a senha de confirmação não correspondem.")]
         public string ConfirmPassword { get; set; }
+
+        //[Required]
+        //[StringLength(100, ErrorMessage = "O/A {0} deve ter no mínimo {2} caracteres.", MinimumLength = 6)]
+        ////[DataType(DataType.Password)]
+        //[Display(Name = "Nome")]
+        //public string Name { get; set; }
+
+        //[Required]
+        //[StringLength(100, ErrorMessage = "O/A {0} deve ter no mínimo {2} caracteres.", MinimumLength = 6)]
+        ////[DataType(DataType.Password)]
+        //[Display(Name = "Telefone da área")]
+        //public string SectorPhone { get; set; }
+
+        //[Required]
+        ////[StringLength(100, ErrorMessage = "O/A {0} deve ter no mínimo {2} caracteres.", MinimumLength = 6)]
+        ////[DataType(DataType.Password)]
+        //[Display(Name = "Area")]
+        //public string Sector { get; set; }
+
     }
 
     public class ResetPasswordViewModel
