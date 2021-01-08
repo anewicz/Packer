@@ -16,10 +16,16 @@ namespace Packer_v2.Models
         [Display(Name = "ID Query")]
         public Int64 IdQuery { get; set; }
 
-        //[ForeignKey("Ticket")]
-        //[Column("ID_TICKET")]
-        //[Display(Name = "Ticket")]
-        //public Int64 IdTicket { get; set; }
+        [ForeignKey("Ticket")]
+        [Column("ID_TICKET")]
+        [Display(Name = "Ticket")]
+        public Int64 IdTicket { get; set; }
+
+        [ForeignKey("Dtbase")]
+        [Column("ID_DTBASE")]
+        [Display(Name = "DataBase")]
+        public Int64 IdDtBase { get; set; }
+        
 
         [Column("IS_ACTIVE")]
         [Display(Name = "Ativo?")]
@@ -46,8 +52,9 @@ namespace Packer_v2.Models
         [Display(Name = "Arquivo")]
         public string NmFile { get; set; }
 
-        ////propriedades de navegação
-        //public virtual Ticket Ticket { get; set; }
+        //propriedades de navegação
+        public virtual Ticket Ticket { get; set; }
+        public virtual Dtbase Dtbase { get; set; }
     }
 
 }

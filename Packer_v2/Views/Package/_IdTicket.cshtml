@@ -1,0 +1,7 @@
+﻿@model Packer_v2.Models.PackageViewModel
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(model => model.Ticket.DtRegister)
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(model => model.Ticket.IdTicket)

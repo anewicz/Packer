@@ -6,6 +6,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Query.IsActive)
         </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Query.NmSqlObject)
         </th>
@@ -27,21 +28,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.NmSqlObject)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.IdSqlItenType)
+                @Model.GetSqlItenTypes().Where(x => x.IdSqlItenType == item.IdSqlItenType).Select(x => x.NmSqlItenType).FirstOrDefault()
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdSqlComandType)
+                @Model.GetSqlComandTypes().Where(x => x.IdSqlComandType == item.IdSqlComandType).Select(x => x.NmSqlComandType).FirstOrDefault()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NmFile)
             </td>
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.IdQuery }) |
-                @Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
+                    @Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
                 @Html.ActionLink("Delete", "Delete", new { id = item.IdQuery })
             </td>
         </tr>

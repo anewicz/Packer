@@ -9,12 +9,16 @@
         </th>
 
         <th>
+            <label>Databases</label>
+        </th>
+
+        <th>
             @Html.LabelFor(model => model.Query.IdSqlItenType, htmlAttributes: new { @class = "control-label col-md-2" })
         </th>
         <th>
             @Html.LabelFor(model => model.Query.IdSqlComandType, htmlAttributes: new { @class = "control-label col-md-2" })
         </th>
-        
+
         <th>
             @Html.LabelFor(model => model.Query.NmFile, htmlAttributes: new { @class = "control-label col-md-2" })
         </th>
@@ -23,38 +27,47 @@
 
     @foreach (var item in Model.Querys)
     {
-<tr>
-    <td>
-        @*@Html.ActionLink("Edit", "Edit", new { id = item.IdQuery }) |*@
-        @*@Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
-        @Html.ActionLink("Delete", "Delete", new { id = item.IdQuery })
-    </td>
-    <td>
-        
-        @Html.EditorFor(model => model.NmSqlObject, new { htmlAttributes = new { @class = "form-control", @Id = "NmSqlObject" + item.IdQuery } })
-        @Html.ValidationMessageFor(model => model.NmSqlObject, "", new { @class = "text-danger" })
-    </td>
-    <td>
-        @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
-   {
-       Value = x.IdSqlComandType.ToString(),
-       Text = x.NmSqlComandType
-   }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdSqlComandType" + item.IdQuery })
-    </td>
+        <tr>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.IdQuery }) |*@
+                @*@Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.IdQuery })
+            </td>
+            <td>
 
-    <td>
-        @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
-                                {
-                                    Value = x.IdSqlItenType.ToString(),
-                                    Text = x.NmSqlItenType
-                                }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdSqlItenType" + item.IdQuery })
-    </td>
+                @Html.EditorFor(model => model.NmSqlObject, new { htmlAttributes = new { @class = "form-control", @Id = "NmSqlObject" + item.IdQuery } })
+                @Html.ValidationMessageFor(model => model.NmSqlObject, "", new { @class = "text-danger" })
+            </td>
 
-    <td>
-        @Html.EditorFor(modelItem => item.NmFile, new { htmlAttributes = new { @class = "form-control", @Id = "NmFile" + item.IdQuery, disabled = "disabled" } })
-        @Html.ValidationMessageFor(modelItem => item.NmFile, "", new { @class = "text-danger" })
-    </td>
-</tr>
+            <td>
+                @Html.DropDownListFor(model => model.IdDtbase, Model.GetDatabasesBySolution_v2(Model.IdSolution.GetValueOrDefault(0)).OrderBy(o => o.FullNmDatabase).Select(x => new SelectListItem
+           {
+               Value = x.IdDtbase.ToString(),
+               Text = x.FullNmDatabase
+           }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdSqlComandType" + item.IdQuery })
+            </td>
+
+            <td>
+                @Html.DropDownListFor(model => model.IdSqlComandType, Model.GetSqlComandTypes().OrderBy(o => o.NmSqlComandType).Select(x => new SelectListItem
+           {
+               Value = x.IdSqlComandType.ToString(),
+               Text = x.NmSqlComandType
+           }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdSqlComandType" + item.IdQuery })
+            </td>
+
+            <td>
+                @Html.DropDownListFor(model => model.IdSqlItenType, Model.GetSqlItenTypes().OrderBy(o => o.NmSqlItenType).Select(x => new SelectListItem
+                                        {
+                                            Value = x.IdSqlItenType.ToString(),
+                                            Text = x.NmSqlItenType
+                                        }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdSqlItenType" + item.IdQuery })
+            </td>
+
+            <td>
+                @Html.EditorFor(modelItem => item.NmFile, new { htmlAttributes = new { @class = "form-control", @Id = "NmFile" + item.IdQuery, disabled = "disabled" } })
+                @Html.ValidationMessageFor(modelItem => item.NmFile, "", new { @class = "text-danger" })
+            </td>
+        </tr>
     }
 
 </table>

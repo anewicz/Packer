@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Packer_v2.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Web;
 
 namespace Packer_v2.Models
@@ -56,10 +58,40 @@ namespace Packer_v2.Models
             _List.Add(new SqlItenType() { IdSqlItenType = 1, NmSqlItenType = "Table" });
             _List.Add(new SqlItenType() { IdSqlItenType = 2, NmSqlItenType = "View" });
             _List.Add(new SqlItenType() { IdSqlItenType = 3, NmSqlItenType = "Procedure" });
-            _List.Add(new SqlItenType() { IdSqlItenType = 4, NmSqlItenType = "Column" });
+            _List.Add(new SqlItenType() { IdSqlItenType = 4, NmSqlItenType = "Index" });
 
             return _List;
         }
+
+        //public List<Dtbase> GetDtbases()
+        //{
+        //    PackerContext db = new PackerContext();
+        //    List<Dtbase> _List = db.Dtbase.ToList();
+        //    return _List;
+        //}
+
+        public List<Dtbase> GetDatabasesBySolution_v2(int pIdSolution)
+        {
+            PackerContext db = new PackerContext();
+            var IdsSolutions = db.DbSolution.Where(x => x.IdSolution == pIdSolution).ToList();
+
+            var _Dtbases = new List<Dtbase>();
+            foreach (var s in IdsSolutions)
+            {
+                var inserir = db.Dtbase.Where(x => x.IdDtbase == s.IdDtbase).FirstOrDefault();
+                _Dtbases.Add(inserir);
+            }
+
+            Dtbases = _Dtbases;
+            //var vm = new PackageViewModel();
+            //vm.Dtbases = _Dtbases;
+
+            //var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
+
+            //return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+            return _Dtbases;
+        }
+
 
     }
 
@@ -80,7 +112,6 @@ namespace Packer_v2.Models
     public class UploadFileResult
     {
         public IEnumerable<HttpPostedFileBase> File { get; set; }
-
     }
 
     public class QueryResult

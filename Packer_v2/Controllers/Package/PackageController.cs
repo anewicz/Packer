@@ -16,6 +16,7 @@ namespace Packer_v2.Controllers
     {
         private PackerContext db = new PackerContext();
 
+        #region HomeView
 
         // GET: Eps
         public ActionResult Index()
@@ -41,80 +42,9 @@ namespace Packer_v2.Controllers
 
             return vm;
         }
-
-        [HttpPost]
-        public JsonResult SaveTicket(Ticket ticket)
-        {
-            ticket.DtLastModification = DateTime.Now;
-            try
-            {
-                db.Ticket.Add(ticket);
-                db.SaveChanges();
-
-                //ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
-
-                //var queryList = db.Query.ToList();
-                //var vm = new PackageViewModel();
-                //vm.Querys = queryList;
-                //vm.Query = new Query();
-
-                //var partial = PartialView("_GetQuerysList", vm).RenderToString();
-                ViewBag.MsgSavePackage = $"<b style=\"color: green\">Salvou COnfere Lá!! ...</b>";
-
-                return Json(new { status = "ok"/*, partialView = partial*/ }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.MsgSavePackage = "Deu ruim!! Olhá só quirida ..." + ex.Message.ToString();
-                return Json(new { status = "Nok", erro = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        #region AtualizarDropDownlists
-        public JsonResult GetProjectsByEps(int pIdEps)
-        {
-            var projects = db.Project.Where(x => x.idEps == pIdEps).ToList();
-            var vm = new PackageViewModel();
-            vm.Projects = projects;
-
-            var partial = PartialView("_GetProjectsByEpsDropDownList", vm).RenderToString();
-
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetSolutionsByProject(int pIdProject)
-        {
-            var solutions = db.Solution.Where(x => x.IdProject == pIdProject).ToList();
-            var vm = new PackageViewModel();
-            vm.Solutions = solutions;
-
-            var partial = PartialView("_GetSolutionsByProjectDropDownList", vm).RenderToString();
-
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetDatabasesBySolution(int pIdSolution)
-        {
-
-            var IdsSolutions = db.DbSolution.Where(x => x.IdSolution == pIdSolution).ToList();
-
-            var _Dtbases = new List<Dtbase>();
-            foreach (var s in IdsSolutions)
-            {
-                var inserir = db.Dtbase.Where(x => x.IdDtbase == s.IdDtbase).FirstOrDefault();
-                _Dtbases.Add(inserir);
-            }
-
-            var vm = new PackageViewModel();
-            vm.Dtbases = _Dtbases;
-
-            var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
-
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
-        }
         #endregion
 
-        #region ManipularBdQuerys
+        #region QuerysParcialView
         [HttpPost]
         public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
         {
@@ -138,25 +68,125 @@ namespace Packer_v2.Controllers
 
         }
 
+        #endregion CarregarParcialQuerys
+
+        #region SaveTicketInsertBD
+
         [HttpPost]
-        public JsonResult UploadQuerys(UploadFileResult _pFiles)
+        public JsonResult SaveTicket(Ticket ticket)
+        {
+            ticket.DtLastModification = DateTime.Now;
+
+            try
+            {
+                if (ticket.IdTicket == 0 || ticket.IdTicket == null)
+                {
+                    ticket.DtRegister = DateTime.Now;
+                    db.Ticket.Add(ticket);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Entry(ticket).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                var vm = new PackageViewModel();
+                vm.Ticket = ticket;
+
+                var partial = PartialView("_IdTicket", vm).RenderToString();
+
+                return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.MsgSavePackage = "Deu ruim!! Olhá só quirida ..." + ex.Message.ToString();
+                return Json(new { status = "Nok", erro = "Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+
+        #region ProjetcsDpDwnLists
+        public JsonResult GetProjectsByEps(int pIdEps)
+        {
+            var projects = db.Project.Where(x => x.idEps == pIdEps).ToList();
+            var vm = new PackageViewModel();
+            vm.Projects = projects;
+
+            var partial = PartialView("_GetProjectsByEpsDropDownList", vm).RenderToString();
+
+            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion 
+
+        #region SolutionsDpDwnLists
+        public JsonResult GetSolutionsByProject(int pIdProject)
+        {
+            var solutions = db.Solution.Where(x => x.IdProject == pIdProject).ToList();
+            var vm = new PackageViewModel();
+            vm.Solutions = solutions;
+
+            var partial = PartialView("_GetSolutionsByProjectDropDownList", vm).RenderToString();
+
+            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion 
+
+        #region DataBasesDpDwnLists
+        public JsonResult GetDatabasesBySolution(int pIdSolution)
+        {
+
+            var IdsSolutions = db.DbSolution.Where(x => x.IdSolution == pIdSolution).ToList();
+
+            var _Dtbases = new List<Dtbase>();
+            foreach (var s in IdsSolutions)
+            {
+                var inserir = db.Dtbase.Where(x => x.IdDtbase == s.IdDtbase).FirstOrDefault();
+                _Dtbases.Add(inserir);
+            }
+
+            var vm = new PackageViewModel();
+            vm.Dtbases = _Dtbases;
+
+            var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
+
+            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion 
+
+
+        #region CopiarQuerysPasta
+        [HttpPost]
+        public JsonResult UploadQuerys(UploadFileResult _pFiles, int id)
         {
 
             List<Query> TemporaryQuerys = new List<Query>();
+
+            int _IdSolution = id;
+
             try
             {
                 string fileName = "";
                 string sendingFiles = "";
+
 
                 var count = 0;
                 foreach (var file in _pFiles.File)
                 {
                     if (file.ContentLength > 0)
                     {
+
                         var Query = new Query();
 
+                        var dirPath = Server.MapPath("~/App_Data/Packages/Querys");
+                        string pathQuerysSave = verifyIfCreateDirectory(dirPath, id);
+
                         fileName = Path.GetFileName(file.FileName);
-                        var way = Path.Combine(Server.MapPath("~/App_Data/Packages/Querys"), fileName);
+                        var way = pathQuerysSave + fileName;//Path.Combine(Server.MapPath("~/App_Data/Packages/Querys"), fileName);
                         file.SaveAs(way);
                         count++;
 
@@ -169,23 +199,37 @@ namespace Packer_v2.Controllers
 
                     sendingFiles = sendingFiles + " , " + fileName;
                 }
-                ViewBag.Mensagem = "Arquivos enviados  : " + sendingFiles + " , com sucesso.";
+                ViewBag.Mensage = "Arquivos enviados  : " + sendingFiles + " , com sucesso.";
             }
             catch (Exception ex)
             {
-                ViewBag.Mensagem = "Erro : " + ex.Message;
+                ViewBag.Mensage = "Erro : " + ex.Message;
             }
 
 
             var vm = new PackageViewModel();
             vm.Querys = TemporaryQuerys;
+            vm.IdSolution = _IdSolution;
 
             var partial = PartialView("_ManageQuerys", vm).RenderToString();
 
             return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion ManipularBdQuerys
+        #endregion CopiarQuerysPasta
 
+        #region UrlSalvarQuerys
+
+        public string verifyIfCreateDirectory(string nomeDiretorio, int idTicket)
+        {
+            nomeDiretorio += "\\Ticket_" + idTicket.ToString() + "\\";
+
+            if (!Directory.Exists(nomeDiretorio))
+                Directory.CreateDirectory(nomeDiretorio);
+
+            return nomeDiretorio;
+        }
+
+        #endregion
     }
 }

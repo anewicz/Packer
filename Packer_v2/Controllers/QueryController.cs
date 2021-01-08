@@ -22,8 +22,6 @@ namespace Packer_v2.Controllers
         }
 
 
-
-
         // GET: Query/Details/5
         public ActionResult Details(long? id)
         {

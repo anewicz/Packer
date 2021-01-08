@@ -466,6 +466,7 @@
     <Content Include="Views\Query\Index.cshtml" />
     <Content Include="Views\Account\Register - Cópia .cshtml" />
     <Content Include="Views\Package\_Ticket.cshtml" />
+    <Content Include="Views\Package\_IdTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Models\Querys\" />
