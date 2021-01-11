@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Packer_v2.Models.Ticket>
+
+@{
+    ViewBag.Title = "Insert Package";
+}
+
+<h2>Editar Pacote</h2>
+
+<div class="panel-body">
+    <p>
+        @Html.ActionLink(" Criar Novo Pacote", "CreateOrEdit")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTicket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status.NmStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NmTicket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Solution.Project.NmProject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DtRegister)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DtLastModification)
+            </th>
+
+
+
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTicket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status.NmStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NmTicket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Solution.Project.NmProject)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.DtRegister)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtLastModification)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "CreateOrEdit", new { idTicket = item.IdTicket }) |
+            @*@Html.ActionLink("Details", "Details", new { idTicket = item.IdTicket }) |
+        @Html.ActionLink("Delete", "Delete", new { idTicket = item.IdTicket })*@
+        </td>
+    </tr>
+        }
+
+    </table>
+
+</div>
+
+

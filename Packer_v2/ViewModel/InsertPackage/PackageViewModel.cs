@@ -12,15 +12,15 @@ namespace Packer_v2.Models
     {
 
         public int IdEps { get; set; }
-        public int? IdProject { get; set; }
-        public int? IdSolution { get; set; }
-        public int? IdDtbase { get; set; }
+        public Int64? IdProject { get; set; }
+        public Int64? IdSolution { get; set; }
+        public Int64? IdDtbase { get; set; }
         public bool HasSqlScripts { get; set; }
-        public int? IdSqlComandType { get; set; }
+        public Int64? IdSqlComandType { get; set; }
 
-        public int? IdSqlItenType { get; set; }
+        public Int64? IdSqlItenType { get; set; }
 
-        public int? IdQuery { get; set; }
+        public Int64? IdQuery { get; set; }
         public Ticket Ticket { get; set; }
 
         public Query Query { get; set; }
@@ -30,14 +30,16 @@ namespace Packer_v2.Models
         public List<Query> Querys { get; set; }
         public UploadFileResult File { get; set; }
 
-        //public List<ScriptType> ScriptType { get { return GetScriptTypes(); } }
-
+        
         public List<Status> StatusList { get; set; }
         public List<Eps> EpsList { get; set; }
         public List<Project> Projects { get; set; }
         public List<Solution> Solutions { get; set; }
         public List<Dtbase> Dtbases { get; set; }
 
+        public List<Ticket> Tickets { get; set; }
+
+        private PackerContext db = new PackerContext();
 
         public List<SqlComandType> GetSqlComandTypes()
         {
@@ -63,32 +65,24 @@ namespace Packer_v2.Models
             return _List;
         }
 
-        //public List<Dtbase> GetDtbases()
-        //{
-        //    PackerContext db = new PackerContext();
-        //    List<Dtbase> _List = db.Dtbase.ToList();
-        //    return _List;
-        //}
-
-        public List<Dtbase> GetDatabasesBySolution_v2(int pIdSolution)
+        public Dtbase GetDtbase(Int64 pIdDtBase)
         {
-            PackerContext db = new PackerContext();
+            var _Dtbases = db.Dtbase.Where(x => x.IdDtbase == pIdDtBase).FirstOrDefault();
+            return _Dtbases;
+        }
+
+        public List<Dtbase> GetDatabasesBySolution(Int64 pIdSolution)
+        {
             var IdsSolutions = db.DbSolution.Where(x => x.IdSolution == pIdSolution).ToList();
 
             var _Dtbases = new List<Dtbase>();
             foreach (var s in IdsSolutions)
             {
-                var inserir = db.Dtbase.Where(x => x.IdDtbase == s.IdDtbase).FirstOrDefault();
+                var inserir = GetDtbase(s.IdDtbase);
                 _Dtbases.Add(inserir);
             }
 
             Dtbases = _Dtbases;
-            //var vm = new PackageViewModel();
-            //vm.Dtbases = _Dtbases;
-
-            //var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
-
-            //return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
             return _Dtbases;
         }
 

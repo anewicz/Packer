@@ -58,7 +58,7 @@ namespace Packer_v2.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps", project.idEps);
+            ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps", project.IdEps);
             return View(project);
         }
 
@@ -74,7 +74,7 @@ namespace Packer_v2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps", project.idEps);
+            ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps", project.IdEps);
             return View(project);
         }
 
@@ -91,7 +91,7 @@ namespace Packer_v2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps", project.idEps);
+            ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps", project.IdEps);
             return View(project);
         }
 

@@ -40,11 +40,11 @@
             </td>
 
             <td>
-                @Html.DropDownListFor(model => model.IdDtbase, Model.GetDatabasesBySolution_v2(Model.IdSolution.GetValueOrDefault(0)).OrderBy(o => o.FullNmDatabase).Select(x => new SelectListItem
+                @Html.DropDownListFor(model => model.IdDtbase, Model.GetDatabasesBySolution(Model.IdSolution.GetValueOrDefault(0)).OrderBy(o => o.FullNmDatabase).Select(x => new SelectListItem
            {
                Value = x.IdDtbase.ToString(),
                Text = x.FullNmDatabase
-           }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdSqlComandType" + item.IdQuery })
+           }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdDtbase" + item.IdQuery })
             </td>
 
             <td>

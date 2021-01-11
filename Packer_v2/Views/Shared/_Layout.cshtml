@@ -25,12 +25,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Add Pacote", "Index", "Package")</li>
+                    @*<li>@Html.ActionLink("Novo Pacote", "Create", "Package")</li>*@
+                    <li>@Html.ActionLink("Pacotes", "PackageList", "Package")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             @*<li>@Html.ActionLink("Sobre", "About", "Home")</li>
-        <li>@Html.ActionLink("Contato", "Contact", "Home")</li>*@
+                <li>@Html.ActionLink("Contato", "Contact", "Home")</li>*@
                             <li>@Html.ActionLink("Eps", "Index", "Eps")</li>
                             <li>@Html.ActionLink("Projetos", "Index", "Project")</li>
                             <li>@Html.ActionLink("Tipo de Solução", "Index", "TypeSolution")</li>
@@ -43,8 +44,8 @@
                             <li>@Html.ActionLink("Status", "Index", "Status")</li>
                             <li>@Html.ActionLink("Caminhos", "Index", "DefaultWayType")</li>
                             <li>@Html.ActionLink("Pastas", "Index", "folder")</li>
-                            <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
-                            <li>@Html.ActionLink("Querys", "Index", "Query")</li>
+                            @*<li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                <li>@Html.ActionLink("Querys", "Index", "Query")</li>*@
                         </ul>
                     </li>
                 </ul>

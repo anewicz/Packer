@@ -422,7 +422,7 @@
     <Content Include="Views\Eps\Edit.cshtml" />
     <Content Include="Views\Eps\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Package\Index.cshtml" />
+    <Content Include="Views\Package\CreateOrEdit.cshtml" />
     <Content Include="Views\Package\_GetProjectsByEpsDropDownList.cshtml" />
     <Content Include="Views\Package\_GetSolutionsByProjectDropDownList.cshtml" />
     <Content Include="Views\DefaultWayType\Create.cshtml" />
@@ -467,6 +467,7 @@
     <Content Include="Views\Account\Register - Cópia .cshtml" />
     <Content Include="Views\Package\_Ticket.cshtml" />
     <Content Include="Views\Package\_IdTicket.cshtml" />
+    <Content Include="Views\Package\PackageList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Models\Querys\" />

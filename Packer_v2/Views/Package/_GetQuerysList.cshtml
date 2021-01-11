@@ -6,7 +6,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Query.IsActive)
         </th>
-
+        <th>
+            <label>Database</label>
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Query.NmSqlObject)
         </th>
@@ -22,33 +24,48 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Querys)
+    @foreach (var item in Model.Querys.Where(x => x.IdTicket == Model.Ticket.IdTicket))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsActive)
+    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.NmSqlObject)
-            </td>
+    @*<td>
+             @Html.DropDownListFor(model => model.IdDtbase, Model.GetDatabasesBySolution(Model.IdSolution.GetValueOrDefault(0)).OrderBy(o => o.FullNmDatabase).Select(x => new SelectListItem
+        {
+            Value = x.IdDtbase.ToString(),
+            Text = x.FullNmDatabase
+        }), "Selecione", new { @class = "form-control", @required = "required", @value = "0", @Id = "IdDtbase" + item.IdQuery })
+         </td>*@
+<td>
 
-            <td>
-                @Model.GetSqlItenTypes().Where(x => x.IdSqlItenType == item.IdSqlItenType).Select(x => x.NmSqlItenType).FirstOrDefault()
+    @*@Model.GetDtbase(item.IdDtBase)*@
 
-            </td>
-            <td>
-                @Model.GetSqlComandTypes().Where(x => x.IdSqlComandType == item.IdSqlComandType).Select(x => x.NmSqlComandType).FirstOrDefault()
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NmFile)
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.IdQuery }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.IdQuery })
-            </td>
-        </tr>
+    @Model.GetDtbase(item.IdDtBase).FullNmDatabase
+    @*@Html.DisplayFor(modelItem => item.IdDtBase)*@
+</td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.NmSqlObject)
+    </td>
+
+    <td>
+        @Model.GetSqlItenTypes().Where(x => x.IdSqlItenType == item.IdSqlItenType).Select(x => x.NmSqlItenType).FirstOrDefault()
+
+    </td>
+    <td>
+        @Model.GetSqlComandTypes().Where(x => x.IdSqlComandType == item.IdSqlComandType).Select(x => x.NmSqlComandType).FirstOrDefault()
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NmFile)
+    </td>
+    <td>
+        @*@Html.ActionLink("Edit", "Edit", new { id = item.IdQuery }) |
+            @Html.ActionLink("Details", "Details", new { id = item.IdQuery }) |*@
+        @Html.ActionLink("Delete", "Delete", new { id = item.IdQuery })
+    </td>
+</tr>
     }
 
 </table>

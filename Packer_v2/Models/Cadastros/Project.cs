@@ -30,7 +30,7 @@ namespace Packer_v2.Models
         [ForeignKey("Eps")]
         [Column("ID_EPS")]
         [Display(Name = "EPS")]
-        public Int64 idEps { get; set; }
+        public Int64 IdEps { get; set; }
 
 
         [StringLength(255, MinimumLength = 2, ErrorMessage = "Caminho do TTC")]

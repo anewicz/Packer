@@ -16,16 +16,33 @@ namespace Packer_v2.Controllers
     {
         private PackerContext db = new PackerContext();
 
-        #region HomeView
-
-        // GET: Eps
-        public ActionResult Index()
+        #region PackageIndex
+        public ActionResult PackageList()
         {
-            var vm = this.GetPackage();
-            return View("Index", vm);
+            var ticket = db.Ticket.Include(t => t.Solution).Include(t => t.Status).OrderByDescending(x => x.IdTicket);
+            return View(ticket.ToList());
         }
+        #endregion 
 
-        private PackageViewModel GetPackage()
+        #region CreateOrEditView
+
+        // GET: Package
+        public ActionResult CreateOrEdit(long? idTicket)
+        {
+            var vm = new PackageViewModel();
+
+            if (idTicket > 0)
+                vm = this.Edit(idTicket);
+            else
+                vm = this.Create();
+
+
+            return View("CreateOrEdit", vm);
+        }
+        #endregion 
+
+        #region CreateParcialView
+        private PackageViewModel Create()
         {
             var vm = new PackageViewModel();
             vm.EpsList = db.Eps.ToList();
@@ -40,35 +57,44 @@ namespace Packer_v2.Controllers
             var queryList = db.Query.ToList();
             vm.Querys = queryList;
 
+            ViewBag.HasQuerysTicket = 1;
+
             return vm;
         }
         #endregion
 
-        #region QuerysParcialView
-        [HttpPost]
-        public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
+        #region  EditParcialView
+
+        private PackageViewModel Edit(long? idTicket)
         {
+            var vm = new PackageViewModel();
+            vm.Ticket = db.Ticket.Where(x => x.IdTicket == idTicket).FirstOrDefault();
+            vm.EpsList = db.Eps.ToList();
+            vm.StatusList = db.Status.ToList();
+            vm.Dtbases = new List<Dtbase>();
 
-            foreach (var query in querys)
-            {
-                db.Query.Add(query);
-                db.SaveChanges();
-            }
+            Int64 idSolutionSel = db.Solution.Where(x => x.IdSolution == vm.Ticket.IdSolution).Select(x => x.IdSolution).FirstOrDefault();
+            Int64 idProjectSel = db.Project.Where(x => x.IdProject == idSolutionSel).Select(x => x.IdProject).FirstOrDefault();
+            Int64 idEpsSel = db.Eps.Where(x => x.IdEps == idProjectSel).Select(x => x.IdEps).FirstOrDefault();
 
-            ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
+            vm.Projects = db.Project.Where(x => x.IdEps == idEpsSel).ToList();
+            vm.Solutions = db.Solution.Where(x => x.IdSolution == idSolutionSel).ToList();
+            vm.Querys = db.Query.Where(x => x.IdTicket == vm.Ticket.IdTicket).ToList();
 
             var queryList = db.Query.ToList();
-            var vm = new PackageViewModel();
             vm.Querys = queryList;
-            vm.Query = new Query();
 
-            var partial = PartialView("_GetQuerysList", vm).RenderToString();
+            var querysCount = db.Query.Where(x => x.IdTicket == vm.Ticket.IdTicket).Count();
 
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+            ViewBag.SolutionSelect = idSolutionSel > 0 ? idSolutionSel : 0;
+            ViewBag.ProjectSelect = idProjectSel > 0 ? idProjectSel : 0;
+            ViewBag.EpsSelect = idEpsSel > 0 ? idEpsSel : 0;
+            ViewBag.HasQuerysTicket = querysCount > 0 ? 1 : 0;
 
+            return vm;
         }
 
-        #endregion CarregarParcialQuerys
+        #endregion
 
         #region SaveTicketInsertBD
 
@@ -96,13 +122,13 @@ namespace Packer_v2.Controllers
 
                 var partial = PartialView("_IdTicket", vm).RenderToString();
 
-                return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+                return Json(new { status = "OK", description = "Ticket Salvo com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
                 ViewBag.MsgSavePackage = "Deu ruim!! Olhá só quirida ..." + ex.Message.ToString();
-                return Json(new { status = "Nok", erro = "Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
+                return Json(new { status = "NOK", description = "Erro ao Salvar - Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -111,13 +137,13 @@ namespace Packer_v2.Controllers
         #region ProjetcsDpDwnLists
         public JsonResult GetProjectsByEps(int pIdEps)
         {
-            var projects = db.Project.Where(x => x.idEps == pIdEps).ToList();
+            var projects = db.Project.Where(x => x.IdEps == pIdEps).ToList();
             var vm = new PackageViewModel();
             vm.Projects = projects;
 
             var partial = PartialView("_GetProjectsByEpsDropDownList", vm).RenderToString();
 
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+            return Json(new { status = "OK", description = "Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
         #endregion 
 
@@ -130,7 +156,7 @@ namespace Packer_v2.Controllers
 
             var partial = PartialView("_GetSolutionsByProjectDropDownList", vm).RenderToString();
 
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+            return Json(new { status = "OK", description = "Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion 
@@ -153,37 +179,60 @@ namespace Packer_v2.Controllers
 
             var partial = PartialView("_GetDatabasesBySolutionDropDownList", vm).RenderToString();
 
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+            return Json(new { status = "OK", description = "Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion 
 
 
+        #region QuerysParcialView
+        [HttpPost]
+        public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
+        {
+            Int64 IdTicket = 0;
+
+            foreach (var query in querys)
+            {
+                db.Query.Add(query);
+                db.SaveChanges();
+                IdTicket = query.IdTicket;
+            }
+
+            ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
+
+            var vm = new PackageViewModel();
+            vm.Ticket = db.Ticket.Where(x => x.IdTicket == IdTicket).FirstOrDefault();
+            vm.Querys = db.Query.Where(x => x.IdTicket == IdTicket).ToList();
+            vm.Query = new Query();
+
+            var partial = PartialView("_GetQuerysList", vm).RenderToString();
+
+            return Json(new { status = "OK", description = "Querys Adicionadas com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        #endregion CarregarParcialQuerys
+
         #region CopiarQuerysPasta
         [HttpPost]
-        public JsonResult UploadQuerys(UploadFileResult _pFiles, int id)
+        public JsonResult UploadQuerys(UploadFileResult _pFiles, string idTicket)
         {
-
             List<Query> TemporaryQuerys = new List<Query>();
-
-            int _IdSolution = id;
 
             try
             {
                 string fileName = "";
                 string sendingFiles = "";
 
-
                 var count = 0;
                 foreach (var file in _pFiles.File)
                 {
                     if (file.ContentLength > 0)
                     {
-
                         var Query = new Query();
 
                         var dirPath = Server.MapPath("~/App_Data/Packages/Querys");
-                        string pathQuerysSave = verifyIfCreateDirectory(dirPath, id);
+                        string pathQuerysSave = verifyIfCreateDirectory(dirPath, idTicket);
 
                         fileName = Path.GetFileName(file.FileName);
                         var way = pathQuerysSave + fileName;//Path.Combine(Server.MapPath("~/App_Data/Packages/Querys"), fileName);
@@ -204,7 +253,11 @@ namespace Packer_v2.Controllers
             catch (Exception ex)
             {
                 ViewBag.Mensage = "Erro : " + ex.Message;
+                return Json(new { status = "NOK", description = "Erro ao Salvar - Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
             }
+
+            Int64 _IdTicket = Int64.Parse(idTicket);
+            Int64 _IdSolution = db.Ticket.Where(x => x.IdTicket == _IdTicket).Select(x => x.IdSolution).FirstOrDefault();
 
 
             var vm = new PackageViewModel();
@@ -213,16 +266,16 @@ namespace Packer_v2.Controllers
 
             var partial = PartialView("_ManageQuerys", vm).RenderToString();
 
-            return Json(new { status = "ok", partialView = partial }, JsonRequestBehavior.AllowGet);
+            return Json(new { status = "OK", description = "Arquivos Adicionados com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion CopiarQuerysPasta
 
         #region UrlSalvarQuerys
 
-        public string verifyIfCreateDirectory(string nomeDiretorio, int idTicket)
+        public string verifyIfCreateDirectory(string nomeDiretorio, string idTicket)
         {
-            nomeDiretorio += "\\Ticket_" + idTicket.ToString() + "\\";
+            nomeDiretorio += "\\Ticket_" + idTicket + "\\";
 
             if (!Directory.Exists(nomeDiretorio))
                 Directory.CreateDirectory(nomeDiretorio);
@@ -231,5 +284,16 @@ namespace Packer_v2.Controllers
         }
 
         #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }
+
