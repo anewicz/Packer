@@ -9,6 +9,7 @@
 <div class="panel-body">
 
     <div class="col-md-12">
+
         <div class="row">
             <div class="col-md-3">
                 <label>* EPS</label>
@@ -43,13 +44,13 @@
                 <div class="col-md-3">
                     <label>Ticket</label>
                 </div>
+
                 <div class="col-md-5">
-
-
                 </div>
-            </div>
-            <div class="row">
 
+            </div>
+
+            <div class="row">
                 <div id="divIdTicket" style="display: none;">
                     @Html.Partial("_IdTicket")
                 </div>
@@ -69,9 +70,18 @@
                 </div>
 
                 <div class="col-md-3">
-                    @Html.LabelFor(model => model.Ticket.TicketLink, htmlAttributes: new { @class = "" })
-                    @Html.EditorFor(model => model.Ticket.TicketLink, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Ticket.TicketLink, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.Ticket.DeRuntime, htmlAttributes: new { @class = "" })
+                    @Html.EditorFor(model => model.Ticket.DeRuntime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ticket.DeRuntime, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Ticket.DeTitle, htmlAttributes: new { @class = "" })
+                    @Html.EditorFor(model => model.Ticket.DeTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ticket.DeTitle, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="col-md-3">
@@ -79,10 +89,21 @@
                     @Html.EditorFor(model => model.Ticket.NmTicket, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Ticket.NmTicket, "", new { @class = "text-danger" })
                 </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Ticket.TicketLink, htmlAttributes: new { @class = "" })
+                    @Html.EditorFor(model => model.Ticket.TicketLink, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ticket.TicketLink, "", new { @class = "text-danger" })
+                </div>
             </div>
 
             <div class="row">
+                <div class="row">
+                </div>
+            </div>
 
+
+            <div class="row">
                 <div class="col-md-3">
                     @Html.LabelFor(model => model.Ticket.DeTicket, htmlAttributes: new { @class = "" })
                     @Html.EditorFor(model => model.Ticket.DeTicket, new { htmlAttributes = new { @class = "form-control" } })
@@ -136,11 +157,6 @@
                     @Html.ValidationMessageFor(model => model.Ticket.DeUnavailability, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.Ticket.DeRuntime, htmlAttributes: new { @class = "" })
-                    @Html.EditorFor(model => model.Ticket.DeRuntime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Ticket.DeRuntime, "", new { @class = "text-danger" })
-                </div>
             </div>
 
         </div>
@@ -148,8 +164,10 @@
         <div class="row"></div>
 
         <div class="row">
-            @ViewBag.MsgSavePackage
-            <input type="submit" name="submit" id="SavePackage" value="Salvar Ticket" class="btn btn-danger btn-group-justified" />
+            <div class="col-md-3">
+                @ViewBag.MsgSavePackage
+                <input type="submit" name="submit" id="SavePackage" value="Salvar Ticket" class="btn btn-danger btn-group-justified" />
+            </div>
         </div>
 
         <div class="row">
@@ -172,17 +190,8 @@
 
 
                 <div class="row">
-
-                    @*<div class="col-md-3">
-                            <label>Scripts SQL</label>
-                            <div id="divGetDatabasesBySolution">
-                                @Html.Partial("_GetDatabasesBySolutionDropDownList")
-                            </div>
-                        </div>*@
-
                     <div class="col-md-3">
-                        <label> </label>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Inserir Querys</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">Inserir Querys</button>
                     </div>
                 </div>
 
@@ -198,8 +207,6 @@
                 </div>
             </div>
         </div>
-
-
 
     </div>
 
@@ -240,6 +247,12 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-3">
+            <input type="submit" name="submit" id="GeneratePackage" value="Gerar Pacote" class="btn btn-warning btn-group-justified" />
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
@@ -249,6 +262,19 @@
         //var registerForm = new RegisterForm(form);
         //registerForm.urlSave = "/Package/SavePackage";
         //registerForm.urlDelete = "/Package/DeletePackage"
+
+        $(document).ready(function () {
+            $(":input[date-picker]").datepicker({
+                dateFormat: "yy/mm/dd",
+            });
+            $(":input[datetime-picker]").datetimepicker({
+                dateFormat: "yy/mm/dd",
+                timeFormat: "HH:mm:ss"
+            });
+            $(":input[time-picker]").timepicker({
+                timeFormat: "HH:mm:ss"
+            });
+        })
 
         var files = 0;
 
@@ -270,6 +296,13 @@
             //console.log("clicou Savar Pacote");
             savePackage();
         });
+
+        $(document).on('click', '#GeneratePackage', function () {
+            console.log("clicou Gerar Pacote");
+            generatePackage();
+        });
+
+
 
         /*Change Event*/
         $(document).on('change', '#IdEps', function () {
@@ -305,11 +338,64 @@
 
 
         /*Other Functions*/
+        function generatePackage() {
+            var mensage;
+            let Ticket_IdTicket = $("#Ticket_IdTicket").val();
+
+            if ( parseInt(Ticket_IdTicket) > 0) {
+            console.log("Ticket_IdTicket send " + Ticket_IdTicket);
+
+                //if (ticket.length > 0) {
+                    $.ajax({
+                        url: "/Package/GeneratePackage?idTicket="+Ticket_IdTicket,
+                        method: 'POST',
+                        dataType: "json",
+                        cache: false,
+                        contentType: 'application/json; charset=utf-8',
+                        processData: false
+                    })
+                        .done(function (msg) {
+
+                            if (msg.status.includes("NOK")) {
+                                let results = "Ocorreram erros ao buscar os registros!";
+                                if (msg.mesage != undefined && msg.mesage != '') { results = msg.mesage; }
+
+                                toast("Atenção", results, "error");
+                                console.log(msg.error);
+                                alert('Ocorreu um ERRO:' + msg.error);
+
+                            } else {
+                                console.log("Ticket Sucesso Api");
+
+                                if (msg.status != undefined && msg.status != '') {
+                                    $("#divIdTicket").html(msg.partialView);
+
+                                    checkActivateQuerys();
+
+                                }
+                            }
+                            console.log(msg.description);
+                            mensage = msg.description;
+                        })
+
+                        .fail(function (jqXHR, textStatus, msg) {
+                            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
+                            console.log(msg.description);
+                            mensage = msg.description;
+                        });
+
+                    alert(mensage);
+
+                //}
+
+            }
+        }
+
         function ticketChange() {
             let Ticket_IdTicket = $("#Ticket_IdTicket").val();
 
             if ( parseInt(Ticket_IdTicket) > 0) {
-            console.log("Ticket_IdTicket modified " + Ticket_IdTicket);
+            //console.log("Ticket_IdTicket modified " + Ticket_IdTicket);
             $("#IdEps").val(@ViewBag.EpsSelect);
             $("#IdProject").val(@ViewBag.ProjectSelect);
             $("#IdSolution").val(@ViewBag.SolutionSelect);
@@ -378,13 +464,14 @@
             var Ticket_IdSolution = $("#Ticket_IdSolution").val();
             var Ticket_TicketLink = $("#Ticket_TicketLink").val();
             var Ticket_NmTicket = $("#Ticket_NmTicket").val();
-            //var Ticket_DeTicket = $("#Ticket_DeTicket").val();
-            //var Ticket_DeNote = $("#Ticket_DeNote").val();
-            //var Ticket_DeImpact = $("#Ticket_DeImpact").val();
-            //var Ticket_DeRiskOfNotDoing = $("#Ticket_DeRiskOfNotDoing").val();
-            //var Ticket_DeRiskOfDoing = $("#Ticket_DeRiskOfDoing").val();
-            //var Ticket_DeContingency = $("#Ticket_DeContingency").val();
-            //var Ticket_DePrerequisites = $("#Ticket_DePrerequisites").val();
+            var Ticket_DeTitle = $("#Ticket_DeTitle").val();
+            var Ticket_DeTicket = $("#Ticket_DeTicket").val();
+            var Ticket_DeNote = $("#Ticket_DeNote").val();
+            var Ticket_DeImpact = $("#Ticket_DeImpact").val();
+            var Ticket_DeRiskOfNotDoing = $("#Ticket_DeRiskOfNotDoing").val();
+            var Ticket_DeRiskOfDoing = $("#Ticket_DeRiskOfDoing").val();
+            var Ticket_DeContingency = $("#Ticket_DeContingency").val();
+            var Ticket_DePrerequisites = $("#Ticket_DePrerequisites").val();
             var Ticket_DeUnavailability = $("#Ticket_DeUnavailability").val();
             var Ticket_DeRuntime = $("#Ticket_DeRuntime").val();
 
@@ -404,11 +491,13 @@
             if (IdEps == "") { mensage += "Eps, "; }
             if (IdProject == "") { mensage += "Projeto, "; }
 
+
             if (Ticket_IdStatus == "") { mensage += "Status, "; }
             //if (Ticket_DtRegister == "" || Ticket_DtRegister == undefined) { Ticket_DtRegister = /*"01/01/1900 00:00:01"*/; }
             if (Ticket_IdSolution == "" || Ticket_IdSolution == undefined) { mensage += "Solução, "; }
             if (Ticket_TicketLink == "") { mensage += "Link do Ticket, "; }
             if (Ticket_NmTicket == "") { mensage += "Nº do Ticket, "; }
+            if (Ticket_DeTitle == "") { mensage += "Titulo Ticket, "; }
             //if (Ticket_DeTicket == "") { mensage += "Descrição Roteiro, "; }
             //if (Ticket_DeNote == "") { mensage += "Observação, "; }
             //if (Ticket_DeImpact == "") { mensage += "Impactos, "; }
@@ -430,6 +519,7 @@
                     IdTicket: parseInt(Ticket_IdTicket),
                     DtRegister: Ticket_DtRegister,
                     TicketLink: Ticket_TicketLink,
+                    DeTitle: Ticket_DeTitle,
                     NmTicket: Ticket_NmTicket,
                     IdSolution: parseInt(Ticket_IdSolution),
                     IdStatus: parseInt(Ticket_IdStatus),
@@ -467,7 +557,7 @@
                             toast("Atenção", results, "error");
                             console.log(msg.error);
                             alert('Ocorreu um ERRO:' + msg.error);
-                            
+
                         } else {
                             console.log("Ticket Sucesso Api");
 
@@ -475,7 +565,7 @@
                                 $("#divIdTicket").html(msg.partialView);
 
                                 checkActivateQuerys();
-                               
+
                             }
                         }
                         console.log(msg.description);
@@ -700,72 +790,6 @@
                 });
 
         }
-
-                                    //function getDatabasesBySolution(pIdSolution) {
-                                    //    var pIdDtbase;
-                                    //    $.ajax({
-                                    //        async: true,
-                                    //        "url": "/Package/GetDatabasesBySolution",
-                                    //        "type": "GET",
-                                    //        data: { pIdSolution: pIdSolution },
-                                    //    })
-                                    //        .done(function (msg) {
-                                    //            if (msg.status.includes("nok")) {
-                                    //                let results = "Ocorreram erros ao buscar os registros!";
-
-                                    //                if (msg.mesage != undefined && msg.mesage != '') {
-                                    //                    results = msg.mesage;
-                                    //                }
-
-                                    //                toast("Atenção", results, "error");
-                                    //                console.log(msg.error);
-                                    //            } else {
-                                    //                if (msg.partialView != undefined && msg.partialView != '') {
-                                    //                    $("#divGetDatabasesBySolution").html(msg.partialView);
-
-                                    //                    if (pIdDtbase != "" && pIdDtbase != undefined) {
-                                    //                        $("#pIdDtbase").val(pIdDtbase);
-                                    //                    }
-                                    //                }
-                                    //            }
-                                    //        })
-                                    //        .fail(function (jqXHR, textStatus, msg) {
-                                    //            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                                    //        });
-                                    //}
-
-                                    //function getDatabasesBySolution_v2(pIdSolution) {
-                                    //    var pIdDtbase;
-                                    //    $.ajax({
-                                    //        async: true,
-                                    //        "url": "/Package/GetDatabasesBySolution_v2",
-                                    //        "type": "GET",
-                                    //        data: { pIdSolution: pIdSolution },
-                                    //    })
-                                    //        .done(function (msg) {
-                                    //            if (msg.status.includes("nok")) {
-                                    //                let results = "Ocorreram erros ao buscar os registros!";
-
-                                    //                if (msg.mesage != undefined && msg.mesage != '') {
-                                    //                    results = msg.mesage;
-                                    //                }
-
-                                    //                toast("Atenção", results, "error");
-                                    //                console.log(msg.error);
-                                    //            } else {
-                                    //                if (msg.partialView != undefined && msg.partialView != '') {
-                                    //                    // $("#divGetDatabasesBySolution").html(msg.partialView);
-
-                                    //                    if (pIdDtbase != "" && pIdDtbase != undefined) {
-                                    //                        $("#pIdDtbase").val(pIdDtbase);
-                                    //                    }
-                                    //                }
-                                    //            }
-                                    //        })
-                                    //        .fail(function (jqXHR, textStatus, msg) {
-                                    //            console.log(`${textStatus} - ${msg} - ${jqXHR}`);
-                                    //        });
-                                    //}
 
     </script>
 

@@ -16,22 +16,36 @@ namespace Packer_v2.Models
         public Int64 IdSolution { get; set; }
 
         [Column("NM_SOLUTION")]
-        [Display(Name = "Nome da Solução")]
+        [Display(Name = "Solução")]
+        [Required]
         public string NmSolution { get; set; }
 
         [Column("DE_SOLUTION")]
         [Display(Name = "Descrição da Solução")]
+        [DataType(DataType.MultilineText)]
         public string DeSolution { get; set; }
+
+        [Column("PATH_DEV_FRONTEND")]
+        [Display(Name = "Caminho FrontEnd [DEV]")]
+        [Required]
+        public string DevPathFrontEnd { get; set; }
+
+        [Column("PATH_DEV_WCF")]
+        [Display(Name = "Caminho WCF [DEV]")]
+        [Required]
+        public string DevPathWcf { get; set; }
 
         [ForeignKey("TypeSolution")]
         [Column("ID_TYPE_SOLUTION")]
         [Display(Name = "Tipo da Solução")]
+        [Required]
         public Int64 IdTypeSolution { get; set; }
 
 
         [ForeignKey("Project")]
         [Column("ID_PROJECT")]
         [Display(Name = "Projeto")]
+        [Required]
         public Int64 IdProject { get; set; }
 
         [Column("DT_REGISTER")]

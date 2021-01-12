@@ -7,6 +7,8 @@
     <title>@ViewBag.Title - Packer</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -31,7 +33,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             @*<li>@Html.ActionLink("Sobre", "About", "Home")</li>
-                <li>@Html.ActionLink("Contato", "Contact", "Home")</li>*@
+                                <li>@Html.ActionLink("Contato", "Contact", "Home")</li>*@
                             <li>@Html.ActionLink("Eps", "Index", "Eps")</li>
                             <li>@Html.ActionLink("Projetos", "Index", "Project")</li>
                             <li>@Html.ActionLink("Tipo de Solução", "Index", "TypeSolution")</li>
@@ -45,7 +47,7 @@
                             <li>@Html.ActionLink("Caminhos", "Index", "DefaultWayType")</li>
                             <li>@Html.ActionLink("Pastas", "Index", "folder")</li>
                             @*<li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
-                <li>@Html.ActionLink("Querys", "Index", "Query")</li>*@
+                                <li>@Html.ActionLink("Querys", "Index", "Query")</li>*@
                         </ul>
                     </li>
                 </ul>
@@ -68,6 +70,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.min.js"></script>
+    @*<script src="~/Scripts/site.js"></script>*@
 
 </body>
 </html>

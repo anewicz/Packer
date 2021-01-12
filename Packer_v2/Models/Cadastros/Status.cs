@@ -20,6 +20,7 @@ namespace Packer_v2.Models
 
         [Column("DE_STATUS")]
         [Display(Name = "Descrição Status")]
+        [DataType(DataType.MultilineText)]
         public string DeStatus { get; set; }
 
         [Column("IS_ACTIVE")]

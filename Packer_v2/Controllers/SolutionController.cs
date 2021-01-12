@@ -50,8 +50,11 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdSolution,NmSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
+        public ActionResult Create([Bind(Include = "IdSolution,NmSolution,DeSolution,DevPathFrontEnd,DevPathWcf,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
         {
+            solution.DtRegister = DateTime.Now;
+            solution.DtLastModification = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Solution.Add(solution);
@@ -86,8 +89,11 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdSolution,NmSolution,DeSolution,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
+        public ActionResult Edit([Bind(Include = "IdSolution,NmSolution,DeSolution,DevPathFrontEnd,DevPathWcf,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
         {
+            solution.DtRegister = db.Solution.Where(x => x.IdSolution == solution.IdSolution).Select(x => x.DtRegister).FirstOrDefault();
+            solution.DtLastModification = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Entry(solution).State = EntityState.Modified;

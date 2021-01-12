@@ -23,13 +23,13 @@ namespace Packer_v2.Models
         [Required(ErrorMessage = "O Nome do Projeto Obrigatório")]
         [StringLength(255, MinimumLength = 2, ErrorMessage = "O Nome do Projeto Obrigatório")]
         [Column("NM_PROJECT")]
-        [Display(Name = "Nome do Projeto")]
+        [Display(Name = "Projeto")]
         public string NmProject { get; set; }
 
         [Required(ErrorMessage = "A EPS é Obrigatória")]
         [ForeignKey("Eps")]
         [Column("ID_EPS")]
-        [Display(Name = "EPS")]
+        [Display(Name = "Eps")]
         public Int64 IdEps { get; set; }
 
 

@@ -5,10 +5,12 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Packer_v2.Context;
 using Packer_v2.Models;
+
 
 namespace Packer_v2.Controllers
 {
@@ -73,9 +75,9 @@ namespace Packer_v2.Controllers
             vm.StatusList = db.Status.ToList();
             vm.Dtbases = new List<Dtbase>();
 
-            Int64 idSolutionSel = db.Solution.Where(x => x.IdSolution == vm.Ticket.IdSolution).Select(x => x.IdSolution).FirstOrDefault();
-            Int64 idProjectSel = db.Project.Where(x => x.IdProject == idSolutionSel).Select(x => x.IdProject).FirstOrDefault();
-            Int64 idEpsSel = db.Eps.Where(x => x.IdEps == idProjectSel).Select(x => x.IdEps).FirstOrDefault();
+            Int64 idSolutionSel = vm.Ticket.IdSolution;
+            Int64 idProjectSel = db.Solution.Where(x => x.IdSolution == idSolutionSel).Select(x => x.IdProject).FirstOrDefault();
+            Int64 idEpsSel = db.Project.Where(x => x.IdProject == idProjectSel).Select(x => x.IdEps).FirstOrDefault();
 
             vm.Projects = db.Project.Where(x => x.IdEps == idEpsSel).ToList();
             vm.Solutions = db.Solution.Where(x => x.IdSolution == idSolutionSel).ToList();
@@ -101,6 +103,7 @@ namespace Packer_v2.Controllers
         [HttpPost]
         public JsonResult SaveTicket(Ticket ticket)
         {
+
             ticket.DtLastModification = DateTime.Now;
 
             try
@@ -122,12 +125,16 @@ namespace Packer_v2.Controllers
 
                 var partial = PartialView("_IdTicket", vm).RenderToString();
 
+                verifyIfCreateDirectory(ticket.IdTicket.ToString(), "Logs");
+
                 return Json(new { status = "OK", description = "Ticket Salvo com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
                 ViewBag.MsgSavePackage = "Deu ruim!! Olhá só quirida ..." + ex.Message.ToString();
+
+                verifyIfCreateDirectory(ticket.IdTicket.ToString(), "Logs");
                 return Json(new { status = "NOK", description = "Erro ao Salvar - Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -231,8 +238,7 @@ namespace Packer_v2.Controllers
                     {
                         var Query = new Query();
 
-                        var dirPath = Server.MapPath("~/App_Data/Packages/Querys");
-                        string pathQuerysSave = verifyIfCreateDirectory(dirPath, idTicket);
+                        string pathQuerysSave = verifyIfCreateDirectory(idTicket, "Querys");
 
                         fileName = Path.GetFileName(file.FileName);
                         var way = pathQuerysSave + fileName;//Path.Combine(Server.MapPath("~/App_Data/Packages/Querys"), fileName);
@@ -271,11 +277,16 @@ namespace Packer_v2.Controllers
 
         #endregion CopiarQuerysPasta
 
-        #region UrlSalvarQuerys
+        #region CaminhosGerarLocalizar
 
-        public string verifyIfCreateDirectory(string nomeDiretorio, string idTicket)
+        public string verifyIfCreateDirectory(string idTicket, string Complement, bool MustDropAndRecreate = false)
         {
-            nomeDiretorio += "\\Ticket_" + idTicket + "\\";
+            var nomeDiretorio = Server.MapPath("~/App_Data/Packages") + "\\Ticket_" + idTicket + "\\" + Complement + "\\";
+
+            if (MustDropAndRecreate && Directory.Exists(nomeDiretorio))
+            {
+                Directory.Delete(nomeDiretorio, true);
+            }
 
             if (!Directory.Exists(nomeDiretorio))
                 Directory.CreateDirectory(nomeDiretorio);
@@ -283,6 +294,113 @@ namespace Packer_v2.Controllers
             return nomeDiretorio;
         }
 
+        #endregion
+
+        #region GerarTxtTicketTemplate
+        public void CreateTicketTemplate(Package _pPackage, string _pFolder)
+        {
+
+            string txtTemplate = "h2. Envio Homologação Técnica \n\n| *Impacto na versão em produção:*| Não |\n| *Deploy pode ser feito em operação:*| Não |\n| *Período para Deploy:*| Manhã Noite |\n";
+            txtTemplate += $"\n|*O que foi feito:*| {_pPackage.ticket.DeNote} |";
+            txtTemplate += $"\n|*Observações:*| {_pPackage.ticket.DeNote} |";
+            txtTemplate += $"\n\n";
+            txtTemplate += $"\n|*Versão do CRM:*| pendente |";
+            txtTemplate += $"\n|*Versão do Bin Studio:*| pendente |";
+            txtTemplate += $"\n|*Caminho do TTC:*| {_pPackage.ticket.Solution.Project.WayPatch} |";
+            txtTemplate += $"\n|*Caminho do FrontEnd:*| {_pPackage.ticket.Solution.DevPathFrontEnd} |";
+            txtTemplate += $"\n|*Caminho do WCF:*| {_pPackage.ticket.Solution.DevPathWcf} |";
+            txtTemplate += $"\n|*Base:*| {_pPackage.dtbase.Where(x => x.IsCore == false).Select(x => x.NmDevDatabase).FirstOrDefault()} |";
+            txtTemplate += $"\n|*Id Projeto:*| {_pPackage.ticket.Solution.Project.IdProjectAyty} |";
+            txtTemplate += $"\n|*Caminho da startup:*| {_pPackage.ticket.Solution.Project.Eps.WayStartup} |";
+            txtTemplate += $"\n\n";
+            txtTemplate += $"\n|*Caminho do pacote:*| pendente |";
+
+            using (StreamWriter file = new StreamWriter(_pFolder + "\\TemplateChamado.txt", false))
+            {
+                file.WriteLine(txtTemplate);
+                file.Close();
+            }
+        }
+
+        #endregion
+
+        #region GerarTxtTicketTemplate
+        public void CreateSqlQuerys(Package _pPackage, string _pFolder)
+        {
+            var _packageFolder = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database\\", true);
+            var _packageFolderRb = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database_Rollback\\", true);
+            var baseCore = _pPackage.dtbase.Where(x => x.IsCore == true).Select(x => x.NmDevDatabase).FirstOrDefault();
+
+            foreach (var qr in _pPackage.querys)
+            {
+
+                using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_xx_{qr.IdSqlComandType}_{qr.IdSqlItenType}_{qr.NmSqlObject.ToUpper()}.sql", false))
+                {
+                    string conteudo = $"USE {qr.Dtbase.NmPrdDatabase} \nGO\n\n";
+                    conteudo += System.IO.File.ReadAllText($"{_packageFolder}\\Querys\\{qr.NmFile}", Encoding.GetEncoding("iso-8859-15"));
+
+                    file.WriteLine(conteudo);
+                    file.Close();
+                }
+
+            }
+
+            string tagString = "@IDPROJECT@,@NUTICKET@,@OBJECTS@,@OBSERVATION@,@COREDB@,";
+
+            using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_000__CREATE_PACKAGE_LOG.sql", false))
+            {
+                string conteudo = System.IO.File.ReadAllText($"{Server.MapPath("~/App_Data/Models/Querys")}\\Model_000_CREATE_PACKAGE_LOG.txt", Encoding.GetEncoding("iso-8859-15"));
+            }
+
+
+            using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_999_UPDATE_PACKAGE_LOG.sql", false))
+            {
+                string conteudo = System.IO.File.ReadAllText($"{Server.MapPath("~/App_Data/Models/Querys")}\\Model_999_UPDATE_PACKAGE_LOG.txt", Encoding.GetEncoding("iso-8859-15"));
+            }
+
+
+        }
+        #endregion
+
+        #region GerarPacote
+        [HttpPost]
+        public JsonResult GeneratePackage(Int64 idTicket)
+        {
+
+            Package package = new Package();
+            package.ticket = db.Ticket.Where(x => x.IdTicket == idTicket).FirstOrDefault();
+            package.querys = db.Query.Where(x => x.IdTicket == idTicket).ToList();
+            package.dtbase = new List<Dtbase>();
+
+            var dbSolution = db.DbSolution.Where(x => x.IdSolution == package.ticket.IdSolution).ToList();
+
+            foreach (var s in dbSolution)
+            {
+                package.dtbase.Add(db.Dtbase.Where(x => x.IdDtbase == s.IdDtbase).FirstOrDefault());
+            }
+
+            try
+            {
+                var _packageFolder = verifyIfCreateDirectory(idTicket.ToString(), "Pacote", true);
+
+                //verifyIfCreateDirectory(idTicket.ToString(), "Pacote\\ApplicationServer\\", true);
+                //verifyIfCreateDirectory(idTicket.ToString(), "Pacote\\FileServer\\", true);
+                //verifyIfCreateDirectory(idTicket.ToString(), "Pacote\\Evidences\\", true);
+
+                CreateTicketTemplate(package, _packageFolder);
+
+
+                CreateSqlQuerys(package, _packageFolder + "\\Database\\");
+
+                return Json(new { status = "OK", description = "Pacote Gerado com Sucesso!" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                verifyIfCreateDirectory(idTicket.ToString(), "Logs");
+                return Json(new { status = "NOK", description = "Erro ao Gerar Pacote- Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         protected override void Dispose(bool disposing)

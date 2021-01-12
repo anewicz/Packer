@@ -17,6 +17,7 @@ namespace Packer_v2.Models
 
         [Column("DE_FOLDER")]
         [Display(Name = "Descrição da Pasta")]
+        [DataType(DataType.MultilineText)]
         public string DeFolder { get; set; }
     }
 }

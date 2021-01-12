@@ -12,12 +12,11 @@ namespace Packer_v2.Models
     {
         [Key]
         [Column("ID_EPS")]
-        [Display(Name = "EPS")]
         public Int64 IdEps { get; set; }
 
         [Required(ErrorMessage = "O Nome EPS é Obrigatório")]
         [Column("NM_EPS")]
-        [Display(Name = "Nome EPS")]
+        [Display(Name = "Eps")]
         public string NmEps { get; set; }
 
         [Display(Name = "Caminho Startup")]

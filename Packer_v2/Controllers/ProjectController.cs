@@ -83,7 +83,7 @@ namespace Packer_v2.Controllers
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdProject,IdProjectAyty,NmProject,idEps,WayPatch")] Project project)
+        public ActionResult Edit([Bind(Include = "IdProject,IdProjectAyty,NmProject,IdEps,WayPatch")] Project project)
         {
             if (ModelState.IsValid)
             {

@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Status.NmStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NmTicket)
+                @Html.DisplayNameFor(model => model.DeTitle)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Solution.Project.NmProject)
@@ -47,12 +47,11 @@
             @Html.DisplayFor(modelItem => item.Status.NmStatus)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.NmTicket)
+            @Html.DisplayFor(modelItem => item.DeTitle)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Solution.Project.NmProject)
         </td>
-
         <td>
             @Html.DisplayFor(modelItem => item.DtRegister)
         </td>
@@ -63,7 +62,7 @@
         <td>
             @Html.ActionLink("Edit", "CreateOrEdit", new { idTicket = item.IdTicket }) |
             @*@Html.ActionLink("Details", "Details", new { idTicket = item.IdTicket }) |
-        @Html.ActionLink("Delete", "Delete", new { idTicket = item.IdTicket })*@
+            @Html.ActionLink("Delete", "Delete", new { idTicket = item.IdTicket })*@
         </td>
     </tr>
         }

@@ -1,0 +1,195 @@
+USE @COREDB@
+GO
+
+
+DECLARE @V_ID_PROJECT INT;
+DECLARE @V_NU_TICKET INT;
+DECLARE @V_NU_PACKAGE INT;
+DECLARE @V_WAS_COMPLETED BIT;
+DECLARE @V_DE_ALTER_OBJECTS VARCHAR(MAX);
+DECLARE @V_DE_OBS VARCHAR(MAX);
+DECLARE @V_NU_TICKET_DEPEN VARCHAR(1000);
+DECLARE @V_NU_PACKAGE_DEPEN VARCHAR(1000);
+DECLARE @V_NU_CONTROL_DEPEN INT; 
+DECLARE @V_QT_ATTEMPTS INT;
+DECLARE @V_ID_PACKAGE_LOG INT;
+DECLARE @V_ERROR_DEPEN BIT;
+
+
+-----------------------------------------------------
+SET @V_ID_PROJECT = @IDPROJECT@;    			        	-- Ex: 441
+SET @V_NU_TICKET = @NUTICKET@;					   	-- Ex: 35005
+SET @V_NU_PACKAGE = 1;						   	-- Número do pacote no ticket. EX: primeiro pacote do ticket NU_PACKAGE=1 , pacote complementar NU_PACKAGE=2	
+SET @V_DE_ALTER_OBJECTS='@OBJECTS@';						-- Nome dos objetos que foram alterados pelo script, separados por ; . Ex: 'SPR_RPT_TMO;CALL_TYPE;CALL'
+SET @V_DE_OBS='@OBSERVATION@';
+
+SET @V_NU_TICKET_DEPEN = '';	-- Ex: '(35439)'   	-- Números dos tickets dos quais  este depende.
+SET @V_NU_PACKAGE_DEPEN = '';   -- Ex: '(1,2)'     	-- Números dos pacotes no ticket que este depende 
+-----------------------------------------------------
+
+SET NOCOUNT ON;
+SET @V_ERROR_DEPEN = 0;
+
+-- VERIFICA SE O SCRIPT DE PACKAGE_LOG ESTÁ SENDO EXECUTADO NO CORE
+IF NOT EXISTS (SELECT 1 FROM SYS.DATABASES WHERE DATABASE_ID = DB_ID() AND NAME LIKE '%AYTYCORE%') 
+BEGIN    
+	RAISERROR('#AYTY_EXCEPTION: Os scripts de PACKAGE_LOG devem ser executados em bases AYTYCORE.', 18, 1);  
+	RETURN;    
+END 	
+
+-- VERIFICA SE EXISTE A TABELA DE LOG
+IF OBJECT_ID('PACKAGE_LOG') IS NULL
+BEGIN 
+	CREATE TABLE dbo.PACKAGE_LOG (
+		ID_PACKAGE_LOG INT PRIMARY KEY IDENTITY(1,1),	
+		NU_TICKET INT,			-- Ex: 35005
+		QT_ATTEMPTS INT,		-- Quantidade de vezes que executou o mesmo pacote
+		NU_PACKAGE INT,			-- Número do pacote no ticket. EX: primeiro pacote do ticket NU_PACKAGE=1 , pacote complementar NU_PACKAGE=2
+		ID_PROJECT INT,			-- Esse script é executado no CORE, então guarda o id_project para saber qual operação o pacote vai alterar.
+		DT_START DATETIME,		-- Quando executou a primeira vez o pacote.
+		DT_LAST_TRY DATETIME,	-- Última tentativa de execução do pacote
+		DT_FINISH DATETIME,		-- Quando terminou de executar o pacote. Vai ser NULL se der erro em algum script no meio do pacote. Deve ser atualizado no último script do pacote.
+		WAS_COMPLETED BIT,		-- 1: Executou até o final , 0: Erro em algum script
+		DE_ALTER_OBJECTS VARCHAR(MAX), -- Nome dos objetos que foram alterados pelo script, separados por ; . Ex: 'SPR_RPT_TMO;CALL_TYPE;CALL'
+		DE_OBS VARCHAR(MAX)		-- Ex: 'Pacote para alterar o relatório TMO com novo agrupamento por operador.'
+	)  
+		
+    --INDICE PARA AJUDAR NA PERFORMANCE   
+    CREATE NONCLUSTERED INDEX IX_NU_TICKET_PACKAGE_LOG ON PACKAGE_LOG(NU_TICKET, NU_PACKAGE)           
+END       
+
+-------------------------------------------------------------------------------------------------------------
+--VERIFICA O PROGRAMADOR SETOU O Nº DO TICKET E PACOTE PARA INSERIR/ATUALIZAR INFORMAÇÃO DE LOG
+-------------------------------------------------------------------------------------------------------------
+IF(@V_NU_TICKET>0 AND  @V_NU_PACKAGE>0) 
+BEGIN
+
+	-- Descobre se já executou o pacote com sucesso
+	SELECT TOP 1
+		@V_ID_PACKAGE_LOG = ID_PACKAGE_LOG,
+		@V_WAS_COMPLETED = WAS_COMPLETED
+	FROM
+		PACKAGE_LOG
+	WHERE
+		NU_TICKET = @V_NU_TICKET AND
+		NU_PACKAGE = @V_NU_PACKAGE AND
+		ID_PROJECT = @V_ID_PROJECT
+	ORDER BY DT_LAST_TRY
+		
+	IF (@V_ID_PACKAGE_LOG IS NOT NULL)
+	BEGIN	
+	    -- Se já executou esse pacote antes (com ou sem sucesso) incrementa QT_ATTEMPTS em 1, atualiza a data da última tentativa 
+		UPDATE PACKAGE_LOG
+		SET
+			QT_ATTEMPTS=ISNULL(QT_ATTEMPTS,0)+1,
+			DT_LAST_TRY=GETDATE()
+		WHERE
+			ID_PACKAGE_LOG=@V_ID_PACKAGE_LOG
+			
+		--Se já rodou esse pacote com sucesso antes gera exceção.
+		IF(@V_WAS_COMPLETED = 1)
+		BEGIN
+			RAISERROR('#AYTY_EXCEPTION: Este pacote já foi executado antes!', 18, 1);  
+			RETURN;   
+		END 	
+	END
+			
+END
+ELSE -- se esqueceu de setar o número do ticket ou do pacote
+BEGIN    
+	RAISERROR('#AYTY_EXCEPTION: Número de pacote ou de ticket incorreto.', 18, 1);  
+	RETURN;    
+END 
+    
+------------------------------------------------------------------------------------------------
+-- VERIFICA SE ESTE PACOTE TEM DEPENDÊNCIA DE OUTRO E SE ESTE OUTRO JÁ FOI EXECUTADO COM SUCESSO
+------------------------------------------------------------------------------------------------
+IF (@V_NU_TICKET_DEPEN<>'' AND @V_NU_PACKAGE_DEPEN<>'')
+--tem dependência
+BEGIN
+
+	CREATE TABLE #TMP_DEPEN ( -- TABELA TEMPORÁRIA QUE GUARDA OS PACOTES DOS QUAIS ESTE DEPENDE
+		ID_PACKAGE_LOG INT,
+		WAS_COMPLETED BIT
+	);
+	
+	-- INSERE OS PACOTES DE DEPENDENCIA NA TABELA TEMPORÁRIA
+	EXEC('
+		INSERT INTO #TMP_DEPEN
+		SELECT
+			ID_PACKAGE_LOG,
+			WAS_COMPLETED
+		FROM
+			PACKAGE_LOG
+		WHERE
+			NU_TICKET  IN '+@V_NU_TICKET_DEPEN+'  AND
+			NU_PACKAGE IN '+@V_NU_PACKAGE_DEPEN);
+			
+	SET	@V_NU_CONTROL_DEPEN = @@ROWCOUNT; -- 0 = Tem dependencia e não achou no LOG   /    maior que 0 = Tem dependencia e achou no LOG 
+			
+	-- Se tem dependência e a dependência não está no LOG = erro pois não executou as dependencias			
+	IF (@V_NU_CONTROL_DEPEN <= 0 )  
+		SET @V_ERROR_DEPEN = 1; 
+	ELSE
+	BEGIN
+		--Se tem dependência e a dependência está no LOG, necessário verificar se todas foram executadas até o fim
+		SELECT @V_NU_CONTROL_DEPEN = COUNT(ID_PACKAGE_LOG)
+		FROM 
+			#TMP_DEPEN
+		WHERE 
+			WAS_COMPLETED =0;	
+			
+		IF (@V_NU_CONTROL_DEPEN > 0 )	
+			--Tem depêndencias, as dependências estão no LOG mas alguma não executou até o fim = Erro
+			SET @V_ERROR_DEPEN = 1;			
+	END
+	
+	--DROP na tabela temporária
+	DROP TABLE #TMP_DEPEN;		
+	
+	--Exceção na tela.	
+	IF (@V_ERROR_DEPEN=1)
+	BEGIN
+		RAISERROR('#AYTY_EXCEPTION: Este pacote tem dependências não executadas!', 18, 1);  
+		RETURN;      		
+	END	
+	
+END
+
+--SE CHEGOU AQUI, É PORQUE O PACOTE AINDA NÃO FOI EXECUTADO COM SUCESSO E NÃO TEM DEPENDENCIAS PENDENTES.
+
+IF(@V_ID_PROJECT > 0) --VERIFICAR SE O PROGRAMADOR COLOCOU O ID_PROJECT
+BEGIN	
+	--VERIFICAR SE EXISTE ALGUM REGISTRO DESTE PACOTE COM WAS_COMPLETED = 0, PARA SABER SE É NECESSÁRIO O INSERT
+	IF(@V_ID_PACKAGE_LOG IS NULL)
+	BEGIN
+		INSERT INTO PACKAGE_LOG (
+					NU_TICKET,		
+					QT_ATTEMPTS,	
+					NU_PACKAGE,	
+					ID_PROJECT,	
+					DT_START,
+					DT_LAST_TRY,
+					DT_FINISH,
+					WAS_COMPLETED,
+					DE_ALTER_OBJECTS,
+					DE_OBS		
+				)
+				VALUES (
+					@V_NU_TICKET,
+					1,
+					@V_NU_PACKAGE,
+					@V_ID_PROJECT,
+					GETDATE(),
+					GETDATE(),
+					NULL,
+					0,
+					@V_DE_ALTER_OBJECTS,
+					@V_DE_OBS		
+				)
+		END				
+END			
+ELSE
+	RAISERROR('#AYTY_EXCEPTION: É necessário informar o ID_PROJECT!', 18, 1);  
+
+SET NOCOUNT OFF

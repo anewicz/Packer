@@ -11,6 +11,22 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.DtRegister)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtRegister)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtLastModification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtLastModification)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Project.NmProject)
         </dt>
 
@@ -43,24 +59,24 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DtRegister)
+            @Html.DisplayNameFor(model => model.DevPathFrontEnd)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DtRegister)
+            @Html.DisplayFor(model => model.DevPathFrontEnd)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DtLastModification)
+            @Html.DisplayNameFor(model => model.DevPathWcf)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DtLastModification)
+            @Html.DisplayFor(model => model.DevPathWcf)
         </dd>
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IdSolution }) |
-    @Html.ActionLink("Voltar", "Index")
+    @Html.ActionLink("Back to List", "Index")
 </p>
