@@ -324,38 +324,61 @@ namespace Packer_v2.Controllers
 
         #endregion
 
-        #region GerarTxtTicketTemplate
-        public void CreateSqlQuerys(Package _pPackage, string _pFolder)
+        #region GerarSQLQuerys
+        public void CreateSqlQuerys(Package _pPackage)
         {
-            var _packageFolder = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database\\", true);
-            var _packageFolderRb = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database_Rollback\\", true);
-            var baseCore = _pPackage.dtbase.Where(x => x.IsCore == true).Select(x => x.NmDevDatabase).FirstOrDefault();
+            string _packageFolder = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database", true);
+            string _packageFolderRb = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database_Rollback", true);
+            string _packageQuerys = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Querys");
+            string baseCore = _pPackage.dtbase.Where(x => x.IsCore == true).Select(x => x.NmDevDatabase).FirstOrDefault();
+            string objects = string.Empty;
+            int counter = 0;
 
             foreach (var qr in _pPackage.querys)
             {
-
-                using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_xx_{qr.IdSqlComandType}_{qr.IdSqlItenType}_{qr.NmSqlObject.ToUpper()}.sql", false))
+                counter++;
+                using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_{counter.ToString("000")}_{qr.IdSqlComandType}_{qr.IdSqlItenType}_{qr.NmSqlObject.ToUpper()}.sql", false))
                 {
                     string conteudo = $"USE {qr.Dtbase.NmPrdDatabase} \nGO\n\n";
-                    conteudo += System.IO.File.ReadAllText($"{_packageFolder}\\Querys\\{qr.NmFile}", Encoding.GetEncoding("iso-8859-15"));
+                    conteudo += System.IO.File.ReadAllText($"{_packageQuerys}{qr.NmFile}", Encoding.GetEncoding("iso-8859-15"));
+                    conteudo = conteudo.ToUpper();
 
                     file.WriteLine(conteudo);
                     file.Close();
+
+                    objects += "," + qr.NmSqlObject;
                 }
 
             }
 
-            string tagString = "@IDPROJECT@,@NUTICKET@,@OBJECTS@,@OBSERVATION@,@COREDB@,";
 
-            using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_000__CREATE_PACKAGE_LOG.sql", false))
+            using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_000_CREATE_PACKAGE_LOG.sql", false))
             {
                 string conteudo = System.IO.File.ReadAllText($"{Server.MapPath("~/App_Data/Models/Querys")}\\Model_000_CREATE_PACKAGE_LOG.txt", Encoding.GetEncoding("iso-8859-15"));
+                conteudo = conteudo.Replace("@COREDB@", baseCore);
+                conteudo = conteudo.Replace("@OBJECTS@", objects.Substring(1, (objects.Length - 1)));
+                conteudo = conteudo.Replace("@IDPROJECT@", _pPackage.ticket.Solution.Project.IdProjectAyty.ToString());
+                conteudo = conteudo.Replace("@NUTICKET@", _pPackage.ticket.NmTicket.ToString());
+                conteudo = conteudo.Replace("@OBSERVATION@", _pPackage.ticket.DeNote.ToString());
+                conteudo = conteudo.ToUpper();
+
+                file.WriteLine(conteudo);
+                file.Close();
             }
 
 
             using (StreamWriter file = new StreamWriter($"{_packageFolder}\\{_pPackage.ticket.NmTicket.ToUpper()}_999_UPDATE_PACKAGE_LOG.sql", false))
             {
                 string conteudo = System.IO.File.ReadAllText($"{Server.MapPath("~/App_Data/Models/Querys")}\\Model_999_UPDATE_PACKAGE_LOG.txt", Encoding.GetEncoding("iso-8859-15"));
+                conteudo = conteudo.Replace("@COREDB@", baseCore);
+                conteudo = conteudo.Replace("@OBJECTS@", objects.Substring(1, (objects.Length - 1)));
+                conteudo = conteudo.Replace("@IDPROJECT@", _pPackage.ticket.Solution.Project.IdProjectAyty.ToString());
+                conteudo = conteudo.Replace("@NUTICKET@", _pPackage.ticket.NmTicket.ToString());
+                conteudo = conteudo.Replace("@OBSERVATION@", _pPackage.ticket.DeNote.ToString());
+                conteudo = conteudo.ToUpper();
+
+                file.WriteLine(conteudo);
+                file.Close();
             }
 
 
@@ -390,7 +413,7 @@ namespace Packer_v2.Controllers
                 CreateTicketTemplate(package, _packageFolder);
 
 
-                CreateSqlQuerys(package, _packageFolder + "\\Database\\");
+                CreateSqlQuerys(package);
 
                 return Json(new { status = "OK", description = "Pacote Gerado com Sucesso!" }, JsonRequestBehavior.AllowGet);
             }
