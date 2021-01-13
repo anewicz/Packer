@@ -99,6 +99,36 @@ namespace Packer_v2.Controllers
 
         #endregion
 
+        #region SaveQuerysParcialView
+        [HttpPost]
+        public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
+        {
+            Int64 IdTicket = 0;
+
+            foreach (var query in querys)
+            {
+                db.Query.Add(query);
+                db.SaveChanges();
+                IdTicket = query.IdTicket;
+            }
+
+            ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
+
+            var vm = new PackageViewModel();
+            vm.Ticket = db.Ticket.Where(x => x.IdTicket == IdTicket).FirstOrDefault();
+            vm.Querys = db.Query.Where(x => x.IdTicket == IdTicket).ToList();
+            vm.Query = new Query();
+
+            var partial = PartialView("_GetQuerysList", vm).RenderToString();
+
+            return Json(new { status = "OK", description = "Querys Adicionadas com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        #endregion CarregarParcialQuerys
+
+
+
         #region SaveTicketInsertBD
 
         [HttpPost]
@@ -126,7 +156,7 @@ namespace Packer_v2.Controllers
 
                 var partial = PartialView("_IdTicket", vm).RenderToString();
 
-                verifyIfCreateDirectory(ticket.IdTicket.ToString(), "Logs");
+                VerifyIfCreateDirectory(ticket.IdTicket.ToString(), "Logs");
 
                 return Json(new { status = "OK", description = "Ticket Salvo com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
 
@@ -135,12 +165,11 @@ namespace Packer_v2.Controllers
             {
                 ViewBag.MsgSavePackage = "Deu ruim!! Olhá só quirida ..." + ex.Message.ToString();
 
-                verifyIfCreateDirectory(ticket.IdTicket.ToString(), "Logs");
+                VerifyIfCreateDirectory(ticket.IdTicket.ToString(), "Logs");
                 return Json(new { status = "NOK", description = "Erro ao Salvar - Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
-
 
         #region ProjetcsDpDwnLists
         public JsonResult GetProjectsByEps(int pIdEps)
@@ -193,35 +222,8 @@ namespace Packer_v2.Controllers
         #endregion 
 
 
-        #region QuerysParcialView
-        [HttpPost]
-        public JsonResult InsertAndReturnPartialQuerys(List<Query> querys)
-        {
-            Int64 IdTicket = 0;
 
-            foreach (var query in querys)
-            {
-                db.Query.Add(query);
-                db.SaveChanges();
-                IdTicket = query.IdTicket;
-            }
-
-            ViewBag.SaveSqlMensage = "Arquivos adicionados com sucesso.";
-
-            var vm = new PackageViewModel();
-            vm.Ticket = db.Ticket.Where(x => x.IdTicket == IdTicket).FirstOrDefault();
-            vm.Querys = db.Query.Where(x => x.IdTicket == IdTicket).ToList();
-            vm.Query = new Query();
-
-            var partial = PartialView("_GetQuerysList", vm).RenderToString();
-
-            return Json(new { status = "OK", description = "Querys Adicionadas com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
-
-        }
-
-        #endregion CarregarParcialQuerys
-
-        #region CopiarQuerysPasta
+        #region UploadQuerysPasta
         [HttpPost]
         public JsonResult UploadQuerys(UploadFileResult _pFiles, string idTicket)
         {
@@ -239,7 +241,7 @@ namespace Packer_v2.Controllers
                     {
                         var Query = new Query();
 
-                        string pathQuerysSave = verifyIfCreateDirectory(idTicket, "Querys");
+                        string pathQuerysSave = VerifyIfCreateDirectory(idTicket, "Querys");
 
                         fileName = Path.GetFileName(file.FileName);
                         var way = pathQuerysSave + fileName;//Path.Combine(Server.MapPath("~/App_Data/Packages/Querys"), fileName);
@@ -276,11 +278,11 @@ namespace Packer_v2.Controllers
             return Json(new { status = "OK", description = "Arquivos Adicionados com Sucesso!", partialView = partial }, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion CopiarQuerysPasta
+        #endregion 
 
-        #region CaminhosGerarLocalizar
+        #region CriarRetornarPastas
 
-        public string verifyIfCreateDirectory(string idTicket, string Complement, bool MustDropAndRecreate = false)
+        public string VerifyIfCreateDirectory(string idTicket, string Complement, bool MustDropAndRecreate = false)
         {
             var nomeDiretorio = Server.MapPath("~/App_Data/Packages") + "\\IdTicket_" + idTicket + "\\" + Complement + "\\";
 
@@ -300,6 +302,8 @@ namespace Packer_v2.Controllers
         }
 
         #endregion
+
+
 
         #region GerarTxtTicketTemplate
         public void CreateTicketTemplate(Package _pPackage, string _pFolder)
@@ -332,9 +336,9 @@ namespace Packer_v2.Controllers
         #region GerarSQLQuerys
         public void CreateSqlQuerys(Package _pPackage)
         {
-            string _packageFolder = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database", true);
-            string _packageFolderRb = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database_Rollback", true);
-            string _packageQuerys = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Querys");
+            string _packageFolder = VerifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database", true);
+            string _packageFolderRb = VerifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote\\Database_Rollback", true);
+            string _packageQuerys = VerifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Querys");
             string baseCore = _pPackage.dtbase.Where(x => x.IsCore == true).Select(x => x.NmDevDatabase).FirstOrDefault();
             string objects = string.Empty;
             int counter = 0;
@@ -394,10 +398,17 @@ namespace Packer_v2.Controllers
         public void CreateDocx(Package _pPackage)
         {
             string _ModelsFolder = Server.MapPath("~/App_Data/Models/Image");
-            string _PackageFolder = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote");
+            string _PackageFolder = VerifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote");
 
             using (var docX = DocX.Create($"{_PackageFolder}\\Roteiro_{_pPackage.ticket.NmTicket}.docx"))
             {
+                int margin = 30;
+                docX.MarginLeft = margin + 10;
+                docX.MarginFooter = margin;
+                docX.MarginRight = margin;
+                docX.MarginTop = margin;
+
+
                 var image = docX.AddImage($"{_ModelsFolder}\\logo_color.png");
                 // altura e largura da imagem.
                 var picture = image.CreatePicture();
@@ -415,14 +426,13 @@ namespace Packer_v2.Controllers
                 docX.InsertParagraph("Instrução Para Deploy - Produção").Color(System.Drawing.Color.FromArgb(43)).FontSize(16).Font("Arial").Alignment = Alignment.center;
 
                 var tb1_generalInfo = docX.InsertParagraph();
-                tb1_generalInfo.LineSpacingAfter = 0;
-                tb1_generalInfo.LineSpacingBefore = 0;
+                tb1_generalInfo.LineSpacingAfter = 5;
+                tb1_generalInfo.LineSpacingBefore = 5;
                 var table1 = tb1_generalInfo.InsertTableAfterSelf(11, 4);
                 table1.AutoFit = AutoFit.Window;
                 table1.Alignment = Alignment.both;
 
                 table1.Rows[0].MergeCells(0, 3);
-                //table1.Rows[0].Cells[0].InsertParagraph("INFORMAÇÕES SOBRE A MUDANÇA").Color(System.Drawing.Color.FromArgb(24)).FontSize(10).Bold().Alignment = Alignment.center;
                 InsertDfParagraphDocx(table1, 0, $"INFORMAÇÕES SOBRE A MUDANÇA", false, _BoldTipe: "bold");
                 InsertDfParagraphDocx(table1, 1, $"EPS:|{_pPackage.ticket.Solution.Project.Eps.NmEps}");
                 InsertDfParagraphDocx(table1, 2, $"Ticket*:|{_pPackage.ticket.NmTicket}|Descrição:|{_pPackage.ticket.DeNote}", false);
@@ -434,10 +444,8 @@ namespace Packer_v2.Controllers
                 InsertDfParagraphDocx(table1, 8, $"Pré-Requisitos:|{_pPackage.ticket.DePrerequisites}");
                 InsertDfParagraphDocx(table1, 9, $"Indisponibilidade*:|{_pPackage.ticket.DeUnavailability}");
                 InsertDfParagraphDocx(table1, 10, $"Tempo de Execução*:|{_pPackage.ticket.DeRuntime}");
-                InsertDfParagraphDocx(table1);
+                InsertBorderParagraphDocx(table1);
 
-                docX.InsertParagraph("");
-                docX.InsertParagraph("");
 
 
                 var tb2_generalInfo = docX.InsertParagraph();
@@ -451,34 +459,40 @@ namespace Packer_v2.Controllers
                 InsertDfParagraphDocx(table2, 0, $"PESSOAS ENVOLVIDAS NA MUDANÇA", false, _BoldTipe: "bold");
                 InsertDfParagraphDocx(table2, 1, $"NOME|ÁREA|E-MAIL|TELEFONE", false, _BoldTipe: "bold");
                 InsertDfParagraphDocx(table2, 2, $"Dayane Michalewicz|Full Dev Application|dayane.rodrigues@code7.com|(48) 3298.7429", false, _BoldTipe: "normal");
-                InsertDfParagraphDocx(table2);
+                InsertBorderParagraphDocx(table2);
+
+
 
                 var tb3_generalInfo = docX.InsertParagraph();
                 tb3_generalInfo.LineSpacingAfter = 0;
                 tb3_generalInfo.LineSpacingBefore = 0;
-                var table3 = tb3_generalInfo.InsertTableAfterSelf(3, 4);
+                var table3 = tb3_generalInfo.InsertTableAfterSelf(4, 4);
                 table3.AutoFit = AutoFit.Window;
                 table3.Alignment = Alignment.both;
 
-                //docX.AddHeaders();
-                //docX.Headers.Odd();
+                table3.Rows[0].MergeCells(0, 3);
+                InsertDfParagraphDocx(table3, 0, $"PASTAS ENVOLVIDAS", false, _BoldTipe: "bold");
+                InsertDfParagraphDocx(table3, 1, $"NOME|DESCRIÇÃO", _BoldTipe: "bold");
+                InsertDfParagraphDocx(table3, 2, $"Database|Contém scripts SQL.");
+                InsertDfParagraphDocx(table3, 3, $"FileServer|Contém os arquivos da atualização do CRM.");
+                InsertBorderParagraphDocx(table3);
 
 
-                //// Primeiro parágrafo (texto centralizado)
-                //var paragrafo1 = docX.InsertParagraph();
-                //paragrafo1.LineSpacingAfter = 8;
-                //paragrafo1.Append("Texto centralizado");
-                //paragrafo1.Alignment = Alignment.center;
 
-                //// Segundo parágrafo (formatação diferente)
-                //var paragrafo2 = docX.InsertParagraph();
-                //paragrafo2.LineSpacingAfter = 8;
-                //paragrafo2.Append("Fonte Arial Negrito, Itálico, Sublinhado, Tamanho 18");
-                //paragrafo2.Font(new Font("Arial"));
-                //paragrafo2.FontSize(18);
-                //paragrafo2.Bold();
-                //paragrafo2.Italic();
-                //paragrafo2.UnderlineStyle(UnderlineStyle.singleLine);
+                var tb4_generalInfo = docX.InsertParagraph();
+                tb4_generalInfo.LineSpacingAfter = 0;
+                tb4_generalInfo.LineSpacingBefore = 0;
+                var table4 = tb4_generalInfo.InsertTableAfterSelf(4, 4);
+                table4.AutoFit = AutoFit.Window;
+                table4.Alignment = Alignment.both;
+
+                table4.Rows[0].MergeCells(0, 3);
+                InsertDfParagraphDocx(table4, 0, $"ROTEIRO DE IMPLANTAÇÃO", false, _BoldTipe: "bold");
+                InsertDfParagraphDocx(table4, 1, $"Atv. 1:|No servidor 172.28.200.77 \nExecutar todos scripts presentes na pasta DataBase, na ordem sequencial em que se encontram:");
+                InsertDfParagraphDocx(table4, 2, $"Atv. 2:|Contém scripts SQL.");
+                InsertDfParagraphDocx(table4, 3, $"FileServer|Contém os arquivos da atualização do CRM.");
+                InsertBorderParagraphDocx(table4);
+
 
                 //// Terceiro parágrafo (multiplas formatações)
                 //var paragrafo3 = docX.InsertParagraph();
@@ -489,44 +503,6 @@ namespace Packer_v2.Controllers
                 //var sublinhado = paragrafo3.Append("outro sublinhado");
                 //sublinhado.UnderlineStyle(UnderlineStyle.singleLine);
 
-                //// Quarto parágrafo (tabela)
-                //var paragrafo4 = docX.InsertParagraph();
-                //paragrafo4.LineSpacingAfter = 8;
-                //var tabela = paragrafo4.InsertTableAfterSelf(2, 2);
-                //tabela.AutoFit = AutoFit.Window;
-                //tabela.Rows[0].Cells[0].InsertParagraph("Col1");
-                //tabela.Rows[0].Cells[1].InsertParagraph("Col2");
-                //tabela.Rows[1].Cells[0].InsertParagraph("A");
-                //tabela.Rows[1].Cells[1].InsertParagraph("B");
-                //tabela.SetBorder(TableBorderType.Top, new Border());
-                //tabela.SetBorder(TableBorderType.Bottom, new Border());
-                //tabela.SetBorder(TableBorderType.Left, new Border());
-                //tabela.SetBorder(TableBorderType.Right, new Border());
-                //tabela.SetBorder(TableBorderType.InsideH, new Border());
-                //tabela.SetBorder(TableBorderType.InsideV, new Border());
-
-
-                // Quinto parágrafo (imagem)
-                //using (var memoryStream = new System.IO.MemoryStream())
-                //{
-                //    var paragrafo5 = docX.InsertParagraph();
-                //    paragrafo5.LineSpacingAfter = 8;
-
-                //    var imagemDoArquivo = Image.FromFile("penguins.jpg");
-                //    imagemDoArquivo.Save(memoryStream, imagemDoArquivo.RawFormat);
-                //    memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                //    var imagemNoDocumento = docX.AddImage(memoryStream);
-                //    var picture = imagemNoDocumento.CreatePicture();
-                //    var maxWidth = Convert.ToInt32(docX.PageWidth - docX.MarginLeft - docX.MarginRight);
-                //    if (picture.Width > maxWidth)
-                //    {
-                //        var ratio = (double)maxWidth / (double)picture.Width;
-                //        picture.Width = maxWidth;
-                //        picture.Height = Convert.ToInt32(picture.Height * ratio);
-                //    }
-
-                //    paragrafo5.InsertPicture(picture);
-                //}
 
                 docX.Save();
             }
@@ -534,8 +510,8 @@ namespace Packer_v2.Controllers
         }
         #endregion
 
-
-        public void InsertDfParagraphDocx(Table table)
+        #region MetodosDocx
+        public void InsertBorderParagraphDocx(Table table)
         {
             table.SetBorder(TableBorderType.Top, new Border());
             table.SetBorder(TableBorderType.Bottom, new Border());
@@ -550,6 +526,7 @@ namespace Packer_v2.Controllers
             var texts = _pText.Split('|');
             if (_MustMerge)
                 table.Rows[_NRow].MergeCells(1, 3);
+
             for (int i = 0; i < texts.Length; i++)
             {
                 if (_BoldTipe == "interlayer")
@@ -566,8 +543,11 @@ namespace Packer_v2.Controllers
 
             }
         }
+        #endregion 
 
-        #region GerarPacote
+
+
+        #region FinalizarPacote
         [HttpPost]
         public JsonResult GeneratePackage(Int64 idTicket)
         {
@@ -586,7 +566,7 @@ namespace Packer_v2.Controllers
 
             try
             {
-                var _packageFolder = verifyIfCreateDirectory(idTicket.ToString(), "Pacote", true);
+                var _packageFolder = VerifyIfCreateDirectory(idTicket.ToString(), "Pacote", true);
 
                 //verifyIfCreateDirectory(idTicket.ToString(), "Pacote\\ApplicationServer\\", true);
                 //verifyIfCreateDirectory(idTicket.ToString(), "Pacote\\FileServer\\", true);
@@ -602,11 +582,12 @@ namespace Packer_v2.Controllers
             catch (Exception ex)
             {
 
-                verifyIfCreateDirectory(idTicket.ToString(), "Logs");
+                VerifyIfCreateDirectory(idTicket.ToString(), "Logs");
                 return Json(new { status = "NOK", description = "Erro ao Gerar Pacote- Exception: " + ex.Message.ToString() + " | InnerException" + ex.InnerException.InnerException.ToString() + " | StackTrace" + ex.StackTrace.ToString(), IdTicket = 0 }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
+
 
         protected override void Dispose(bool disposing)
         {
