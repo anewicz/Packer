@@ -1,8 +1,9 @@
-Packer/Packer_v2/obj/
-Packer/Packer_v2/bin/
-Packer_v2/bin
-Packer_v2/obj
-Packer/Packer_v2/App_Data/Packages
-Packer_v2/App_Data/Packages
-Packer_v2/bin
-Packer_v2/obj
+Packer/Packer_v2/obj/*
+Packer/Packer_v2/bin/*
+Packer_v2/bin/*
+Packer_v2/obj/*
+Packer/Packer_v2/App_Data/Packages/*
+Packer_v2/App_Data/Packages/*
+Packer_v2/bin/*
+Packer_v2/obj/*
+
