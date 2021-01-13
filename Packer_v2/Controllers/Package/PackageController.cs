@@ -10,7 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using Packer_v2.Context;
 using Packer_v2.Models;
-
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 
 namespace Packer_v2.Controllers
 {
@@ -281,15 +282,19 @@ namespace Packer_v2.Controllers
 
         public string verifyIfCreateDirectory(string idTicket, string Complement, bool MustDropAndRecreate = false)
         {
-            var nomeDiretorio = Server.MapPath("~/App_Data/Packages") + "\\Ticket_" + idTicket + "\\" + Complement + "\\";
+            var nomeDiretorio = Server.MapPath("~/App_Data/Packages") + "\\IdTicket_" + idTicket + "\\" + Complement + "\\";
 
-            if (MustDropAndRecreate && Directory.Exists(nomeDiretorio))
+            try
             {
-                Directory.Delete(nomeDiretorio, true);
-            }
+                if (MustDropAndRecreate && Directory.Exists(nomeDiretorio))
+                {
+                    Directory.Delete(nomeDiretorio, true);
+                }
 
-            if (!Directory.Exists(nomeDiretorio))
-                Directory.CreateDirectory(nomeDiretorio);
+                if (!Directory.Exists(nomeDiretorio))
+                    Directory.CreateDirectory(nomeDiretorio);
+            }
+            catch { return nomeDiretorio; }
 
             return nomeDiretorio;
         }
@@ -385,6 +390,183 @@ namespace Packer_v2.Controllers
         }
         #endregion
 
+        #region GerarDocx
+        public void CreateDocx(Package _pPackage)
+        {
+            string _ModelsFolder = Server.MapPath("~/App_Data/Models/Image");
+            string _PackageFolder = verifyIfCreateDirectory(_pPackage.ticket.IdTicket.ToString(), "Pacote");
+
+            using (var docX = DocX.Create($"{_PackageFolder}\\Roteiro_{_pPackage.ticket.NmTicket}.docx"))
+            {
+                var image = docX.AddImage($"{_ModelsFolder}\\logo_color.png");
+                // altura e largura da imagem.
+                var picture = image.CreatePicture();
+                var maxWidth = Convert.ToInt32(docX.PageWidth - docX.MarginLeft - docX.MarginRight);
+                if (picture.Width > maxWidth)
+                {
+                    var ratio = (double)maxWidth / (double)picture.Width;
+                    picture.Width = maxWidth;
+                    picture.Height = Convert.ToInt32(picture.Height * ratio);
+                }
+
+                var p = docX.InsertParagraph();
+                p.AppendPicture(picture).Alignment = Alignment.center;
+
+                docX.InsertParagraph("Instrução Para Deploy - Produção").Color(System.Drawing.Color.FromArgb(43)).FontSize(16).Font("Arial").Alignment = Alignment.center;
+
+                var tb1_generalInfo = docX.InsertParagraph();
+                tb1_generalInfo.LineSpacingAfter = 0;
+                tb1_generalInfo.LineSpacingBefore = 0;
+                var table1 = tb1_generalInfo.InsertTableAfterSelf(11, 4);
+                table1.AutoFit = AutoFit.Window;
+                table1.Alignment = Alignment.both;
+
+                table1.Rows[0].MergeCells(0, 3);
+                //table1.Rows[0].Cells[0].InsertParagraph("INFORMAÇÕES SOBRE A MUDANÇA").Color(System.Drawing.Color.FromArgb(24)).FontSize(10).Bold().Alignment = Alignment.center;
+                InsertDfParagraphDocx(table1, 0, $"INFORMAÇÕES SOBRE A MUDANÇA", false, _BoldTipe: "bold");
+                InsertDfParagraphDocx(table1, 1, $"EPS:|{_pPackage.ticket.Solution.Project.Eps.NmEps}");
+                InsertDfParagraphDocx(table1, 2, $"Ticket*:|{_pPackage.ticket.NmTicket}|Descrição:|{_pPackage.ticket.DeNote}", false);
+                InsertDfParagraphDocx(table1, 3, $"Objetivo*:|{_pPackage.ticket.DeNote}");
+                InsertDfParagraphDocx(table1, 4, $"Impacto*:|{_pPackage.ticket.DeImpact}");
+                InsertDfParagraphDocx(table1, 5, $"Risco de Não Fazer*:|{_pPackage.ticket.DeRiskOfNotDoing}");
+                InsertDfParagraphDocx(table1, 6, $"Risco de Fazer*:|{_pPackage.ticket.DeRiskOfDoing}");
+                InsertDfParagraphDocx(table1, 7, $"Contingência*:|{_pPackage.ticket.DeContingency}");
+                InsertDfParagraphDocx(table1, 8, $"Pré-Requisitos:|{_pPackage.ticket.DePrerequisites}");
+                InsertDfParagraphDocx(table1, 9, $"Indisponibilidade*:|{_pPackage.ticket.DeUnavailability}");
+                InsertDfParagraphDocx(table1, 10, $"Tempo de Execução*:|{_pPackage.ticket.DeRuntime}");
+                InsertDfParagraphDocx(table1);
+
+                docX.InsertParagraph("");
+                docX.InsertParagraph("");
+
+
+                var tb2_generalInfo = docX.InsertParagraph();
+                tb2_generalInfo.LineSpacingAfter = 0;
+                tb2_generalInfo.LineSpacingBefore = 0;
+                var table2 = tb2_generalInfo.InsertTableAfterSelf(3, 4);
+                table2.AutoFit = AutoFit.Window;
+                table2.Alignment = Alignment.both;
+
+                table2.Rows[0].MergeCells(0, 3);
+                InsertDfParagraphDocx(table2, 0, $"PESSOAS ENVOLVIDAS NA MUDANÇA", false, _BoldTipe: "bold");
+                InsertDfParagraphDocx(table2, 1, $"NOME|ÁREA|E-MAIL|TELEFONE", false, _BoldTipe: "bold");
+                InsertDfParagraphDocx(table2, 2, $"Dayane Michalewicz|Full Dev Application|dayane.rodrigues@code7.com|(48) 3298.7429", false, _BoldTipe: "normal");
+                InsertDfParagraphDocx(table2);
+
+                var tb3_generalInfo = docX.InsertParagraph();
+                tb3_generalInfo.LineSpacingAfter = 0;
+                tb3_generalInfo.LineSpacingBefore = 0;
+                var table3 = tb3_generalInfo.InsertTableAfterSelf(3, 4);
+                table3.AutoFit = AutoFit.Window;
+                table3.Alignment = Alignment.both;
+
+                //docX.AddHeaders();
+                //docX.Headers.Odd();
+
+
+                //// Primeiro parágrafo (texto centralizado)
+                //var paragrafo1 = docX.InsertParagraph();
+                //paragrafo1.LineSpacingAfter = 8;
+                //paragrafo1.Append("Texto centralizado");
+                //paragrafo1.Alignment = Alignment.center;
+
+                //// Segundo parágrafo (formatação diferente)
+                //var paragrafo2 = docX.InsertParagraph();
+                //paragrafo2.LineSpacingAfter = 8;
+                //paragrafo2.Append("Fonte Arial Negrito, Itálico, Sublinhado, Tamanho 18");
+                //paragrafo2.Font(new Font("Arial"));
+                //paragrafo2.FontSize(18);
+                //paragrafo2.Bold();
+                //paragrafo2.Italic();
+                //paragrafo2.UnderlineStyle(UnderlineStyle.singleLine);
+
+                //// Terceiro parágrafo (multiplas formatações)
+                //var paragrafo3 = docX.InsertParagraph();
+                //paragrafo3.LineSpacingAfter = 8;
+                //paragrafo3.Append("Um pedaço da frase normal, ");
+                //var negrito = paragrafo3.Append("outro pedaço negrito, ");
+                //negrito.Bold();
+                //var sublinhado = paragrafo3.Append("outro sublinhado");
+                //sublinhado.UnderlineStyle(UnderlineStyle.singleLine);
+
+                //// Quarto parágrafo (tabela)
+                //var paragrafo4 = docX.InsertParagraph();
+                //paragrafo4.LineSpacingAfter = 8;
+                //var tabela = paragrafo4.InsertTableAfterSelf(2, 2);
+                //tabela.AutoFit = AutoFit.Window;
+                //tabela.Rows[0].Cells[0].InsertParagraph("Col1");
+                //tabela.Rows[0].Cells[1].InsertParagraph("Col2");
+                //tabela.Rows[1].Cells[0].InsertParagraph("A");
+                //tabela.Rows[1].Cells[1].InsertParagraph("B");
+                //tabela.SetBorder(TableBorderType.Top, new Border());
+                //tabela.SetBorder(TableBorderType.Bottom, new Border());
+                //tabela.SetBorder(TableBorderType.Left, new Border());
+                //tabela.SetBorder(TableBorderType.Right, new Border());
+                //tabela.SetBorder(TableBorderType.InsideH, new Border());
+                //tabela.SetBorder(TableBorderType.InsideV, new Border());
+
+
+                // Quinto parágrafo (imagem)
+                //using (var memoryStream = new System.IO.MemoryStream())
+                //{
+                //    var paragrafo5 = docX.InsertParagraph();
+                //    paragrafo5.LineSpacingAfter = 8;
+
+                //    var imagemDoArquivo = Image.FromFile("penguins.jpg");
+                //    imagemDoArquivo.Save(memoryStream, imagemDoArquivo.RawFormat);
+                //    memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                //    var imagemNoDocumento = docX.AddImage(memoryStream);
+                //    var picture = imagemNoDocumento.CreatePicture();
+                //    var maxWidth = Convert.ToInt32(docX.PageWidth - docX.MarginLeft - docX.MarginRight);
+                //    if (picture.Width > maxWidth)
+                //    {
+                //        var ratio = (double)maxWidth / (double)picture.Width;
+                //        picture.Width = maxWidth;
+                //        picture.Height = Convert.ToInt32(picture.Height * ratio);
+                //    }
+
+                //    paragrafo5.InsertPicture(picture);
+                //}
+
+                docX.Save();
+            }
+
+        }
+        #endregion
+
+
+        public void InsertDfParagraphDocx(Table table)
+        {
+            table.SetBorder(TableBorderType.Top, new Border());
+            table.SetBorder(TableBorderType.Bottom, new Border());
+            table.SetBorder(TableBorderType.Left, new Border());
+            table.SetBorder(TableBorderType.Right, new Border());
+            table.SetBorder(TableBorderType.InsideH, new Border());
+            table.SetBorder(TableBorderType.InsideV, new Border());
+        }
+
+        public void InsertDfParagraphDocx(Table table, int _NRow, string _pText, bool _MustMerge = true, int _FontSize = 10, int _FromArgb = 23, string _FontFamily = "Calibri", string _BoldTipe = "interlayer")
+        {
+            var texts = _pText.Split('|');
+            if (_MustMerge)
+                table.Rows[_NRow].MergeCells(1, 3);
+            for (int i = 0; i < texts.Length; i++)
+            {
+                if (_BoldTipe == "interlayer")
+                {
+                    if (i % 2 == 0)
+                        table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).Bold().FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.right;
+                    else
+                        table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.left;
+                }
+                else if (_BoldTipe == "normal")
+                    table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.center;
+                else if (_BoldTipe == "bold")
+                    table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).Bold().FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.center;
+
+            }
+        }
+
         #region GerarPacote
         [HttpPost]
         public JsonResult GeneratePackage(Int64 idTicket)
@@ -412,8 +594,8 @@ namespace Packer_v2.Controllers
 
                 CreateTicketTemplate(package, _packageFolder);
 
-
                 CreateSqlQuerys(package);
+                CreateDocx(package);
 
                 return Json(new { status = "OK", description = "Pacote Gerado com Sucesso!" }, JsonRequestBehavior.AllowGet);
             }
@@ -437,4 +619,5 @@ namespace Packer_v2.Controllers
 
     }
 }
+
 
