@@ -1,0 +1,26 @@
+﻿@model Packer_v2.Models.Templates
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Templates</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NmTemplate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NmTemplate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdTemplate }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

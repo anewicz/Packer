@@ -420,20 +420,23 @@ namespace Packer_v2.Controllers
                     picture.Height = Convert.ToInt32(picture.Height * ratio);
                 }
 
-                var p = docX.InsertParagraph();
-                p.AppendPicture(picture).Alignment = Alignment.center;
+                //var p = docX.InsertParagraph();
+                //p.AppendPicture(picture).Alignment = Alignment.left;
 
-                docX.InsertParagraph("Instrução Para Deploy - Produção").Color(System.Drawing.Color.FromArgb(43)).FontSize(16).Font("Arial").Alignment = Alignment.center;
+                var p = docX.InsertParagraph("INSTRUÇÃO PARA DEPLOY - PRODUÇÃO       ")
+                    .Color(System.Drawing.Color.FromArgb(43, 43, 43))
+                    .FontSize(14)
+                    .Font("Calibri")
+                    .Bold();
+                    
 
-                var tb1_generalInfo = docX.InsertParagraph();
-                tb1_generalInfo.LineSpacingAfter = 5;
-                tb1_generalInfo.LineSpacingBefore = 5;
-                var table1 = tb1_generalInfo.InsertTableAfterSelf(11, 4);
-                table1.AutoFit = AutoFit.Window;
-                table1.Alignment = Alignment.both;
+                p.AppendPicture(picture).Alignment = Alignment.right;
+
+
+                Table table1 = CreateTable(docX, 11, 4);
 
                 table1.Rows[0].MergeCells(0, 3);
-                InsertDfParagraphDocx(table1, 0, $"INFORMAÇÕES SOBRE A MUDANÇA", false, _BoldTipe: "bold");
+                InsertDfParagraphDocx(table1, 0, $"INFORMAÇÕES SOBRE A MUDANÇA", false, _Style: "tbl_title");
                 InsertDfParagraphDocx(table1, 1, $"EPS:|{_pPackage.ticket.Solution.Project.Eps.NmEps}");
                 InsertDfParagraphDocx(table1, 2, $"Ticket*:|{_pPackage.ticket.NmTicket}|Descrição:|{_pPackage.ticket.DeNote}", false);
                 InsertDfParagraphDocx(table1, 3, $"Objetivo*:|{_pPackage.ticket.DeNote}");
@@ -444,65 +447,36 @@ namespace Packer_v2.Controllers
                 InsertDfParagraphDocx(table1, 8, $"Pré-Requisitos:|{_pPackage.ticket.DePrerequisites}");
                 InsertDfParagraphDocx(table1, 9, $"Indisponibilidade*:|{_pPackage.ticket.DeUnavailability}");
                 InsertDfParagraphDocx(table1, 10, $"Tempo de Execução*:|{_pPackage.ticket.DeRuntime}");
-                InsertBorderParagraphDocx(table1);
+                //InsertBorderParagraphDocx(table1);
 
 
-
-                var tb2_generalInfo = docX.InsertParagraph();
-                tb2_generalInfo.LineSpacingAfter = 0;
-                tb2_generalInfo.LineSpacingBefore = 0;
-                var table2 = tb2_generalInfo.InsertTableAfterSelf(3, 4);
-                table2.AutoFit = AutoFit.Window;
-                table2.Alignment = Alignment.both;
+                Table table2 = CreateTable(docX, 3, 4);
 
                 table2.Rows[0].MergeCells(0, 3);
-                InsertDfParagraphDocx(table2, 0, $"PESSOAS ENVOLVIDAS NA MUDANÇA", false, _BoldTipe: "bold");
-                InsertDfParagraphDocx(table2, 1, $"NOME|ÁREA|E-MAIL|TELEFONE", false, _BoldTipe: "bold");
-                InsertDfParagraphDocx(table2, 2, $"Dayane Michalewicz|Full Dev Application|dayane.rodrigues@code7.com|(48) 3298.7429", false, _BoldTipe: "normal");
-                InsertBorderParagraphDocx(table2);
+                InsertDfParagraphDocx(table2, 0, $"PESSOAS ENVOLVIDAS NA MUDANÇA", false, _Style: "tbl_title");
+                InsertDfParagraphDocx(table2, 1, $"NOME|ÁREA|E-MAIL|TELEFONE", false, _Style: "tbl_subtitle");
+                InsertDfParagraphDocx(table2, 2, $"Dayane Michalewicz|Full Dev Application|dayane.rodrigues@code7.com|(48) 3298.7429", false, _Style: "normal");
+                //InsertBorderParagraphDocx(table2);
 
 
-
-                var tb3_generalInfo = docX.InsertParagraph();
-                tb3_generalInfo.LineSpacingAfter = 0;
-                tb3_generalInfo.LineSpacingBefore = 0;
-                var table3 = tb3_generalInfo.InsertTableAfterSelf(4, 4);
-                table3.AutoFit = AutoFit.Window;
-                table3.Alignment = Alignment.both;
+                Table table3 = CreateTable(docX, 4, 4);
 
                 table3.Rows[0].MergeCells(0, 3);
-                InsertDfParagraphDocx(table3, 0, $"PASTAS ENVOLVIDAS", false, _BoldTipe: "bold");
-                InsertDfParagraphDocx(table3, 1, $"NOME|DESCRIÇÃO", _BoldTipe: "bold");
+                InsertDfParagraphDocx(table3, 0, $"PASTAS ENVOLVIDAS", false, _Style: "tbl_title");
+                InsertDfParagraphDocx(table3, 1, $"NOME|DESCRIÇÃO", _Style: "tbl_subtitle");
                 InsertDfParagraphDocx(table3, 2, $"Database|Contém scripts SQL.");
                 InsertDfParagraphDocx(table3, 3, $"FileServer|Contém os arquivos da atualização do CRM.");
-                InsertBorderParagraphDocx(table3);
+                //InsertBorderParagraphDocx(table3);
 
 
-
-                var tb4_generalInfo = docX.InsertParagraph();
-                tb4_generalInfo.LineSpacingAfter = 0;
-                tb4_generalInfo.LineSpacingBefore = 0;
-                var table4 = tb4_generalInfo.InsertTableAfterSelf(4, 4);
-                table4.AutoFit = AutoFit.Window;
-                table4.Alignment = Alignment.both;
+                Table table4 = CreateTable(docX, 4, 4);
 
                 table4.Rows[0].MergeCells(0, 3);
-                InsertDfParagraphDocx(table4, 0, $"ROTEIRO DE IMPLANTAÇÃO", false, _BoldTipe: "bold");
-                InsertDfParagraphDocx(table4, 1, $"Atv. 1:|No servidor 172.28.200.77 \nExecutar todos scripts presentes na pasta DataBase, na ordem sequencial em que se encontram:");
+                InsertDfParagraphDocx(table4, 0, $"ROTEIRO DE IMPLANTAÇÃO", false, _Style: "tbl_title");
+                InsertDfParagraphDocx(table4, 1, $"Atv. 1:|No servidor \n 172.28.200.77 \nExecutar todos scripts presentes na pasta DataBase, na ordem sequencial em que se encontram:");
                 InsertDfParagraphDocx(table4, 2, $"Atv. 2:|Contém scripts SQL.");
                 InsertDfParagraphDocx(table4, 3, $"FileServer|Contém os arquivos da atualização do CRM.");
-                InsertBorderParagraphDocx(table4);
-
-
-                //// Terceiro parágrafo (multiplas formatações)
-                //var paragrafo3 = docX.InsertParagraph();
-                //paragrafo3.LineSpacingAfter = 8;
-                //paragrafo3.Append("Um pedaço da frase normal, ");
-                //var negrito = paragrafo3.Append("outro pedaço negrito, ");
-                //negrito.Bold();
-                //var sublinhado = paragrafo3.Append("outro sublinhado");
-                //sublinhado.UnderlineStyle(UnderlineStyle.singleLine);
-
+                //InsertBorderParagraphDocx(table4);
 
                 docX.Save();
             }
@@ -513,33 +487,112 @@ namespace Packer_v2.Controllers
         #region MetodosDocx
         public void InsertBorderParagraphDocx(Table table)
         {
-            table.SetBorder(TableBorderType.Top, new Border());
-            table.SetBorder(TableBorderType.Bottom, new Border());
-            table.SetBorder(TableBorderType.Left, new Border());
-            table.SetBorder(TableBorderType.Right, new Border());
-            table.SetBorder(TableBorderType.InsideH, new Border());
-            table.SetBorder(TableBorderType.InsideV, new Border());
+            Border _border = new Border(tcbs:BorderStyle.Tcbs_single , size:BorderSize.one, space:0f, color:(System.Drawing.Color.FromArgb(63, 63, 63)));
+                            
+            table.SetBorder(TableBorderType.Top, _border);
+            table.SetBorder(TableBorderType.Bottom, _border);
+            table.SetBorder(TableBorderType.Left, _border);
+            table.SetBorder(TableBorderType.Right, _border);
+            table.SetBorder(TableBorderType.InsideH, _border);
+            table.SetBorder(TableBorderType.InsideV, _border);
         }
 
-        public void InsertDfParagraphDocx(Table table, int _NRow, string _pText, bool _MustMerge = true, int _FontSize = 10, int _FromArgb = 23, string _FontFamily = "Calibri", string _BoldTipe = "interlayer")
+        
+        public Table CreateTable(DocX docX,int _NRows, int _NColumns)
         {
+            Table table = docX.AddTable(_NRows, _NColumns);
+            table.AutoFit = AutoFit.Window;
+            table.Alignment = Alignment.both;
+            table.Design = TableDesign.LightList;
+
+            Paragraph p = docX.InsertParagraph();
+            p.InsertTableAfterSelf(table);
+
+            return table;
+        }
+
+        public void InsertDfParagraphDocx(Table table, int _NRow, string _pText, bool _MustMerge = true, string _Style = "interlayer")
+        {
+            string _FontFamily = "Calibri";
+            var _White = 254;
+            var _LGray = 140;
+            var _DGray = 67;
+            var _DBlue = 23;
+            var _FontSizeTitle = 12;
+            var _FontSizeBody = 10;
+
+
             var texts = _pText.Split('|');
             if (_MustMerge)
                 table.Rows[_NRow].MergeCells(1, 3);
 
             for (int i = 0; i < texts.Length; i++)
             {
-                if (_BoldTipe == "interlayer")
+                if (_Style == "interlayer")
                 {
                     if (i % 2 == 0)
-                        table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).Bold().FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.right;
+                    {
+                        table.Rows[_NRow].Cells[i].FillColor = System.Drawing.Color.FromArgb(_DBlue, _DBlue, _DBlue);
+                        table.Rows[_NRow].Cells[i]
+                            .Paragraphs[0].Append(texts[i])
+                            .Bold()
+                            .FontSize(_FontSizeBody)
+                            .Font(_FontFamily)
+                            .Color(System.Drawing.Color.FromArgb(_White, _White, _White))
+                            .Alignment = Alignment.right;
+                    }
                     else
-                        table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.left;
+                    {
+                        table.Rows[_NRow].Cells[i]
+                            .Paragraphs[0].Append(texts[i])
+                            .FontSize(_FontSizeBody)
+                            .Font(_FontFamily)
+                            .Color(System.Drawing.Color.FromArgb(_DGray, _DGray, _DGray))
+                            .Alignment = Alignment.left;
+                    }
+
                 }
-                else if (_BoldTipe == "normal")
-                    table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.center;
-                else if (_BoldTipe == "bold")
-                    table.Rows[_NRow].Cells[i].InsertParagraph(texts[i]).Bold().FontSize(_FontSize).Font(_FontFamily).Color(System.Drawing.Color.FromArgb(_FromArgb)).Alignment = Alignment.center;
+                else if (_Style == "normal")
+                {
+                    table.Rows[_NRow].Cells[i]
+                        .Paragraphs[0].Append(texts[i])
+                        .FontSize(_FontSizeBody)
+                        .Font(_FontFamily)
+                        .Color(System.Drawing.Color.FromArgb(_DBlue, _DBlue, _DBlue)).
+                        Alignment = Alignment.center;
+                }
+                else if (_Style == "tbl_title")
+                {
+                    table.Rows[_NRow].Cells[i].FillColor = System.Drawing.Color.FromArgb(_DBlue, _DBlue, _DBlue);
+                    table.Rows[_NRow].Cells[i]
+                        .Paragraphs[0].Append(texts[i])
+                        .Bold()
+                        .FontSize(_FontSizeTitle)
+                        .Font(_FontFamily)
+                        .Color(System.Drawing.Color.FromArgb(_White, _White, _White))
+                        .Alignment = Alignment.center;
+                }
+                else if (_Style == "tbl_subtitle")
+                {
+                    table.Rows[_NRow].Cells[i].FillColor = System.Drawing.Color.FromArgb(_LGray, _LGray, _LGray);
+                    table.Rows[_NRow].Cells[i]
+                        .Paragraphs[0].Append(texts[i])
+                        .Bold()
+                        .FontSize(_FontSizeBody)
+                        .Font(_FontFamily)
+                        .Color(System.Drawing.Color.FromArgb(_DGray, _DGray, _DGray))
+                        .Alignment = Alignment.center;
+                }
+                else if (_Style == "Line_DocTitle")
+                {
+                    table.Rows[_NRow].Cells[i]
+                        .Paragraphs[0].Append(texts[i])
+                        .Bold()
+                        .FontSize(_FontSizeBody)
+                        .Font(_FontFamily)
+                        .Color(System.Drawing.Color.FromArgb(_DGray, _DGray, _DGray))
+                        .Alignment = Alignment.center;
+                }
 
             }
         }

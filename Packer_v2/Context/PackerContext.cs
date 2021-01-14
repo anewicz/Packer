@@ -32,5 +32,6 @@ namespace Packer_v2.Context
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
+        public System.Data.Entity.DbSet<Packer_v2.Models.Templates> Templates { get; set; }
     }
 }

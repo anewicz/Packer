@@ -132,6 +132,7 @@ D:\FLEX\Code7\PACKER\Packer_v2\obj\Debug\Packer_v2.csproj.CoreCompileInputs.cach
 D:\FLEX\Code7\PACKER\Packer_v2\obj\Debug\Packer_v2.csproj.CopyComplete
 D:\FLEX\Code7\PACKER\Packer_v2\obj\Debug\Packer_v2.dll
 D:\FLEX\Code7\PACKER\Packer_v2\obj\Debug\Packer_v2.pdb
+D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.csproj.CoreCompileInputs.cache
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Packer_v2.dll.config
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Packer_v2.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Packer_v2.pdb
@@ -221,6 +222,8 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.WebPages.Deployment.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.WebPages.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\System.Web.WebPages.Razor.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\WebGrease.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Xceed.Document.NET.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Xceed.Words.NET.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\EntityFramework.SqlServer.xml
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\Microsoft.AspNetCore.Http.Features.xml
@@ -275,7 +278,6 @@ D:\Pessoais\Repositorios\Packer\Packer_v2\bin\pt-br\Microsoft.Owin.Security.Face
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\pt-br\Microsoft.Owin.Security.Google.resources.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\pt-br\Microsoft.Owin.Security.Twitter.resources.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\bin\pt-br\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.csproj.CoreCompileInputs.cache
 D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.csproj.CopyComplete
 D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2\obj\Debug\Packer_v2.pdb
