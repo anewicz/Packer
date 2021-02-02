@@ -16,6 +16,7 @@ namespace Packer_v2.Controllers
         private PackerContext db = new PackerContext();
 
         // GET: Query
+        [Authorize(Roles = "View")]
         public ActionResult Index()
         {
             return View(db.Query.ToList());
@@ -23,6 +24,7 @@ namespace Packer_v2.Controllers
 
 
         // GET: Query/Details/5
+        [Authorize(Roles = "View")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Query/Create
+        [Authorize(Roles = "Create")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +49,7 @@ namespace Packer_v2.Controllers
         // POST: Query/Create
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdQuery,IsActive,NmSqlObject,IdSqlItenType,IdSqlComandType,NmFile")] Query query)
@@ -61,6 +65,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Query/Edit/5
+        [Authorize(Roles = "Edit")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -78,6 +83,7 @@ namespace Packer_v2.Controllers
         // POST: Query/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdQuery,IsActive,NmSqlObject,IdSqlItenType,IdSqlComandType,NmFile")] Query query)
@@ -92,6 +98,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Query/Delete/5
+        [Authorize(Roles = "Delete")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -107,6 +114,7 @@ namespace Packer_v2.Controllers
         }
 
         // POST: Query/Delete/5
+        [Authorize(Roles = "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

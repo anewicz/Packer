@@ -16,12 +16,14 @@ namespace Packer_v2.Controllers
         private PackerContext db = new PackerContext();
 
         // GET: DbIp
+        [Authorize(Roles = "View")]
         public ActionResult Index()
         {
             return View(db.DbIp.ToList());
         }
 
         // GET: DbIp/Details/5
+        [Authorize(Roles = "View")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -37,6 +39,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: DbIp/Create
+        [Authorize(Roles = "View")]
         public ActionResult Create()
         {
             return View();
@@ -45,6 +48,7 @@ namespace Packer_v2.Controllers
         // POST: DbIp/Create
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdDbIp,NmIp,IsActive")] DbIp dbIp)
@@ -60,6 +64,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: DbIp/Edit/5
+        [Authorize(Roles = "Edit")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -77,6 +82,7 @@ namespace Packer_v2.Controllers
         // POST: DbIp/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdDbIp,NmIp,IsActive")] DbIp dbIp)
@@ -106,6 +112,7 @@ namespace Packer_v2.Controllers
         }
 
         // POST: DbIp/Delete/5
+        [Authorize(Roles = "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

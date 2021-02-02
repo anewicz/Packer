@@ -16,6 +16,7 @@ namespace Packer_v2.Controllers
         private PackerContext db = new PackerContext();
 
         // GET: Ticket
+        [Authorize(Roles = "View")]
         public ActionResult Index()
         {
             var ticket = db.Ticket.Include(t => t.Solution).Include(t => t.Status);
@@ -23,6 +24,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Ticket/Details/5
+        [Authorize(Roles = "View")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Ticket/Create
+        [Authorize(Roles = "Create")]
         public ActionResult Create()
         {
             ViewBag.IdSolution = new SelectList(db.Solution, "IdSolution", "NmSolution");
@@ -48,6 +51,7 @@ namespace Packer_v2.Controllers
         // POST: Ticket/Create
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdTicket,DtRegister,DtLastModification,TicketLink,NmTicket,IdSolution,IdStatus,DeTicket,DeNote,DeImpact,DeRiskOfNotDoing,DeRiskOfDoing,DeContingency,DePrerequisites,DeUnavailability,DeRuntime")] Ticket ticket)
@@ -65,6 +69,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Ticket/Edit/5
+        [Authorize(Roles = "Edit")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -84,6 +89,7 @@ namespace Packer_v2.Controllers
         // POST: Ticket/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdTicket,DtRegister,DtLastModification,TicketLink,NmTicket,IdSolution,IdStatus,DeTicket,DeNote,DeImpact,DeRiskOfNotDoing,DeRiskOfDoing,DeContingency,DePrerequisites,DeUnavailability,DeRuntime")] Ticket ticket)
@@ -100,6 +106,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Ticket/Delete/5
+        [Authorize(Roles = "Delete")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -115,6 +122,7 @@ namespace Packer_v2.Controllers
         }
 
         // POST: Ticket/Delete/5
+        [Authorize(Roles = "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

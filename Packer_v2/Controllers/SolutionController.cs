@@ -16,6 +16,7 @@ namespace Packer_v2.Controllers
         private PackerContext db = new PackerContext();
 
         // GET: Solution
+        [Authorize(Roles = "View")]
         public ActionResult Index()
         {
             var solution = db.Solution.Include(s => s.Project).Include(s => s.TypeSolution);
@@ -23,6 +24,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Solution/Details/5
+        [Authorize(Roles = "View")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Solution/Create
+        [Authorize(Roles = "Create")]
         public ActionResult Create()
         {
             ViewBag.IdProject = new SelectList(db.Project, "IdProject", "NmProject");
@@ -48,6 +51,7 @@ namespace Packer_v2.Controllers
         // POST: Solution/Create
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdSolution,NmSolution,DeSolution,DevPathFrontEnd,DevPathWcf,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
@@ -68,6 +72,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Solution/Edit/5
+        [Authorize(Roles = "Edit")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -87,6 +92,7 @@ namespace Packer_v2.Controllers
         // POST: Solution/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdSolution,NmSolution,DeSolution,DevPathFrontEnd,DevPathWcf,IdTypeSolution,IdProject,DtRegister,DtLastModification")] Solution solution)
@@ -106,6 +112,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Solution/Delete/5
+        [Authorize(Roles = "Delete")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -121,6 +128,7 @@ namespace Packer_v2.Controllers
         }
 
         // POST: Solution/Delete/5
+        [Authorize(Roles = "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

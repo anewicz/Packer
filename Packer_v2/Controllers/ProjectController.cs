@@ -16,6 +16,7 @@ namespace Packer_v2.Controllers
         private PackerContext db = new PackerContext();
 
         // GET: Project
+        [Authorize(Roles = "View")]
         public ActionResult Index()
         {
             var project = db.Project.Include(p => p.Eps);
@@ -23,6 +24,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Project/Details/5
+        [Authorize(Roles = "View")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Project/Create
+        [Authorize(Roles = "Create")]
         public ActionResult Create()
         {
             ViewBag.idEps = new SelectList(db.Eps, "IdEps", "NmEps");
@@ -47,6 +50,7 @@ namespace Packer_v2.Controllers
         // POST: Project/Create
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdProject,IdProjectAyty,NmProject,idEps,WayPatch")] Project project)
@@ -63,6 +67,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Project/Edit/5
+        [Authorize(Roles = "Edit")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -81,6 +86,7 @@ namespace Packer_v2.Controllers
         // POST: Project/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdProject,IdProjectAyty,NmProject,IdEps,WayPatch")] Project project)
@@ -96,6 +102,7 @@ namespace Packer_v2.Controllers
         }
 
         // GET: Project/Delete/5
+        [Authorize(Roles = "Delete")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -111,6 +118,7 @@ namespace Packer_v2.Controllers
         }
 
         // POST: Project/Delete/5
+        [Authorize(Roles = "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

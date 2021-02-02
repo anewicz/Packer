@@ -236,15 +236,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="ViewModel\AccountViewModels.cs" />
     <Compile Include="Models\Cadastros\DbIp.cs" />
     <Compile Include="Models\Cadastros\DbSolution.cs" />
     <Compile Include="Models\Cadastros\Status.cs" />
     <Compile Include="Models\Cadastros\Dtbase.cs" />
     <Compile Include="Models\Cadastros\Eps.cs" />
     <Compile Include="Models\Cadastros\Folder.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="ViewModel\IdentityModels.cs" />
+    <Compile Include="ViewModel\ManageViewModels.cs" />
     <Compile Include="Models\Cadastros\Package.cs" />
     <Compile Include="ViewModel\InsertPackage\PackageViewModel.cs" />
     <Compile Include="Models\Cadastros\Project.cs" />

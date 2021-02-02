@@ -20,6 +20,7 @@ namespace Packer_v2.Controllers
         private PackerContext db = new PackerContext();
 
         #region PackageIndex
+        [Authorize(Roles = "View")]
         public ActionResult PackageList()
         {
             var ticket = db.Ticket.Include(t => t.Solution).Include(t => t.Status).OrderByDescending(x => x.IdTicket);
@@ -30,6 +31,7 @@ namespace Packer_v2.Controllers
         #region CreateOrEditView
 
         // GET: Package
+        [Authorize(Roles = "View")]
         public ActionResult CreateOrEdit(long? idTicket)
         {
             var vm = new PackageViewModel();
@@ -45,6 +47,7 @@ namespace Packer_v2.Controllers
         #endregion 
 
         #region CreateParcialView
+        [Authorize(Roles = "View")]
         private PackageViewModel Create()
         {
             var vm = new PackageViewModel();
@@ -67,7 +70,7 @@ namespace Packer_v2.Controllers
         #endregion
 
         #region  EditParcialView
-
+        [Authorize(Roles = "View")]
         private PackageViewModel Edit(long? idTicket)
         {
             var vm = new PackageViewModel();
@@ -130,7 +133,6 @@ namespace Packer_v2.Controllers
 
 
         #region SaveTicketInsertBD
-
         [HttpPost]
         public JsonResult SaveTicket(Ticket ticket)
         {
@@ -281,7 +283,6 @@ namespace Packer_v2.Controllers
         #endregion 
 
         #region CriarRetornarPastas
-
         public string VerifyIfCreateDirectory(string idTicket, string Complement, bool MustDropAndRecreate = false)
         {
             var nomeDiretorio = Server.MapPath("~/App_Data/Packages") + "\\IdTicket_" + idTicket + "\\" + Complement + "\\";
@@ -428,7 +429,7 @@ namespace Packer_v2.Controllers
                     .FontSize(14)
                     .Font("Calibri")
                     .Bold();
-                    
+
 
                 p.AppendPicture(picture).Alignment = Alignment.right;
 
@@ -487,8 +488,8 @@ namespace Packer_v2.Controllers
         #region MetodosDocx
         public void InsertBorderParagraphDocx(Table table)
         {
-            Border _border = new Border(tcbs:BorderStyle.Tcbs_single , size:BorderSize.one, space:0f, color:(System.Drawing.Color.FromArgb(63, 63, 63)));
-                            
+            Border _border = new Border(tcbs: BorderStyle.Tcbs_single, size: BorderSize.one, space: 0f, color: (System.Drawing.Color.FromArgb(63, 63, 63)));
+
             table.SetBorder(TableBorderType.Top, _border);
             table.SetBorder(TableBorderType.Bottom, _border);
             table.SetBorder(TableBorderType.Left, _border);
@@ -498,7 +499,7 @@ namespace Packer_v2.Controllers
         }
 
         
-        public Table CreateTable(DocX docX,int _NRows, int _NColumns)
+        public Table CreateTable(DocX docX, int _NRows, int _NColumns)
         {
             Table table = docX.AddTable(_NRows, _NColumns);
             table.AutoFit = AutoFit.Window;
@@ -511,6 +512,7 @@ namespace Packer_v2.Controllers
             return table;
         }
 
+        
         public void InsertDfParagraphDocx(Table table, int _NRow, string _pText, bool _MustMerge = true, string _Style = "interlayer")
         {
             string _FontFamily = "Calibri";
@@ -601,6 +603,7 @@ namespace Packer_v2.Controllers
 
 
         #region FinalizarPacote
+
         [HttpPost]
         public JsonResult GeneratePackage(Int64 idTicket)
         {
