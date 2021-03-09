@@ -80,3 +80,5 @@ D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.csproj
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.csproj.CopyComplete
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.dll
 D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\obj\Debug\Packer_v2.Tests.pdb
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Xceed.Words.NET.dll
+D:\Pessoais\Repositorios\Packer\Packer_v2.Tests\bin\Debug\Xceed.Document.NET.dll

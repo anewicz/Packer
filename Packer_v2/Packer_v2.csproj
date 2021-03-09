@@ -226,8 +226,9 @@
     <Compile Include="Controllers\SolutionController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
-    <Compile Include="Models\Cadastros\Templates.cs" />
-    <Compile Include="Models\Cadastros\Query.cs" />
+    <Compile Include="Controllers\UserAdmin\UsersController.cs" />
+    <Compile Include="Models\Package\Templates.cs" />
+    <Compile Include="Models\Package\Query.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\TypeSolutionController.cs" />
     <Compile Include="Controllers\TypeSolutionWayController.cs" />
@@ -237,25 +238,27 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AccountViewModels.cs" />
-    <Compile Include="Models\Cadastros\DbIp.cs" />
-    <Compile Include="Models\Cadastros\DbSolution.cs" />
-    <Compile Include="Models\Cadastros\Status.cs" />
-    <Compile Include="Models\Cadastros\Dtbase.cs" />
-    <Compile Include="Models\Cadastros\Eps.cs" />
-    <Compile Include="Models\Cadastros\Folder.cs" />
+    <Compile Include="Models\Package\DbIp.cs" />
+    <Compile Include="Models\Package\DbSolution.cs" />
+    <Compile Include="Models\Package\Status.cs" />
+    <Compile Include="Models\Package\Dtbase.cs" />
+    <Compile Include="Models\Package\Eps.cs" />
+    <Compile Include="Models\Package\Folder.cs" />
     <Compile Include="ViewModel\IdentityModels.cs" />
     <Compile Include="ViewModel\ManageViewModels.cs" />
-    <Compile Include="Models\Cadastros\Package.cs" />
+    <Compile Include="Models\Package\Package.cs" />
     <Compile Include="ViewModel\InsertPackage\PackageViewModel.cs" />
-    <Compile Include="Models\Cadastros\Project.cs" />
-    <Compile Include="Models\Cadastros\Solution.cs" />
-    <Compile Include="Models\Cadastros\DefaultWayType.cs" />
-    <Compile Include="Models\Cadastros\Ticket.cs" />
-    <Compile Include="Models\Cadastros\TypeSolutionWay.cs" />
-    <Compile Include="Models\Cadastros\TypeSolution.cs" />
-    <Compile Include="Models\Cadastros\WayType.cs" />
+    <Compile Include="Models\Package\Project.cs" />
+    <Compile Include="Models\Package\Solution.cs" />
+    <Compile Include="Models\Package\DefaultWayType.cs" />
+    <Compile Include="Models\Package\Ticket.cs" />
+    <Compile Include="Models\Package\TypeSolutionWay.cs" />
+    <Compile Include="Models\Package\TypeSolution.cs" />
+    <Compile Include="Models\Package\WayType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\User\RoleView.cs" />
+    <Compile Include="ViewModel\User\UserView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -519,10 +522,12 @@
     <Content Include="Views\Templates\Details.cshtml" />
     <Content Include="Views\Templates\Edit.cshtml" />
     <Content Include="Views\Templates\Index.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Models\Querys\" />
     <Folder Include="App_Data\Packages\Querys\" />
+    <Folder Include="Models\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

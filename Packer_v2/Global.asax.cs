@@ -24,7 +24,7 @@ namespace Packer_v2
             ApplicationDbContext db = new ApplicationDbContext();
             CreateRoles(db);
             CreateSuperUser(db);
-            AddSuperUserPermissions(db);
+            AddPermissionsSuperUser(db);
             db.Dispose();
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -33,7 +33,7 @@ namespace Packer_v2
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        private void AddSuperUserPermissions(ApplicationDbContext db)
+        private void AddPermissionsSuperUser(ApplicationDbContext db)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = userManager.FindByEmail("cd7fulldev@gmail.com");
